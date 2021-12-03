@@ -21,11 +21,6 @@ const config = {
       '@docusaurus/preset-classic',
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
-        docs: {
-          sidebarPath: require.resolve('./sidebars.js'),
-          // Please change this to your repo.
-          editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/',
-        },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
@@ -39,23 +34,40 @@ const config = {
     ],
   ],
 
+  plugins: [
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'note',
+        path: 'docs-note',
+        routeBasePath: '/note',
+        sidebarPath: require.resolve('./sidebars.js'),
+      }
+    ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'open',
+        path: 'docs-open',
+        routeBasePath: '/open',
+        sidebarPath: require.resolve('./sidebars.js'),
+      }
+    ]
+  ],
+
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
         title: 'Czasg',
         logo: {
-          alt: 'My Site Logo',
+          alt: 'Czasg',
           src: 'img/logo.svg',
         },
         items: [
-          {
-            type: 'doc',
-            docId: 'intro',
-            position: 'left',
-            label: 'Docs',
-          },
-          {to: '/blog', label: 'Blog', position: 'left'},
+          {to: '/note/intro', label: '随手笔记', position: 'left'},
+          {to: '/blog', label: '个人博客', position: 'left'},
+          {to: '/open/intro', label: '开源项目', position: 'left'},
           {
             href: 'https://github.com/czasg',
             label: 'GitHub',
