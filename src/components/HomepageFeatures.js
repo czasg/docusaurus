@@ -4,12 +4,11 @@ import styles from './HomepageFeatures.module.css';
 
 const FeatureList = [
   {
-    title: 'Easy to Use',
+    title: '博客技术',
     Svg: require('../../static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        基于 <strong>Docusaurus</strong> 搭建的静态博客，借助 <strong>Github Actions</strong> 自动部署在 <strong>Github Pages</strong>.
       </>
     ),
   },
