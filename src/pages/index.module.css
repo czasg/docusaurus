@@ -21,3 +21,24 @@
   align-items: center;
   justify-content: center;
 }
+
+.canvasBox {
+  position: relative;
+  height: 400px;
+  overflow: hidden;
+}
+
+.positionAbsolute {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.middleDiv {
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
