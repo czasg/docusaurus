@@ -82,7 +82,7 @@ The key's randomart image is:
 我们打开仓库的 `deploy keys`，选择新增，将 `id_rsa.pub` 中的内容复制进去，并选中 `Allow write access` 框，表示赋予部署写权限。
 ![](deploykey.png)
 
-此时部署公钥已经完成，我们再将私钥也配置上。打开同级配置下的 Secret，选择新增莫要，
+此时部署公钥已经完成，我们再将私钥也配置上。打开同级配置下的 Secret，选择新增密钥，
 我们将私钥内容复制到 `Value` 中，而 `Name` 填写 `GH_PAGES_DEPLOY` 即可。
 
 最后，我们创建 `Github Actions`，将模板复制进去，则整个流水线就已经配置好了。复制时，将对应的基础配置改下即可，如下：
