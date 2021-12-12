@@ -23,9 +23,9 @@ const config = {
       ({
         blog: {
           showReadingTime: true,
-          // Please change this to your repo.
-          editUrl:
-            'https://github.com/facebook/docusaurus/edit/main/website/blog/',
+          blogSidebarCount: 10,
+          postsPerPage: 10,
+          editUrl: 'https://github.com/czasg/docusaurus/edit/main',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
