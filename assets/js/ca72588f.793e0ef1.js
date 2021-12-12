@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkdocusaurus=self.webpackChunkdocusaurus||[]).push([[245],{9243:function(e){e.exports=JSON.parse('{"pluginId":"open","version":"current","label":"Next","banner":null,"badge":false,"className":"docs-version-current","isLast":true,"docsSidebars":{"tutorialSidebar":[{"type":"link","label":"intro","href":"/docusaurus/open/intro"}]}}')}}]);
