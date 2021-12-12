@@ -83,9 +83,14 @@ The key's randomart image is:
 ![](deploykey.png)
 
 此时部署公钥已经完成，我们再将私钥也配置上。打开同级配置下的 Secret，选择新增莫要，
-我们将私钥内容复制到 `Value` 中，而 `Name` 填写 `GH_PAGES_DEPLOY`即可。
+我们将私钥内容复制到 `Value` 中，而 `Name` 填写 `GH_PAGES_DEPLOY` 即可。
 
-最后，我们创建 `Github Actions`，将模板复制进去，则整个流水线就已经配置好了。
+最后，我们创建 `Github Actions`，将模板复制进去，则整个流水线就已经配置好了。复制时，将对应的基础配置改下即可，如下：
+```shell script
+git config --global user.email "email"
+git config --global user.name "name"
+```
+这里的 `email` 需要是 github 配置的 email，而 `name` 则是 github 用户名。
 
 ## 4、更新仓库，尝试自动部署
 
