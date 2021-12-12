@@ -52,7 +52,14 @@ const config = {
         routeBasePath: '/open',
         sidebarPath: require.resolve('./sidebars.js'),
       }
-    ]
+    ],
+    [
+      require.resolve("@easyops-cn/docusaurus-search-local"),
+      {
+        hashed: true,
+        language: ["en", "zh"],
+      },
+    ],
   ],
 
   themeConfig:
