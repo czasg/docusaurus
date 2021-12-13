@@ -2,11 +2,24 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://czasg.github.io/docusaurus/blog</id>
     <title>Czasg Blog</title>
-    <updated>2021-12-03T00:00:00.000Z</updated>
+    <updated>2021-12-13T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://czasg.github.io/docusaurus/blog"/>
     <subtitle>Czasg Blog</subtitle>
     <icon>https://czasg.github.io/docusaurus/img/favicon.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[基于 gRPC 实现负载均衡]]></title>
+        <id>基于 gRPC 实现负载均衡</id>
+        <link href="https://czasg.github.io/docusaurus/blog/2021/12/13/gRPC负载均衡"/>
+        <updated>2021-12-13T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[本文主要介绍在 k8s 环境下 gRPC 负载均衡的具体实现。]]></summary>
+        <content type="html"><![CDATA[<p>本文主要介绍在 k8s 环境下 gRPC 负载均衡的具体实现。</p><h2>概述</h2><p>我们的服务最初使用 <code>DaemonSet</code> 部署在 k8s 上，即单台宿主机仅运行一个 <code>Pod</code>，然后通过 <code>NodePort Service</code> 的方式对外暴露服务。</p><p>在这种场景下直接对外暴露 IP 提供服务，所以也不存在负载均衡的说法。</p><p>现在服务改造升级，以前的 <code>DaemontSet</code> 类型升级为 <code>Deployment</code> 类型，而 <code>NodePort Service</code> 类型则升级为 <code>ClusterIP Service</code> 类型。</p><p>单副本的场景基本没有任何区别，但是在多副本的场景下，却发生了流量倾斜，具体表现就是某个副本的压力非常高，而其他副本的压力很小，进而导致服务整体异常。</p><blockquote><p>简单分析:  </p><p>gRPC 是基于 HTTP2.0 实现的长连接，且默认没有超时，那么再回到上述场景，显然就是客户端与某个具体的副本建立了长连接<br/>
+<!-- -->而连接又不会断开，导致了请求流量倾斜的问题。</p></blockquote><p>经过分析，我们也可以大致定位问题和解决思路了，问题就是，如何均衡的分配每一个长连接请求。</p><p>思路就是，为每一个服务都建立长连接，然后通过客户端轮询来实现负载均衡。</p><h2>负载均衡</h2><h3>Headless Service</h3><h3>KubeResolver</h3>]]></content>
+        <author>
+            <name>Czasg</name>
+            <uri>https://github.com/czasg</uri>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Github 搭建 Docusaurus 站点]]></title>
         <id>Github 搭建 Docusaurus 站点</id>
