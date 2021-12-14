@@ -12,11 +12,17 @@
             <link>https://czasg.github.io/docusaurus/blog/2021/12/13/gRPC负载均衡</link>
             <guid>基于 gRPC 实现负载均衡</guid>
             <pubDate>Mon, 13 Dec 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[本文主要介绍在 k8s 环境下 gRPC 负载均衡的具体实现。]]></description>
-            <content:encoded><![CDATA[<p>本文主要介绍在 k8s 环境下 gRPC 负载均衡的具体实现。</p><h2>概述</h2><p>我们的服务最初使用 <code>DaemonSet</code> 部署在 k8s 上，即单台宿主机仅运行一个 <code>Pod</code>，然后通过 <code>NodePort Service</code> 的方式对外暴露服务。</p><p>在这种场景下直接对外暴露 IP 提供服务，所以也不存在负载均衡的说法。</p><p>现在服务改造升级，以前的 <code>DaemontSet</code> 类型升级为 <code>Deployment</code> 类型，而 <code>NodePort Service</code> 类型则升级为 <code>ClusterIP Service</code> 类型。</p><p>单副本的场景基本没有任何区别，但是在多副本的场景下，却发生了流量倾斜，具体表现就是某个副本的压力非常高，而其他副本的压力很小，进而导致服务整体异常。</p><blockquote><p>简单分析:  </p><p>gRPC 是基于 HTTP2.0 实现的长连接，且默认没有超时，那么再回到上述场景，显然就是客户端与某个具体的副本建立了长连接<br/>
-<!-- -->而连接又不会断开，导致了请求流量倾斜的问题。</p></blockquote><p>经过分析，我们也可以大致了解了问题，长连接基于TCP建立连接后，不会断开。
-所以常规的基于七层的负载均衡方法，无法为长连接提供有效负载。</p><p>具体解决的方法有多种，我们将其分为：  </p><ul><li>用户侧的负载均衡</li><li>服务侧的负载均衡</li></ul><h2>gRPC 负载均衡 - 用户侧</h2><h3>Headless Service</h3><p>k8s 的 <code>Service</code> 是一个
-<code>ClusterIP Service</code></p><h3>KubeResolver</h3><h2>gRPC 负载均衡 - 服务侧</h2><h3>长连接转短连接</h3><h3>中间件</h3>]]></content:encoded>
+            <description><![CDATA[本文主要介绍在 k8s 环境下 gRPC 服务在实现负载均衡时遇到的问题和解决思路。]]></description>
+            <content:encoded><![CDATA[<p>本文主要介绍在 k8s 环境下 gRPC 服务在实现负载均衡时遇到的问题和解决思路。</p><h2>概述</h2><p>我们的 gRPC 服务最初使用 <code>DaemonSet</code> 部署在 k8s 上，通过节点亲和属性 <code>nodeAffinity</code>，使得单台宿主机仅运行这一个 <code>Pod</code>，然后通过 <code>NodePort Service</code> 的方式对外暴露服务。</p><p>在这种场景下直接对外暴露 IP 提供服务，业务流量全部打到单台宿主机上，所以也不存在负载均衡的说法。</p><p>随着业务压力逐渐增大，单点提供的能力已逐渐达到极限，我们采用水平拓展的方式，部署了多台单节点服务。也算暂时抗住了压力。但随后的暴露的问题，也让我们被迫选选择了重构。</p><p>:::note 为什么选择重构
+业务持续拓展，问题也逐渐暴露出来，当前服务架构下，多节点之间的数据一致性完全不能保证，人工运维简直不要太恶心，无奈只能重构。这里我们不针对此展开。<br/>
+<!-- -->:::</p><p>服务改造升级完毕后，完全兼容历史 gRPC 接口，在 k8s 的配置上也有部分改动，以前的 <code>DaemontSet</code> 类型变更为 <code>Deployment</code> 类型，而 <code>NodePort Service</code> 类型则变更为 <code>ClusterIP Service</code> 类型。
+项目正式进入到了提测阶段。</p><p>功能上基本没有太大的问题，毕竟引用了相同的 gRPC 标准。</p><p>问题主要暴露在了负载均衡上，在多副本的场景下，发生了严重的流量倾斜，具体表现就是某个副本的压力非常高，而其他副本的压力很小，进而导致服务整体异常。</p><p>:::tip 简单分析
+gRPC 是基于 HTTP2.0 实现的长连接，且默认没有超时，这种长连接能够大量减少 TCP 连接管理所带来的开销，但也破坏了标准的连接级的负载均衡。因为连接已经建立且不断开，也无法再进一步负载均衡了。  </p><p>那么再回到上述场景，显然就是客户端与某个具体的服务建立了长连接，而连接又不会断开，从而导致了持续的流量倾斜问题。
+:::</p><p>如何选择有效的 gRPC 负载均衡方案，具体解决的方法有多种，我们主要将其分为：  </p><ul><li>用户侧的负载均衡</li><li>服务侧的负载均衡</li></ul><h2>gRPC 负载均衡 - 用户侧</h2><h3>Headless Service</h3><p>k8s 的 <code>Service</code> 是一个
+<code>ClusterIP Service</code></p><h3>KubeResolver</h3><h2>gRPC 负载均衡 - 服务侧</h2><h3>长连接转短连接</h3><h3>中间件</h3><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg<br/>
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍<br/>
+<!-- -->:::</p>]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Github 搭建 Docusaurus 站点]]></title>
@@ -68,7 +74,10 @@ The key&#x27;s randomart image is:
 <img src="deploykey.png"/></p><p>此时部署公钥已经完成，我们再将私钥也配置上。打开同级配置下的 Secret，选择新增密钥，
 我们将私钥内容复制到 <code>Value</code> 中，而 <code>Name</code> 填写 <code>GH_PAGES_DEPLOY</code> 即可。</p><p>最后，我们创建 <code>Github Actions</code>，将模板复制进去，则整个流水线就已经配置好了。复制时，将对应的基础配置改下即可，如下：</p><pre><code class="language-shell" metastring="script">git config --global user.email &quot;email&quot;
 git config --global user.name &quot;name&quot;
-</code></pre><p>这里的 <code>email</code> 需要是 github 配置的 email，而 <code>name</code> 则是 github 用户名。</p><h2>4、更新仓库，尝试自动部署</h2><p>确保 Github Pages 已经初始化好，那么我们往仓库推送修改时，就可以触发自动部署了。</p>]]></content:encoded>
+</code></pre><p>这里的 <code>email</code> 需要是 github 配置的 email，而 <code>name</code> 则是 github 用户名。</p><h2>4、更新仓库，尝试自动部署</h2><p>确保 Github Pages 已经初始化好，那么我们往仓库推送修改时，就可以触发自动部署了。</p><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg<br/>
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍<br/>
+<!-- -->:::</p>]]></content:encoded>
         </item>
     </channel>
 </rss>
