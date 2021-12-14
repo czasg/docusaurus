@@ -1,7 +1,7 @@
 ---
 title: 基于 gRPC 实现负载均衡
 authors: [czasg]
-tags: [gRPC, 负载均衡]
+tags: [k8s, gRPC, 负载均衡]
 ---
 
 <!-- 参考自 https://www.lixueduan.com/post/grpc/13-loadbalance-on-k8s/ -->

@@ -8,8 +8,8 @@ const FeatureList = [
     Svg: require('../../static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-          博客注重于记录问题、生活等方面的知识点。文档则注重于某个领域的系统知识整理。
-          相比对传统的博客站点，我更倾向<strong>博客、文档于一体</strong>的记录方式.
+          博客注重于记录问题、生活等方面的知识点。文档则注重于某个领域的知识整理。
+          相比对传统的博客站点，我更倾向于集<strong>博客、文档于一体</strong>的记录方式.
       </>
     ),
   },
@@ -18,7 +18,7 @@ const FeatureList = [
     Svg: require('../../static/img/undraw_docusaurus_react.svg').default,
     description: (
         <>
-            本站是基于 <strong>Docusaurus</strong> 搭建的静态站点，目前借助 <strong>Github Actions</strong> 自动部署在 <strong>Github Pages</strong>.
+            本站是基于 <strong>Docusaurus</strong> 搭建的静态站点，目前借助 <strong>Github Actions</strong> 自动构建、部署在 <strong>Github Pages</strong>.
         </>
     ),
   },
