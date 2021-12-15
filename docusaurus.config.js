@@ -21,6 +21,7 @@ const config = {
       '@docusaurus/preset-classic',
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
+        docs: false,
         blog: {
           showReadingTime: true,
           blogSidebarCount: 10,
@@ -35,6 +36,15 @@ const config = {
   ],
 
   plugins: [
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'author',
+        path: 'docs-author',
+        routeBasePath: '/author',
+        sidebarPath: require.resolve('./sidebars.js'),
+      }
+    ],
     [
       '@docusaurus/plugin-content-docs',
       {
@@ -85,7 +95,7 @@ const config = {
           {to: '/blog', label: '博客', position: 'left'},
           {to: '/note/intro', label: '笔记', position: 'left'},
           {to: '/open/intro', label: '开源项目', position: 'left'},
-          {to: '/about/me', label: '关于我', position: 'left'},
+          {to: '/author/intro', label: '关于我', position: 'left'},
           {
             href: 'https://github.com/czasg',
             label: 'GitHub',
@@ -95,47 +105,6 @@ const config = {
       },
       footer: {
         style: 'dark',
-        // links: [
-        //   {
-        //     title: 'Docs',
-        //     items: [
-        //       {
-        //         label: 'Tutorial',
-        //         to: '/docs/intro',
-        //       },
-        //     ],
-        //   },
-        //   {
-        //     title: 'Community',
-        //     items: [
-        //       {
-        //         label: 'Stack Overflow',
-        //         href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-        //       },
-        //       {
-        //         label: 'Discord',
-        //         href: 'https://discordapp.com/invite/docusaurus',
-        //       },
-        //       {
-        //         label: 'Twitter',
-        //         href: 'https://twitter.com/docusaurus',
-        //       },
-        //     ],
-        //   },
-        //   {
-        //     title: 'More',
-        //     items: [
-        //       {
-        //         label: 'Blog',
-        //         to: '/blog',
-        //       },
-        //       {
-        //         label: 'GitHub',
-        //         href: 'https://github.com/facebook/docusaurus',
-        //       },
-        //     ],
-        //   },
-        // ],
         copyright: `Copyright © ${new Date().getFullYear()} Czasg's Site.`,
       },
       prism: {
