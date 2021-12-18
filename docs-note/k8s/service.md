@@ -1,10 +1,16 @@
 # Service
 
+通过 apiserver 创建 Service 后，kube-proxy 通过监听 apiserver 获取
+
+
 Service 定义了一种抽象：一个 Pod 的逻辑分组，一种可以访问它们的策略。
 
 主要功能：
 * 服务实例间的负载均衡。
 * 不同服务之间的服务发现。
+
+## Endpoint
+endpoint 也是一种资源对象
 
 ## 负载均衡
 
@@ -31,6 +37,12 @@ k8s 支持两种服务发现：环境变量 & DNS
 
 此时，我们可以通过将 `spec.ClusterIP` 的值配置为 `None` 来创建 `Headless Service`，
 这类服务并不会分配IP，k8s也不会为其提供负载均衡能力，此时的 `Service` 仅仅提供DNS暴露目标 `PodIP` 的能力。
+
+不想使用 Service 提供的负载均衡，希望自己控制负载均衡策略
+
+externalName：将集群外部的服务暴露到集群内部
+
+### 会话保持
 
 ## 代理模式
 
