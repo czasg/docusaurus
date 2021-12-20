@@ -6,7 +6,7 @@
 <meta name="generator" content="Docusaurus v2.0.0-beta.9">
 <link rel="alternate" type="application/rss+xml" href="/docusaurus/blog/rss.xml" title="Czasg RSS Feed">
 <link rel="alternate" type="application/atom+xml" href="/docusaurus/blog/atom.xml" title="Czasg Atom Feed"><title data-react-helmet="true">k8s | Czasg</title><meta data-react-helmet="true" name="twitter:card" content="summary_large_image"><meta data-react-helmet="true" property="og:url" content="https://czasg.github.io/docusaurus/note/k8s/k8s"><meta data-react-helmet="true" name="docusaurus_locale" content="en"><meta data-react-helmet="true" name="docusaurus_version" content="current"><meta data-react-helmet="true" name="docusaurus_tag" content="docs-note-current"><meta data-react-helmet="true" property="og:title" content="k8s | Czasg"><meta data-react-helmet="true" name="description" content="在了解 k8s 前，我们需要先了解下 服务部署 的演进，主要包括："><meta data-react-helmet="true" property="og:description" content="在了解 k8s 前，我们需要先了解下 服务部署 的演进，主要包括："><link data-react-helmet="true" rel="shortcut icon" href="/docusaurus/img/favicon.ico"><link data-react-helmet="true" rel="canonical" href="https://czasg.github.io/docusaurus/note/k8s/k8s"><link data-react-helmet="true" rel="alternate" href="https://czasg.github.io/docusaurus/note/k8s/k8s" hreflang="en"><link data-react-helmet="true" rel="alternate" href="https://czasg.github.io/docusaurus/note/k8s/k8s" hreflang="x-default"><link rel="stylesheet" href="/docusaurus/assets/css/styles.cfdc25de.css">
-<link rel="preload" href="/docusaurus/assets/js/runtime~main.154f965f.js" as="script">
+<link rel="preload" href="/docusaurus/assets/js/runtime~main.5e0d1297.js" as="script">
 <link rel="preload" href="/docusaurus/assets/js/main.279a1b78.js" as="script">
 </head>
 <body>
@@ -15,28 +15,27 @@
 <!-- -->服务器部署多应用时，无法定义<strong>应用程序资源使用边界</strong>。</p><p>简单点说就是应用程序之间存在资源冲突，包括到端口，CPU、内存等资源的冲突。</p><div class="admonition admonition-note alert alert--secondary"><div class="admonition-heading"><h5><span class="admonition-icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 0 1-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 0 1-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg></span>线上资源冲突案例</h5></div><div class="admonition-content"><p>服务器上部署了多个应用程序，高峰时期，某个应用程序会跑满CPU、内存，导致其他应用直接 Crash 无法恢复。  </p><p>最后复盘结论就是服务器资源不足，申请加了服务器。<br>
 <!-- -->将应用分别部署了一份，解决了高峰期的问题。<br>
 <!-- -->但在低峰期，服务器基本空置。</p></div></div><h2 class="anchor anchorWithStickyNavbar_y2LR" id="虚拟化部署">虚拟化部署<a aria-hidden="true" class="hash-link" href="#虚拟化部署" title="Direct link to heading">​</a></h2><p>虚拟化技术通常指我们使用的虚拟机。虚拟机拥有隔离的操作系统、计算、内存、存储等资源，是一个独立的环境。</p><p>虚拟化部署，即通过在一台服务器上运行多个虚拟机，然后将应用分别部署在虚拟机中。</p><p>相对于传统部署的方式来说，它保证了应用部署环境的纯净性，但相对的，单独运行一个虚拟机，也是十分耗费资源的。</p><h2 class="anchor anchorWithStickyNavbar_y2LR" id="容器化部署">容器化部署<a aria-hidden="true" class="hash-link" href="#容器化部署" title="Direct link to heading">​</a></h2><p>大部分容器技术，底层都是基于 Linux Namespace 和 CGroups 实现。<br>
-<!-- -->虽然容器技术很早就有（Docker 底层 <code>runc</code> 就基于 Namespace 实现），但大多数都存在后期运维不便的问题，所以并不流行。<br>
-<!-- -->直到 Docker 的出现，彻底掀起容器技术的热潮。</p><p>Docker 引入了镜像的概念，大大的简化容器的创建、销毁、部署的问题。</p><p>相对于虚拟化部署的方式来说，它共享当前操作系统，在此之上，通过  Container Runtime 创建轻量级的容器。</p><div class="admonition admonition-note alert alert--secondary"><div class="admonition-heading"><h5><span class="admonition-icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 0 1-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 0 1-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg></span>Container Runtime 容器运行时</h5></div><div class="admonition-content"><p>以 Docker 为例，创建并运行一个容器，包含两个运行时： <code>high-level container runtime</code> 和 <code>low-level container runtime</code>。</p><p><code>high-level container runtime</code> 负责镜像管理、api、gRPC 接口管理等。<br>
-<code>low-level container runtime</code> 则负责具体运行的容器。  </p></div></div><h2 class="anchor anchorWithStickyNavbar_y2LR" id="k8s-简介">k8s 简介<a aria-hidden="true" class="hash-link" href="#k8s-简介" title="Direct link to heading">​</a></h2><p>Kubernetes 简称 k8s，它本质是一个分布式的集群系统，采用主从架构，分别称之为控制节点和工作节点。</p><p>我们在上面说到，容器化部署，解决了资源隔离、利用的问题，但是运维期间仍然不可避免的存在其他问题，主要包括：
-1、容器</p><p>k8s 是一个基于容器技术的分布式服务器集群，集群采用的是一个master多个worker，一个控制节点和多个工作节点，特点就是，提供优秀的容器编排能力。
-容器编排：
-容器扩缩容
-容器自愈
-服务发现
-负载均衡</p><p>master节点：
-ApiServer：操作集群资源对象的唯一入口，提供用户认证，授权，api注册和发现的功能
-Scheduler：负责集群资源调度，按照预定的调度策略，将Pod调度到对应的节点上
-ControllerManager：负责维护集群状态，Pod部署、自愈、扩缩容
-Etcd：存储集群中所有的资源对象信息</p><p>work节点：
-kubelet：负责维护容器的生命周期
-kubeProxy：负责集群内的负载均衡和服务发现
-CRI</p><p>一个简答的问题，用户调用kubectl指令部署一个Pod，中间会执行那些流程：
-首先指令会走到apiServer服务，进行用户认证以及权限认证
-然后会调用Schedule组件，根据用户指定的调度策略来确定具体的调度节点
-然后通过ControllerManager组件通知对应的节点
-节点上的kubelet组件接收ControllerManager组件的事件，创建对应的Controller，管理Pod的生命周期
-外部流程则通过kubeproxy访问Pod</p></div></article><nav class="pagination-nav docusaurus-mt-lg" aria-label="Docs pages navigation"><div class="pagination-nav__item"><a class="pagination-nav__link" href="/docusaurus/note/docker/docker网络"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">« <!-- -->docker网络</div></a></div><div class="pagination-nav__item pagination-nav__item--next"><a class="pagination-nav__link" href="/docusaurus/note/k8s/pod"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">Pod<!-- --> »</div></a></div></nav></div></div><div class="col col--3"><div class="tableOfContents_vrFS thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#传统部署" class="table-of-contents__link toc-highlight">传统部署</a></li><li><a href="#虚拟化部署" class="table-of-contents__link toc-highlight">虚拟化部署</a></li><li><a href="#容器化部署" class="table-of-contents__link toc-highlight">容器化部署</a></li><li><a href="#k8s-简介" class="table-of-contents__link toc-highlight">k8s 简介</a></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2021 Czasg's Site.</div></div></div></footer></div>
-<script src="/docusaurus/assets/js/runtime~main.154f965f.js"></script>
+<!-- -->虽然容器技术很早就存在了，但它们大多数都存在后期运维不便的问题，所以并不流行。<br>
+<!-- -->直到 Docker 的出现，彻底掀起容器技术的热潮。</p><p>Docker 引入了镜像的概念，使用者可以快速的对镜像进行构建、发布和运行。<br>
+<!-- -->这极大的简化容器的创建、销毁、部署的问题。</p><p>相对于虚拟化部署的方式来说，它更节省资源，因为容器共享当前操作系统。
+在此基础之上，通过  Container Runtime 定义资源界限，从而创建轻量级的隔离环境。</p><div class="admonition admonition-note alert alert--secondary"><div class="admonition-heading"><h5><span class="admonition-icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 0 1-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 0 1-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg></span>Container Runtime 容器运行时</h5></div><div class="admonition-content"><p>以 Docker 为例，创建并运行一个容器，包含两个运行时： <code>high-level container runtime</code> 和 <code>low-level container runtime</code>。</p><p><code>high-level container runtime</code> 负责镜像管理、api、gRPC 接口管理等。<br>
+<code>low-level container runtime</code> 则负责具体运行的容器。  </p></div></div><h2 class="anchor anchorWithStickyNavbar_y2LR" id="k8s-简介">k8s 简介<a aria-hidden="true" class="hash-link" href="#k8s-简介" title="Direct link to heading">​</a></h2><p>k8s 全称 Kubernetes，它本质是一个分布式的集群系统，采用主从架构，我们分别称之为控制节点和工作节点。  </p><p>k8s 的核心能力，是提供了基于容器技术的容器编排解决方案。</p><p>什么是容器编排？为什么需要容器编排？</p><p>我们在上面的容器化部署中已经介绍了容器化的优点，但是纵观整个应用的生命周期，它仍然存在一些问题：
+当某个应用容器存在性能贫瘠时，希望对它进行简单的横向拓展，来提高服务能力。这个时候，我们可以通过再次部署一个容器来实现。
+但是客户端时无法感知到新部署的容器的，所以需要提供服务发现和负载均衡机制，来确保我们的横向扩展。</p><p>这些问题都围绕着容器进行，我们针对容器的扩缩容、服务发现、负载均衡等称之为容器编排。
+提供容器编排方案的服务有很多，我们选择 k8s。</p><h2 class="anchor anchorWithStickyNavbar_y2LR" id="k8s-组成">k8s 组成<a aria-hidden="true" class="hash-link" href="#k8s-组成" title="Direct link to heading">​</a></h2><p>控制节点：
+APiServer
+Scheduler
+ControllerManager
+Etcd</p><p>工作节点：
+Kubelet
+KubeProxy</p><p>一条创建 Pod 的指令的工作流程：
+首先通过 ApiServer，进行用户和权限验证
+调用 Scheduler 组件，根据用户指定的调度策略来确定具体的调度节点
+通过 ControllerManager 组件调用节点的 Kubelet，创建对应的 Controller，管理 Pod 的生命周期</p><p>一个外部的请求访问 Pod 的流程：
+首先通过 Ingress
+再走到 Service
+再走到 Pod</p></div></article><nav class="pagination-nav docusaurus-mt-lg" aria-label="Docs pages navigation"><div class="pagination-nav__item"><a class="pagination-nav__link" href="/docusaurus/note/docker/docker网络"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">« <!-- -->docker网络</div></a></div><div class="pagination-nav__item pagination-nav__item--next"><a class="pagination-nav__link" href="/docusaurus/note/k8s/pod"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">Pod<!-- --> »</div></a></div></nav></div></div><div class="col col--3"><div class="tableOfContents_vrFS thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#传统部署" class="table-of-contents__link toc-highlight">传统部署</a></li><li><a href="#虚拟化部署" class="table-of-contents__link toc-highlight">虚拟化部署</a></li><li><a href="#容器化部署" class="table-of-contents__link toc-highlight">容器化部署</a></li><li><a href="#k8s-简介" class="table-of-contents__link toc-highlight">k8s 简介</a></li><li><a href="#k8s-组成" class="table-of-contents__link toc-highlight">k8s 组成</a></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2021 Czasg's Site.</div></div></div></footer></div>
+<script src="/docusaurus/assets/js/runtime~main.5e0d1297.js"></script>
 <script src="/docusaurus/assets/js/main.279a1b78.js"></script>
 </body>
 </html>
