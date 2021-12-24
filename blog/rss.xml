@@ -81,5 +81,46 @@ git config --global user.name &quot;name&quot;
 <strong>版权声明:</strong> 转载请注明出处哦~👮‍<br/>
 <!-- -->:::</p>]]></content:encoded>
         </item>
+        <item>
+            <title><![CDATA[Linux 常用指令]]></title>
+            <link>https://czasg.github.io/docusaurus/blog/2019/3/2/Linux常用指令</link>
+            <guid>Linux 常用指令</guid>
+            <pubDate>Sat, 02 Mar 2019 00:00:00 GMT</pubDate>
+            <description><![CDATA[从使用维度划分 Linux 常用指令，便于梳理和总结。]]></description>
+            <content:encoded><![CDATA[<p>从使用维度划分 Linux 常用指令，便于梳理和总结。</p><ul><li>帮助指令</li><li>用户管理</li><li>文件操作</li><li>文件管理</li><li>磁盘管理</li><li>网络管理</li></ul><h2>帮助指令</h2><pre><code class="language-shell" metastring="script title=&quot;获取帮助&quot;" title="&quot;获取帮助&quot;">&gt;&gt;&gt; man ls
+</code></pre><pre><code class="language-shell" metastring="script title=&quot;获取帮助&quot;" title="&quot;获取帮助&quot;">&gt;&gt;&gt; ls --help
+</code></pre><h2>用户管理</h2><pre><code class="language-shell" metastring="script title=&quot;新增用户，该指令无需 passwd 设置密码&quot;" title="&quot;新增用户，该指令无需">&gt;&gt;&gt; adduser cza
+</code></pre><pre><code class="language-shell" metastring="script title=&quot;切换用户&quot;" title="&quot;切换用户&quot;">&gt;&gt;&gt; su root
+</code></pre><pre><code class="language-shell" metastring="script title=&quot;显示当前用户&quot;" title="&quot;显示当前用户&quot;">&gt;&gt;&gt; whoami
+</code></pre><pre><code class="language-shell" metastring="script title=&quot;查看用户及权限&quot;" title="&quot;查看用户及权限&quot;">&gt;&gt;&gt; cat /etc/passwd
+</code></pre><h2>文件操作和管理</h2><pre><code class="language-shell" metastring="script title=&quot;查看程序路径&quot;" title="&quot;查看程序路径&quot;">&gt;&gt;&gt; whereis ls
+</code></pre><pre><code class="language-shell" metastring="script title=&quot;创建和删除文件&quot;" title="&quot;创建和删除文件&quot;">&gt;&gt;&gt; mkdir               // 创建空目录
+&gt;&gt;&gt; touch               // 修改文件的时间属性，文件不存在则创建新文件
+&gt;&gt;&gt; rm -rf              // 递归删除
+&gt;&gt;&gt; cp -r               // 递归复制
+</code></pre><pre><code class="language-shell" metastring="script title=&quot;查看文件&quot;" title="&quot;查看文件&quot;">&gt;&gt;&gt; ls -al              //
+&gt;&gt;&gt; ls | cat -n         // 显示文件，并给每一个增加一个编号
+&gt;&gt;&gt; ls | wc -l          // 统计文件数量
+</code></pre><pre><code class="language-shell" metastring="script title=&quot;查找文件&quot;" title="&quot;查找文件&quot;">&gt;&gt;&gt; find ./path -type f -name &quot;file_name&quot;  // 查找文件
+&gt;&gt;&gt; find ./ -type f | wc -l                // 查找全部文件并统计数量
+&gt;&gt;&gt; find ./ -type f -name &quot;*.tmp&quot; -delete  // 查找到 tmp 结尾的文件并删除
+</code></pre><pre><code class="language-shell" metastring="script title=&quot;修改文件权限&quot;" title="&quot;修改文件权限&quot;">&gt;&gt;&gt; chmod 777 test.txt  // 4（读）2（写）1（执行）
+&gt;&gt;&gt; chmod -R            // 递归修改目录下所有文件
+</code></pre><pre><code class="language-shell" metastring="script title=&quot;软链接&quot;" title="&quot;软链接&quot;">&gt;&gt;&gt; ln -s old new       // 符号软链接
+</code></pre><pre><code class="language-shell" metastring="script title=&quot;文本转化与搜索&quot;" title="&quot;文本转化与搜索&quot;">&gt;&gt;&gt; cat &quot;filename&quot; | tr a-z A-Z                           // tr 将小写转化为大写
+&gt;&gt;&gt; cat &quot;filename&quot; | grep &quot;match_rule&quot; -c                 // grep 指定匹配规则，-c 匹配次数
+&gt;&gt;&gt; cat &quot;filename&quot; | grep &quot;match_rule&quot; -n                 // grep 指定匹配规则，-n 匹配行号
+&gt;&gt;&gt; cat &quot;filename&quot; | xargs                                // 多行转单行
+&gt;&gt;&gt; find . -type f -name &quot;*.py&quot; -print0 | xargs -0 wc -l  // 统计源码文件行数
+&gt;&gt;&gt; find . -type f -name &quot;*.jpg&quot; | xargs tar -czvf images.tar.gz
+&gt;&gt;&gt; cat url-list.txt | xargs wget -c  // 下载文件
+</code></pre><h3>sort 排序</h3><ul><li>-n 按数字进行排序 </li><li>-d 按字典序进行排序</li><li>-r 逆序排序</li><li>-k N 指定按第N列排序</li></ul><pre><code class="language-shell" metastring="script">sort -nrk 1 data.txt
+sort -bd data                // 忽略像空格之类的前导空白字符
+
+sort unsort.txt | uniq       // 消除重复行
+sort unsort.txt | uniq -c    // 统计各行出现次数
+sort unsort.txt | uniq -d    // 找出重复行
+</code></pre><h3>tr 转化</h3><h3>cut 切割</h3><h3>paste 按列拼接文本</h3><h3>sed 文本替换</h3><h3>awk 数据流处理</h3><h2>磁盘管理</h2><h2>进程管理</h2><h2>网络管理</h2>]]></content:encoded>
+        </item>
     </channel>
 </rss>
