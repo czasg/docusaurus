@@ -257,3 +257,10 @@ centos: yum install -y bind-utils
 :::note linux 安装 netstat
 centos：yum install -y net-tools
 :::
+
+<br/>
+
+:::info 👇👇👇
+**本文作者:** Czasg     
+**版权声明:** 转载请注明出处哦~👮‍    
+:::
