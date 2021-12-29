@@ -1,10 +1,10 @@
 ---
-title: Linux Namespace
+title: Scrapy 框架
 authors: [czasg]
-tags: [linux]
+tags: [python, scrapy]
 ---
 
-namespace
+scrapy 框架的使用
 
 <!--truncate-->
 
