@@ -1,10 +1,10 @@
 ---
-title: Scrapy 框架
+title: 数据库事务
 authors: [czasg]
-tags: [python, scrapy]
+tags: [数据库]
 ---
 
-scrapy 框架的使用
+数据库事务
 
 <!--truncate-->
 
