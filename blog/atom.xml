@@ -102,21 +102,6 @@ git config --global user.name &quot;name&quot;
     <entry>
         <title type="html"><![CDATA[Scrapy 源码学习]]></title>
         <id>Scrapy 源码学习</id>
-        <link href="https://czasg.github.io/docusaurus/blog/2020/2/25/scrapy 源码学习"/>
-        <updated>2020-02-25T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Scrapy 源码学习]]></summary>
-        <content type="html"><![CDATA[<p>Scrapy 源码学习</p><br/><p>:::info 👇👇👇
-<strong>本文作者:</strong> Czasg<br/>
-<strong>版权声明:</strong> 转载请注明出处哦~👮‍<br/>
-<!-- -->:::</p>]]></content>
-        <author>
-            <name>Czasg</name>
-            <uri>https://github.com/czasg</uri>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Scrapy 源码学习]]></title>
-        <id>Scrapy 源码学习</id>
         <link href="https://czasg.github.io/docusaurus/blog/2020/2/24/scrapy 源码学习"/>
         <updated>2020-02-24T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Scrapy 源码学习]]></summary>
@@ -296,6 +281,26 @@ centos: yum install -y bind-utils
 :::</p><h3>netstat</h3><p><code>netstat</code> 用于显示网络状态</p><ul><li>-a：显示所有连线中的 socket</li><li>-l：显示监控中的 socket</li></ul><p>:::note linux 安装 netstat
 centos：yum install -y net-tools
 :::</p><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg<br/>
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍<br/>
+<!-- -->:::</p>]]></content>
+        <author>
+            <name>Czasg</name>
+            <uri>https://github.com/czasg</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[《即兴演讲》]]></title>
+        <id>《即兴演讲》</id>
+        <link href="https://czasg.github.io/docusaurus/blog/2019/1/14/即兴演讲"/>
+        <updated>2019-01-14T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[说话无逻辑，说的就是我自己了吧🤣]]></summary>
+        <content type="html"><![CDATA[<p>说话无逻辑，说的就是我自己了吧🤣<br/>
+<!-- -->看看还有没有救🧐</p><blockquote><p>你需要做好准备，才能自然应对。一次优秀的即兴演讲，永远不是不经思考、随心所欲就脱口而出的。</p></blockquote><h2>思维模式</h2><p>正确的思维模式：</p><ul><li>领导意识</li><li>倾听</li><li>真实</li><li>专注</li><li>尊重</li></ul><p>保持真实：</p><ul><li>处于当下</li><li>分享想法</li><li>分享信念和价值观</li><li>分享感受</li><li>分享脆肉</li><li>分享故事</li></ul><p>保持专注：</p><ul><li>保持与谈话对象的专注，需要做到主题明确和重点突出</li></ul><p>保持尊重</p><ul><li>任何场景，尊重别人，尊重自己</li></ul><p>一般性的知识
+经验性的知识</p><p>抓手：抓取注意力
+要点：观点
+结构体：论述
+呼吁行动：</p><br/><p>:::info 👇👇👇
 <strong>本文作者:</strong> Czasg<br/>
 <strong>版权声明:</strong> 转载请注明出处哦~👮‍<br/>
 <!-- -->:::</p>]]></content>
