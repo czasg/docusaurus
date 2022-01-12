@@ -4,9 +4,15 @@
         <title>Czasg Blog</title>
         <link>https://czasg.github.io/docusaurus/blog</link>
         <description>Czasg Blog</description>
-        <lastBuildDate>Mon, 13 Dec 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 12 Jan 2022 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Github 搭建 Docusaurus 站点]]></title>
+            <link>https://czasg.github.io/docusaurus/blog/2022/1/12/nginx配置说明</link>
+            <guid>Github 搭建 Docusaurus 站点</guid>
+            <pubDate>Wed, 12 Jan 2022 00:00:00 GMT</pubDate>
+        </item>
         <item>
             <title><![CDATA[基于 gRPC 实现负载均衡]]></title>
             <link>https://czasg.github.io/docusaurus/blog/2021/12/13/gRPC负载均衡</link>
