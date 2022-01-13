@@ -12,6 +12,17 @@
         <id>Github 搭建 Docusaurus 站点</id>
         <link href="https://czasg.github.io/docusaurus/blog/2022/1/12/nginx配置说明"/>
         <updated>2022-01-12T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[nginx 常用指令]]></summary>
+        <content type="html"><![CDATA[<h2>nginx 常用指令</h2><ul><li>-c：用于指定一个配置文件</li><li>-t：用于测试配置是否可用</li><li>-s：用于发送信号，包括：stop, quit, reopen, reload。eg：<code>nginx -s reload</code></li></ul><pre><code class="language-shell" metastring="script title=&quot;指定并测试配置文件&quot;" title="&quot;指定并测试配置文件&quot;">nginx -t -c ./nginx.conf
+</code></pre><h2>nginx 核心模块</h2><p>nginx 的核心模块主要有三个：</p><ul><li>主模块：管理 nginx 基本功能的模块</li><li>事件模块：管理 nginx 处理连接请求的模块</li><li>HTTP 模块：管理 nginx 处理 http 请求的模块</li></ul><h3>主模块</h3><pre><code class="language-text">user  nginx;  # 用户
+worker_processes  auto;  # 工作进程，可以指定具体数字
+worker_cpu_affinity  none;  # 用于绑定 worker 进程与 cpu
+error_log  /var/log/nginx/error.log notice;  # 指定日志和错误级别，包含：debug、info、notice、warn、error、crit
+pid  /var/run/nginx.pid;
+</code></pre><h3>事件模块</h3><h3>HTTP 模块</h3><h2>nginx 常见部署</h2><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg<br/>
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍<br/>
+<!-- -->:::</p>]]></content>
         <author>
             <name>Czasg</name>
             <uri>https://github.com/czasg</uri>
