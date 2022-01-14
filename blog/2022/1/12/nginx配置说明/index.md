@@ -1,8 +1,10 @@
 ---
-title: Github 搭建 Docusaurus 站点
+title: nginx 配置说明
 authors: [czasg]
-tags: [部署, docusaurus]
+tags: [nginx]
 ---
+
+记录一下 nginx 常见配置说明和部署模板，模板主要包括 docker 和 k8s 两种。
 
 <!--truncate-->
 
@@ -24,13 +26,19 @@ nginx 的核心模块主要有三个：
 ### 主模块
 ```text
 user  nginx;  # 用户
+pid  /var/run/nginx.pid;  # 进程ID
 worker_processes  auto;  # 工作进程，可以指定具体数字
-worker_cpu_affinity  none;  # 用于绑定 worker 进程与 cpu
 error_log  /var/log/nginx/error.log notice;  # 指定日志和错误级别，包含：debug、info、notice、warn、error、crit
-pid  /var/run/nginx.pid;
+
+worker_cpu_affinity  none;  # 用于绑定 worker 进程与 cpu
 ```
 
 ### 事件模块
+```text
+events {
+    worker_connections  1024;  # 
+}
+```
 
 
 ### HTTP 模块
