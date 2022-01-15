@@ -8,6 +8,8 @@ tags: [nginx]
 
 <!--truncate-->
 
+nginx 是一个高性能的 web 服务器，同时也能提供负载均衡和反向代理服务。
+
 ## nginx 常用指令
 * -c：用于指定一个配置文件
 * -t：用于测试配置是否可用
@@ -85,7 +87,7 @@ http {
 
     server {
         listen  80;  # 监听端口
-        server_name  _;  # 不启用域名
+        server_name  _;  # 不启用域名检测
 
         location / {
             proxy_pass  http://serverName;  # 指定 upstream 名字即可
@@ -101,16 +103,38 @@ http {
         # 客户端
         client_body_buffer_size  8k;  # 请求缓存大小（超过则存储到临时文件中）
         client_max_body_size  0;  # 数据最大传输限制
-    
+
         # 服务端
+        proxy_buffering off;  # 对代理服务器的响应内容缓冲
+        proxy_buffer_size  4k;  # 从代理服务器获取部分响应后进行缓冲
+        proxy_buffers  8 4k;  # 从被代理的后端服务器取得的响应内容，会缓冲到这里
         proxy_connect_timeout  60s;  # 与后端服务建立连接的超时时间
         proxy_send_timeout  60s;  # 向后端传输请求的超时时间
         proxy_read_timeout  60s;  # 从后端读取响应的超时时间
-        proxy_buffering off;
-        proxy_request_buffering off
+        proxy_request_buffering off;
+
+        proxy_set_header  Host $proxy_host;
 
         location / {
+            proxy_set_header  Auth "auth-key";
             proxy_pass  http://serverName;
+        }
+    }
+}
+```
+
+#### 正向代理与反向代理
+```text
+http {
+    server {
+        location / {
+            proxy_pass  http://serverName;
+        }
+        location / {
+            proxy_redirect  http://serverName;
+        }
+        location / {
+            proxy_rewrite  http://serverName;
         }
     }
 }
@@ -124,6 +148,7 @@ http {
             mirror  /internal;  # mirror 实现流量拷贝
             proxy_pass  http://serverName;
         }
+
         location /internal {
             internal;  # 表示仅被内部请求发现
             proxy_pass  http://serverName;  # 指定 upstream 名字即可
