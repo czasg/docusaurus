@@ -105,8 +105,8 @@ http {
         client_header_timeout  60s;  # 定义读取客户端请求头的超时
         client_header_buffer_size  1k;  # 设置读取客户端请求头的缓冲区大小
         client_max_body_size  0;  # 数据最大传输限制
-        proxy_request_buffering off;  # 默认开启，作用是缓冲请求。关闭后请求会立即转发到后端服务
-        proxy_buffering off;  # 对代理服务器的响应内容缓冲
+        proxy_request_buffering  off;  # 默认开启，作用是缓冲请求。关闭后请求会立即转发到后端服务
+        proxy_buffering  off;  # 对代理服务器的响应内容缓冲
         proxy_buffer_size  4k;  # 从代理服务器获取部分响应后进行缓冲
         proxy_buffers  8 4k;  # 从被代理的后端服务器取得的响应内容，会缓冲到这里
         proxy_connect_timeout  60s;  # 与后端服务建立连接的超时时间
@@ -132,8 +132,11 @@ http {
         location /root {
             root  /a/new/route/;  # 请求路径 /root/files 等效于 /a/new/route/root/files，会保留匹配路由
         }
-        location / {
-            rewrite  http://serverName;
+        location /rewrite {
+            rewrite  ^/rewrite/permanent/(.*) http://serverName/$1 permanent;  # 301 永久重定向
+            rewrite  ^/rewrite/redirect/(.*) http://serverName/$1 redirect;  # 302 临时重定向
+            rewrite  ^/rewrite/last/(.*) http://serverName/$1 last;  # 实现重定向
+            rewrite  ^/rewrite/break/(.*) http://serverName/$1 break;  # 实现重定向
         }
     }
 }
@@ -151,10 +154,6 @@ http {
         location /internal {
             internal;  # 表示仅被内部请求发现
             proxy_pass  http://serverName;  # 指定 upstream 名字即可
-        }
-
-        location /autoindex {
-            autoindex  on;  # 自动生成目录列表
         }
     }
 }
