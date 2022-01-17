@@ -112,6 +112,7 @@ http {
         proxy_connect_timeout  60s;  # 与后端服务建立连接的超时时间
         proxy_send_timeout  60s;  # 向后端传输请求的超时时间
         proxy_read_timeout  60s;  # 从后端读取响应的超时时间
+        proxy_set_header  Host $proxy_host;
 
         proxy_set_header  Host $proxy_host;
 
@@ -126,11 +127,20 @@ http {
 ```text
 http {
     server {
+        location /index {
+            index  index.html;  # 首页，即未指定后续路径时，匹配首页
+        }
+        location /try_files {
+            root  /static
+            try_files  $uri index.html;  # 依次尝试。/try_files/file -> /try_files/static/file
+        }
         location /alias/ {
             alias  /a/new/route/;  # 请求路径 /alias/files 等效于 /a/new/route/files，会替换掉匹配路由
         }
         location /root {
             root  /a/new/route/;  # 请求路径 /root/files 等效于 /a/new/route/root/files，会保留匹配路由
+            # proxy_pass  http://serverName/;  # /root/index.html -> http://serverName/index.html
+            # proxy_pass  http://serverName;  # /root/index.html -> http://serverName/root/index.html
         }
         location /rewrite {
             rewrite  ^/rewrite/permanent/(.*) http://serverName/$1 permanent;  # 301 永久重定向
@@ -158,8 +168,6 @@ http {
     }
 }
 ```
-
-## nginx 常见部署
 
 
 
