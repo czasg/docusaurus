@@ -2,11 +2,23 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://czasg.github.io/docusaurus/blog</id>
     <title>Czasg Blog</title>
-    <updated>2022-01-12T00:00:00.000Z</updated>
+    <updated>2022-01-18T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://czasg.github.io/docusaurus/blog"/>
     <subtitle>Czasg Blog</subtitle>
     <icon>https://czasg.github.io/docusaurus/img/favicon.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[redis 整理]]></title>
+        <id>redis 整理</id>
+        <link href="https://czasg.github.io/docusaurus/blog/2022/1/18/redis 整理"/>
+        <updated>2022-01-18T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[整理下 redis 常见知识点。]]></summary>
+        <content type="html"><![CDATA[<p>整理下 redis 常见知识点。</p><h2>常见数据类型</h2><ul><li>string</li><li>hash</li><li>list</li><li>set</li><li>zset</li><li>bitmap</li><li>hyperloglog</li><li>geo</li></ul><h2></h2>]]></content>
+        <author>
+            <name>Czasg</name>
+            <uri>https://github.com/czasg</uri>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[nginx 配置说明]]></title>
         <id>nginx 配置说明</id>

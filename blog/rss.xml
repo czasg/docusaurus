@@ -4,9 +4,17 @@
         <title>Czasg Blog</title>
         <link>https://czasg.github.io/docusaurus/blog</link>
         <description>Czasg Blog</description>
-        <lastBuildDate>Wed, 12 Jan 2022 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 18 Jan 2022 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[redis 整理]]></title>
+            <link>https://czasg.github.io/docusaurus/blog/2022/1/18/redis 整理</link>
+            <guid>redis 整理</guid>
+            <pubDate>Tue, 18 Jan 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[整理下 redis 常见知识点。]]></description>
+            <content:encoded><![CDATA[<p>整理下 redis 常见知识点。</p><h2>常见数据类型</h2><ul><li>string</li><li>hash</li><li>list</li><li>set</li><li>zset</li><li>bitmap</li><li>hyperloglog</li><li>geo</li></ul><h2></h2>]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[nginx 配置说明]]></title>
             <link>https://czasg.github.io/docusaurus/blog/2022/1/12/nginx配置说明</link>
