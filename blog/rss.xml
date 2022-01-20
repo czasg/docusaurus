@@ -4,9 +4,34 @@
         <title>Czasg Blog</title>
         <link>https://czasg.github.io/docusaurus/blog</link>
         <description>Czasg Blog</description>
-        <lastBuildDate>Tue, 18 Jan 2022 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 20 Jan 2022 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[常用 sql 操作]]></title>
+            <link>https://czasg.github.io/docusaurus/blog/2022/1/20/常用 sql 操作</link>
+            <guid>常用 sql 操作</guid>
+            <pubDate>Thu, 20 Jan 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[整理下 sql 常见的操作。]]></description>
+            <content:encoded><![CDATA[<p>整理下 sql 常见的操作。</p><h2>mysql</h2><h2>postgres</h2><h3>建表</h3><pre><code class="language-sql" metastring="title=&quot;创建普通表&quot;" title="&quot;创建普通表&quot;">CREATE TABLE IF NOT EXISTS my_table (
+    k  text,
+    v  text
+)
+</code></pre><pre><code class="language-sql" metastring="title=&quot;创建临时表&quot;" title="&quot;创建临时表&quot;">CREATE TEMPORARY TABLE IF NOT EXISTS my_table (
+    k  text,
+    v  text
+) ON COMMIT DROP;
+</code></pre><pre><code class="language-sql" metastring="title=&quot;删除表&quot;" title="&quot;删除表&quot;">DROP TABLE IF EXISTS my_table; -- 普通删除
+DROP TABLE IF EXISTS my_table CASCADE; -- 级联删除
+</code></pre><h3>索引</h3><pre><code class="language-sql">CREATE INDEX IF NOT EXISTS my_table_hash_index USING HASH(k);
+DROP INDEX IF EXISTS my_table_hash_index;
+</code></pre><h3>插入</h3><pre><code class="language-sql">INSERT INTO my_table (k, v) VALUES (&#x27;k&#x27;, &#x27;v&#x27;); -- 插入单条
+INSERT INTO my_table (SELECT * FROM same_table); -- 相同结构表之间的批量插入
+INSERT INTO my_table (k, v) (SELECT k, v FROM other_table); -- 不同结构表之间的批量插入
+</code></pre><h3>更新</h3><pre><code class="language-sql">UPDATE my_table SET v = &#x27;new_v&#x27; WHERE k = &#x27;new_k&#x27;; -- 更新一次
+UPDATE my_table AS o SET v = new_table.v FROM (SELECT * FROM other_table) as new_table WHERE o.k = new_table.k; -- 批量更新
+</code></pre>]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[redis 整理]]></title>
             <link>https://czasg.github.io/docusaurus/blog/2022/1/18/redis 整理</link>
