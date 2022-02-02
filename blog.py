@@ -14,27 +14,41 @@ day = str(now.day)
 
 template = """
 ---
-slug: $slug
 title: $title
 authors: [czasg]
-tags: $tag
+tags: [未定义]
 ---
 
-Hello, Czasg's World!
+摘要在此处
+
+<!--truncate-->
+
+正文在此处
+
+
+<br/>
+
+:::info 👇👇👇
+**本文作者:** Czasg
+**版权声明:** 转载请注明出处哦~👮‍
+:::
 """.strip()
 
 
-def gen(args):
+def gen(args: dict):
     dir_path = os.path.join("blog", year, month, day)
     if not os.path.exists(dir_path):
-        os.mkdir(dir_path)
-    file = os.path.join(dir_path, args.filename)
+        os.makedirs(dir_path)
+    index_dir = os.path.join(dir_path, args.filename)
+    if os.path.exists(index_dir):
+        print(f"已存在[{args.filename}]")
+        return
+    os.makedirs(index_dir)
+    file = os.path.join(index_dir, "index.md")
     content = string.Template(template).substitute({
-        "slug": args.slug,
-        "title": args.title,
-        "tag": f"""[{", ".join(args.tag)}]""",
+        "title": args.filename,
     })
-    with open(file, "w") as f:
+    with open(file, "w", encoding="utf-8") as f:
         f.write(content)
 
     print(file)
@@ -43,9 +57,6 @@ def gen(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("filename", help="blog filename", nargs='*', default=f"{year}{month}{day}.{int(time.time())}")
-    parser.add_argument("--title", help="blog title", default="undefined")
-    parser.add_argument("-s", "--slug", help="blog slug", default="undefined")
-    parser.add_argument("-t", "--tag", help="blog tag", nargs='*', default=[])
+    parser.add_argument("filename", help="blog filename")
     args = parser.parse_args()
     gen(args)
