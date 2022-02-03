@@ -9,9 +9,16 @@ tags: [性能测试,jmeter]
 <!--truncate-->
 
 ## 性能指标
-* TPS（Transactions Per Second）：每秒事务数
+* TPS（Transactions Per Second）：每秒事务数，吞吐率
 * QPS（Queries Per Second）：每秒查询数
-* RT（Response Time）：响应时间
+* RT（Response Time）：响应时间，服务延迟
+
+性能问题，归根结底还是某个模块的资源问题。常见的瓶颈点：  
+1、网络IO  
+2、存储IO  
+3、CPU、内存  
+4、应用  
+
 
 ## jmeter 结果解读
 并发线程、响应时间、TPS之间的关联：
