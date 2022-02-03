@@ -13,7 +13,11 @@
         <link href="https://czasg.github.io/docusaurus/blog/2022/2/2/Jmeter及性能测试"/>
         <updated>2022-02-02T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[记录 jmeter 性能测试的一些知识点。]]></summary>
-        <content type="html"><![CDATA[<p>记录 jmeter 性能测试的一些知识点。</p><h2>性能指标</h2><ul><li>TPS（Transactions Per Second）：每秒事务数</li><li>QPS（Queries Per Second）：每秒查询数</li><li>RT（Response Time）：响应时间</li></ul><h2>jmeter 结果解读</h2><p>并发线程、响应时间、TPS之间的关联：</p><pre><code class="language-text">TPS = (1s/响应时间) * 并发线程
+        <content type="html"><![CDATA[<p>记录 jmeter 性能测试的一些知识点。</p><h2>性能指标</h2><ul><li>TPS（Transactions Per Second）：每秒事务数，吞吐率</li><li>QPS（Queries Per Second）：每秒查询数</li><li>RT（Response Time）：响应时间，服务延迟</li></ul><p>性能问题，归根结底还是某个模块的资源问题。常见的瓶颈点：<br/>
+<!-- -->1、网络IO<br/>
+<!-- -->2、存储IO<br/>
+<!-- -->3、CPU、内存<br/>
+<!-- -->4、应用  </p><h2>jmeter 结果解读</h2><p>并发线程、响应时间、TPS之间的关联：</p><pre><code class="language-text">TPS = (1s/响应时间) * 并发线程
 </code></pre><p>:::note
 假设有4个线程，每个线程每秒发起4个请求并响应，此时并发是16而非4
 :::</p><pre><code class="language-text" metastring="title=&quot;1个线程&quot;" title="&quot;1个线程&quot;">summary +   5922 in 00:00:30 =  197.4/s Avg:     4 Min:     0 Max:    26 Err:     0 (0.00%) Active: 1 Started: 1 Finished: 0
