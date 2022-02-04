@@ -4,7 +4,7 @@ authors: [czasg]
 tags: [性能测试,jmeter]
 ---
 
-记录 jmeter 性能测试的一些知识点。
+记录 jmeter 工具的使用，以及在性能测试过程中学习到的一些知识点。
 
 <!--truncate-->
 
@@ -13,7 +13,7 @@ tags: [性能测试,jmeter]
 * QPS（Queries Per Second）：每秒查询数
 * RT（Response Time）：响应时间，服务延迟
 
-性能问题，归根结底还是某个模块的资源问题。常见的瓶颈点：  
+性能问题，归根结底还是资源问题。常见的瓶颈点：  
 1、网络IO  
 2、存储IO  
 3、CPU、内存  
