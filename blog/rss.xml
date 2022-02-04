@@ -12,8 +12,8 @@
             <link>https://czasg.github.io/docusaurus/blog/2022/2/2/Jmeter及性能测试</link>
             <guid>Jmeter及性能测试</guid>
             <pubDate>Wed, 02 Feb 2022 00:00:00 GMT</pubDate>
-            <description><![CDATA[记录 jmeter 性能测试的一些知识点。]]></description>
-            <content:encoded><![CDATA[<p>记录 jmeter 性能测试的一些知识点。</p><h2>性能指标</h2><ul><li>TPS（Transactions Per Second）：每秒事务数，吞吐率</li><li>QPS（Queries Per Second）：每秒查询数</li><li>RT（Response Time）：响应时间，服务延迟</li></ul><p>性能问题，归根结底还是某个模块的资源问题。常见的瓶颈点：<br/>
+            <description><![CDATA[记录 jmeter 工具的使用，以及在性能测试过程中学习到的一些知识点。]]></description>
+            <content:encoded><![CDATA[<p>记录 jmeter 工具的使用，以及在性能测试过程中学习到的一些知识点。</p><h2>性能指标</h2><ul><li>TPS（Transactions Per Second）：每秒事务数，吞吐率</li><li>QPS（Queries Per Second）：每秒查询数</li><li>RT（Response Time）：响应时间，服务延迟</li></ul><p>性能问题，归根结底还是资源问题。常见的瓶颈点：<br/>
 <!-- -->1、网络IO<br/>
 <!-- -->2、存储IO<br/>
 <!-- -->3、CPU、内存<br/>
