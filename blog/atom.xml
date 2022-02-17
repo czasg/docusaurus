@@ -2,11 +2,30 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://czasg.github.io/docusaurus/blog</id>
     <title>Czasg Blog</title>
-    <updated>2022-02-02T00:00:00.000Z</updated>
+    <updated>2022-02-17T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://czasg.github.io/docusaurus/blog"/>
     <subtitle>Czasg Blog</subtitle>
     <icon>https://czasg.github.io/docusaurus/img/favicon.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[golang升级导致goland不可用]]></title>
+        <id>golang升级导致goland不可用</id>
+        <link href="https://czasg.github.io/docusaurus/blog/2022/2/17/golang升级导致goland不可用"/>
+        <updated>2022-02-17T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[go1.14.1 升级至 go1.17.7，导致 goland 打开后显示无法找到 GOROOT。]]></summary>
+        <content type="html"><![CDATA[<p>go1.14.1 升级至 go1.17.7，导致 goland 打开后显示无法找到 GOROOT。</p><p>错误显示：</p><pre><code class="language-text">The selected directory is not a valid home for Go SDK
+</code></pre><p>通过 go env 查看后发现相关配置无问题，环境变量也无问题。</p><p>最后找的解决方案：
+1、go version 查看自己当前版本<br/>
+<!-- -->2、编辑 {GOROOT}/src/runtime/internal/sys/zversion.go 文件，写入以下变量</p><pre><code class="language-go">const TheVersion = `go1.17.4`
+</code></pre><p>3、重启 goland，然后点击 setroot 即可。  </p><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍
+:::</p>]]></content>
+        <author>
+            <name>Czasg</name>
+            <uri>https://github.com/czasg</uri>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Jmeter及性能测试]]></title>
         <id>Jmeter及性能测试</id>
