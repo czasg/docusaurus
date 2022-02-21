@@ -13,7 +13,7 @@ protected-mode  no
 ## docker
 ```shell script title="部署 redis"
 docker run -it --rm --name redis-server \
-    -v data:/data
+    -v data:/data \
     -v redis.conf:/rds/redis.conf \
     -p 6379:6379 \
     redis:latest redis-server /rds/redis.conf
