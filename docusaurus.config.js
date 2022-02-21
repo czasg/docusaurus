@@ -57,9 +57,9 @@ const config = {
     [
       '@docusaurus/plugin-content-docs',
       {
-        id: 'open',
-        path: 'docs-open',
-        routeBasePath: '/open',
+        id: 'deploy',
+        path: 'docs-deploy',
+        routeBasePath: '/deploy',
         sidebarPath: require.resolve('./sidebars.js'),
       }
     ],
@@ -94,7 +94,7 @@ const config = {
         items: [
           {to: '/blog', label: '博客', position: 'left'},
           {to: '/note/intro', label: '笔记', position: 'left'},
-          {to: '/open/intro', label: '开源项目', position: 'left'},
+          {to: '/deploy/intro', label: '部署', position: 'left'},
           {to: '/author/intro', label: '关于我', position: 'left'},
           {
             href: 'https://github.com/czasg',
