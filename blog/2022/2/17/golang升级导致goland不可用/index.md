@@ -11,6 +11,8 @@ go1.14.1 升级至 go1.17.7，导致 goland 打开后显示无法找到 GOROOT�
 The selected directory is not a valid home for Go SDK
 ```
 
+<!--truncate-->
+
 通过 go env 查看后发现相关配置无问题，环境变量也无问题。
 
 最后找的解决方案：
