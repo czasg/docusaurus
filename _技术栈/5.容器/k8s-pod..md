@@ -11,16 +11,12 @@ title: pod
 -->
 
 <!-- 你如何理解 pod ? -->
-pod 是 k8s 中可以创建和部署的最小单位。
+pod 是 k8s 中可以创建和部署的最小单位。相比于容器应用来说，pod 更像是逻辑主机，它内部包含了多个"逻辑应用"，这些应用共同聚合成了一个完整的服务。
 
 其特点是：
 * pod 内部可以拥有多个容器。
-* pod 创建时被分配唯一的 ip，内部多容器之间可以本地相互访问，即共享网络和存储（可选）。
-* pod 的生命周期是短暂的，使用完后被删除，即使被控制器重建，也不是同一个。
-
-在 docker 的相关概念中，容器是创建和部署的最小单位，每一个容器都是一个"逻辑应用"。  
-相对应的，在 k8s 中，pod 更像是逻辑主机，内部包含了多个"逻辑应用"，这些应用共同聚合成了一个完整的服务。
-
+* pod 内部容器可以共享网络和存储。
+* 从设计上看 pod 是相对临时性的，用后即删。
 
 
 
@@ -41,13 +37,24 @@ apiVersion: v1
 kind: Pod
 metadata:
   labels:
-    test: liveness
+    app: nginx
   name: liveness-http
 spec:
+  volumes:
+  - name: host-time
+    hostPath:
+      path: /etc/localtime
+      type: ""
+  - name: empty-volume
+    emptyDir: {}
+  initContainers:
+  - name: nginx-pre
+    image: nginx
+    command: ["echo", "pass"]
   containers:
-  - args:
-    - /server
-    image: k8s.gcr.io/liveness
+  - name: nginx
+    image: nginx
+    securityContext.privileged: true
     livenessProbe:
       httpGet:
         path: /healthz
@@ -57,7 +64,6 @@ spec:
           value: Awesome
       initialDelaySeconds: 15
       timeoutSeconds: 1
-    name: liveness
 ```
 
 
