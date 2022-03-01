@@ -12,8 +12,17 @@
             <link>https://czasg.github.io/docusaurus/blog/2022/3/1/数据库常用操作</link>
             <guid>数据库常用操作</guid>
             <pubDate>Tue, 01 Mar 2022 00:00:00 GMT</pubDate>
-            <description><![CDATA[摘要在此处]]></description>
-            <content:encoded><![CDATA[<p>摘要在此处</p><p>正文在此处</p><br/><p>:::info 👇👇👇
+            <description><![CDATA[记录一些在工作常用的数据库操作]]></description>
+            <content:encoded><![CDATA[<p>记录一些在工作常用的数据库操作</p><h2>mysql</h2><h2>postgres</h2><pre><code class="language-shell" metastring="script">psql -U postgres -d postgres
+select * from pg_database;
+select pg_database_size(&#x27;postgres&#x27;);
+</code></pre><h2>redis</h2><pre><code class="language-shell" metastring="script title=&quot;连接 rds 并简单查询&quot;" title="&quot;连接">redis-cli
+ping
+auth password
+select db
+keys *
+type key
+</code></pre><br/><p>:::info 👇👇👇
 <strong>本文作者:</strong> Czasg
 <strong>版权声明:</strong> 转载请注明出处哦~👮‍
 :::</p>]]></content:encoded>
@@ -92,7 +101,8 @@ summary +  11924 in 00:00:30 =  397.5/s Avg:    25 Min:     0 Max:    80 Err:   
 summary =  67685 in 00:02:54 =  388.5/s Avg:    25 Min:     0 Max:   346 Err:     0 (0.00%)
 summary +  11884 in 00:00:30 =  396.2/s Avg:    25 Min:     0 Max:   240 Err:     0 (0.00%) Active: 10 Started: 10 Finished: 0
 summary =  79569 in 00:03:24 =  389.6/s Avg:    25 Min:     0 Max:   346 Err:     0 (0.00%)
-</code></pre><p>(1000ms/25ms)*10=400TPS</p><br/><p>:::info 👇👇👇
+</code></pre><p>(1000ms/25ms)*10=400TPS</p><h2>分布式压力测试</h2><pre><code class="language-shell" metastring="script title=&quot;启动指令&quot;" title="&quot;启动指令&quot;">/jmeter/bin/jmeter -n -t tmpl.jmx -R 1.1.1.1:8000,1.1.1.2:8000
+</code></pre><br/><p>:::info 👇👇👇
 <strong>本文作者:</strong> Czasg<br/>
 <strong>版权声明:</strong> 转载请注明出处哦~👮‍
 :::</p>]]></content:encoded>
