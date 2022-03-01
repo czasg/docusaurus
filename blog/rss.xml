@@ -4,9 +4,20 @@
         <title>Czasg Blog</title>
         <link>https://czasg.github.io/docusaurus/blog</link>
         <description>Czasg Blog</description>
-        <lastBuildDate>Tue, 22 Feb 2022 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 01 Mar 2022 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[数据库常用操作]]></title>
+            <link>https://czasg.github.io/docusaurus/blog/2022/3/1/数据库常用操作</link>
+            <guid>数据库常用操作</guid>
+            <pubDate>Tue, 01 Mar 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[摘要在此处]]></description>
+            <content:encoded><![CDATA[<p>摘要在此处</p><p>正文在此处</p><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍
+:::</p>]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[数据库是否适合容器化部署]]></title>
             <link>https://czasg.github.io/docusaurus/blog/2022/2/22/数据库是否适合容器化部署</link>
