@@ -1,15 +1,31 @@
 ---
 title: 数据库常用操作
 authors: [czasg]
-tags: [未定义]
+tags: [数据库]
 ---
 
-摘要在此处
+记录一些在工作常用的数据库操作
 
 <!--truncate-->
 
-正文在此处
+## mysql
 
+## postgres
+```shell script
+psql -U postgres -d postgres
+select * from pg_database;
+select pg_database_size('postgres');
+```
+
+## redis
+```shell script title="连接 rds 并简单查询"
+redis-cli
+ping
+auth password
+select db
+keys *
+type key
+```
 
 <br/>
 

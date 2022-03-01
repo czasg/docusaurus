@@ -51,6 +51,13 @@ summary =  79569 in 00:03:24 =  389.6/s Avg:    25 Min:     0 Max:   346 Err:   
 ```
 (1000ms/25ms)*10=400TPS
 
+## 分布式压力测试
+
+
+```shell script title="启动指令"
+/jmeter/bin/jmeter -n -t tmpl.jmx -R 1.1.1.1:8000,1.1.1.2:8000
+```
+
 
 <br/>
 
