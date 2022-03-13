@@ -51,17 +51,6 @@ type key
 :::</p>]]></content:encoded>
         </item>
         <item>
-            <title><![CDATA[关于副业的一些思考]]></title>
-            <link>https://czasg.github.io/docusaurus/blog/2022/2/21/关于副业的一些思考</link>
-            <guid>关于副业的一些思考</guid>
-            <pubDate>Mon, 21 Feb 2022 00:00:00 GMT</pubDate>
-            <description><![CDATA[摘要在此处]]></description>
-            <content:encoded><![CDATA[<p>摘要在此处</p><p>正文在此处</p><br/><p>:::info 👇👇👇
-<strong>本文作者:</strong> Czasg<br/>
-<strong>版权声明:</strong> 转载请注明出处哦~👮‍
-:::</p>]]></content:encoded>
-        </item>
-        <item>
             <title><![CDATA[golang升级导致goland不可用]]></title>
             <link>https://czasg.github.io/docusaurus/blog/2022/2/17/golang升级导致goland不可用</link>
             <guid>golang升级导致goland不可用</guid>
@@ -286,12 +275,34 @@ MaxConnectionAge 是 gRPC 服务端的参数，用于指定长连接最大保持
 <!-- -->:::</p>]]></content:encoded>
         </item>
         <item>
+            <title><![CDATA[关于副业的一些思考]]></title>
+            <link>https://czasg.github.io/docusaurus/blog/2021/12/10/关于副业的一些思考</link>
+            <guid>关于副业的一些思考</guid>
+            <pubDate>Fri, 10 Dec 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[所谓副业，本质上就是打多份工...]]></description>
+            <content:encoded><![CDATA[<p>所谓副业，本质上就是打多份工...</p><p>一定要说不同的话，可能就是如今的副业，更多的带上了对人生规划的一些思考。</p><p>我们的主业，往往和我们第一学历专业挂钩。<br/>
+<!-- -->而大学毕业后，毕业生真正知道自己应该干什么的，其实寥寥无几。
+甚至可能工作两三年后才突然醒悟应该转投其他行业。</p><p>如果自己工作已经一团糟，那就更不谈什么副业了。</p><h2>为什么需要副业</h2><p>以我自己来说，是属于需要依靠打工来维持生计的群体，睡后收入纯靠银行利息，工作的本质是为了混口饭吃。<br/>
+<!-- -->当然我没有副业，因为互联网并不算特别轻松，我个人时间也并不是很充裕，很难花时间去思考打第二份工。
+况且互联网收入相对来说是可以的。   </p><p>当然，这一切在我买房之后就改变了...</p><p>试想，当你的一半甚至一大半收入，全部用于还贷了，还得还三十年，一股有形的压力瞬间压得人喘不过气来。  </p><p>所以并不是我很闲，闲的要去找一份副业来充实自己，而是我很需要第二份收入来充实自己...</p><p>现在社会大环境又不好，工资过万，你可以打败全国一半以上的打工群体，但在一二线的房价面前，就是个屁。</p><p>总结下我想到的能坚持发展副业的人群：<br/>
+<!-- -->1、闲不下来。<br/>
+<!-- -->2、入不敷出。<br/>
+<!-- -->3、个人爱好。    </p><p>但整体来看，时间和精力才是最终决定因素。<br/>
+<!-- -->不爱惜自己身体健康的人，建议直接去柬埔寨买血袋。</p><h2>认识自己的主业定位</h2><p>一份稳定的工作，应该大致朝着这个阶段方向发展：  </p><ul><li>积累阶段</li></ul><p>一般指一些刚入行的同学，在这个阶段他们需要去积累一些工作经验。</p><p>处于这个阶段时，会有一些比较明显的特点。<br/>
+<!-- -->比如你的简历上面，可能需要编造大量技能和项目经验，以便通过 HR 的筛选。
+一旦面试被人追着问细节时，就会暴露。</p><ul><li>瓶颈阶段</li></ul><p>一般指在某个领域有足够的经验。</p><p>处于这个阶段，你可能不在需要投递简历就能很轻松的找到一份工作。
+如果工作不开心，你也很自信可以很快找到另一份工作，虽然找的不一定更好，但不用担心失业问题。</p><ul><li>溢出阶段</li></ul><p>一般指在某个领域有足够经验，在公司也处于中高层。</p><p>你可以很轻松的获取工作之外的报酬，比如公司分红等。</p><h2>副业思考</h2><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg<br/>
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍
+:::</p>]]></content:encoded>
+        </item>
+        <item>
             <title><![CDATA[Github 搭建 Docusaurus 站点]]></title>
             <link>https://czasg.github.io/docusaurus/blog/2021/12/3/Github搭建Docusaurus站点</link>
             <guid>Github 搭建 Docusaurus 站点</guid>
             <pubDate>Fri, 03 Dec 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[1、新建 Github 仓库]]></description>
-            <content:encoded><![CDATA[<h2>1、新建 Github 仓库</h2><p>首先，登录<a href="https://github.com/new">Github仓库创建页面</a>，我们创建一个全新的空白仓库，项目名命名为 <code>testDocusaurus</code>。</p><p>然后通过 <code>git</code> 将仓库拉取到本地，至此，我们拥有了一个全新的空白仓库 <code>testDocusaurus</code>。  </p><p><img src="gitindex.png"/></p><h2>2、初始化 Docusaurus 项目</h2><blockquote><p><a href="https://docusaurus.io/zh-CN/docs/installation">Docusaurus项目初始化细节请参考官方文档</a></p></blockquote><p>进入到仓库 <code>testDocusaurus</code> 所在的空白目录，并在此目录打开终端界面。</p><p>为了更好的完成接下来的步骤，你可能需要预先安装<strong>nodejs</strong>。在此，假设你已经准备完毕。<br/>
+            <description><![CDATA[基于 Docusaurus 搭建静态站点，并通过 Github-Actions 实现自动部署。]]></description>
+            <content:encoded><![CDATA[<p>基于 Docusaurus 搭建静态站点，并通过 Github-Actions 实现自动部署。</p><h2>1、新建 Github 仓库</h2><p>首先，登录<a href="https://github.com/new">Github仓库创建页面</a>，我们创建一个全新的空白仓库，项目名命名为 <code>testDocusaurus</code>。</p><p>然后通过 <code>git</code> 将仓库拉取到本地，至此，我们拥有了一个全新的空白仓库 <code>testDocusaurus</code>。  </p><p><img src="gitindex.png"/></p><h2>2、初始化 Docusaurus 项目</h2><blockquote><p><a href="https://docusaurus.io/zh-CN/docs/installation">Docusaurus项目初始化细节请参考官方文档</a></p></blockquote><p>进入到仓库 <code>testDocusaurus</code> 所在的空白目录，并在此目录打开终端界面。</p><p>为了更好的完成接下来的步骤，你可能需要预先安装<strong>nodejs</strong>。在此，假设你已经准备完毕。<br/>
 <!-- -->那我们接下来通过以下指令初始化一个 <code>Docusaurus</code> 项目。</p><pre><code class="language-shell" metastring="script">&gt;&gt;&gt; npx create-docusaurus@latest website classic
 ...
 ...
@@ -336,176 +347,6 @@ The key&#x27;s randomart image is:
 我们将私钥内容复制到 <code>Value</code> 中，而 <code>Name</code> 填写 <code>GH_PAGES_DEPLOY</code> 即可。</p><p>最后，我们创建 <code>Github Actions</code>，将模板复制进去，则整个流水线就已经配置好了。复制时，将对应的基础配置改下即可，如下：</p><pre><code class="language-shell" metastring="script">git config --global user.email &quot;email&quot;
 git config --global user.name &quot;name&quot;
 </code></pre><p>这里的 <code>email</code> 需要是 github 配置的 email，而 <code>name</code> 则是 github 用户名。</p><h2>4、更新仓库，尝试自动部署</h2><p>确保 Github Pages 已经初始化好，那么我们往仓库推送修改时，就可以触发自动部署了。</p><br/><p>:::info 👇👇👇
-<strong>本文作者:</strong> Czasg<br/>
-<strong>版权声明:</strong> 转载请注明出处哦~👮‍<br/>
-<!-- -->:::</p>]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[Scrapy 源码学习]]></title>
-            <link>https://czasg.github.io/docusaurus/blog/2020/2/24/scrapy 源码学习</link>
-            <guid>Scrapy 源码学习</guid>
-            <pubDate>Mon, 24 Feb 2020 00:00:00 GMT</pubDate>
-            <description><![CDATA[Scrapy 源码学习]]></description>
-            <content:encoded><![CDATA[<p>Scrapy 源码学习</p><br/><p>:::info 👇👇👇
-<strong>本文作者:</strong> Czasg<br/>
-<strong>版权声明:</strong> 转载请注明出处哦~👮‍<br/>
-<!-- -->:::</p>]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[分布式爬虫调度设计]]></title>
-            <link>https://czasg.github.io/docusaurus/blog/2020/2/24/分布式爬虫调度设计</link>
-            <guid>分布式爬虫调度设计</guid>
-            <pubDate>Mon, 24 Feb 2020 00:00:00 GMT</pubDate>
-            <description><![CDATA[分布式爬虫调度设计]]></description>
-            <content:encoded><![CDATA[<p>分布式爬虫调度设计</p><br/><p>:::info 👇👇👇
-<strong>本文作者:</strong> Czasg<br/>
-<strong>版权声明:</strong> 转载请注明出处哦~👮‍<br/>
-<!-- -->:::</p>]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[二叉树遍历]]></title>
-            <link>https://czasg.github.io/docusaurus/blog/2020/2/22/二叉树遍历</link>
-            <guid>二叉树遍历</guid>
-            <pubDate>Sat, 22 Feb 2020 00:00:00 GMT</pubDate>
-            <description><![CDATA[二叉树遍历]]></description>
-            <content:encoded><![CDATA[<p>二叉树遍历</p><br/><p>:::info 👇👇👇
-<strong>本文作者:</strong> Czasg<br/>
-<strong>版权声明:</strong> 转载请注明出处哦~👮‍<br/>
-<!-- -->:::</p>]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[数据库事务]]></title>
-            <link>https://czasg.github.io/docusaurus/blog/2020/2/22/数据库事务</link>
-            <guid>数据库事务</guid>
-            <pubDate>Sat, 22 Feb 2020 00:00:00 GMT</pubDate>
-            <description><![CDATA[数据库事务]]></description>
-            <content:encoded><![CDATA[<p>数据库事务</p><br/><p>:::info 👇👇👇
-<strong>本文作者:</strong> Czasg<br/>
-<strong>版权声明:</strong> 转载请注明出处哦~👮‍<br/>
-<!-- -->:::</p>]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[Python 内存管理]]></title>
-            <link>https://czasg.github.io/docusaurus/blog/2020/2/21/python 内存管理</link>
-            <guid>Python 内存管理</guid>
-            <pubDate>Fri, 21 Feb 2020 00:00:00 GMT</pubDate>
-            <description><![CDATA[Python 内存管理]]></description>
-            <content:encoded><![CDATA[<p>Python 内存管理</p><br/><p>:::info 👇👇👇
-<strong>本文作者:</strong> Czasg<br/>
-<strong>版权声明:</strong> 转载请注明出处哦~👮‍<br/>
-<!-- -->:::</p>]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[Linux Namespace]]></title>
-            <link>https://czasg.github.io/docusaurus/blog/2019/8/5/Linux Namespace</link>
-            <guid>Linux Namespace</guid>
-            <pubDate>Mon, 05 Aug 2019 00:00:00 GMT</pubDate>
-            <description><![CDATA[namespace]]></description>
-            <content:encoded><![CDATA[<p>namespace</p><br/><p>:::info 👇👇👇
-<strong>本文作者:</strong> Czasg<br/>
-<strong>版权声明:</strong> 转载请注明出处哦~👮‍<br/>
-<!-- -->:::</p>]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[Scrapy 爬虫框架学习]]></title>
-            <link>https://czasg.github.io/docusaurus/blog/2019/5/13/scrapy 爬虫框架学习</link>
-            <guid>Scrapy 爬虫框架学习</guid>
-            <pubDate>Mon, 13 May 2019 00:00:00 GMT</pubDate>
-            <description><![CDATA[scrapy 框架的使用]]></description>
-            <content:encoded><![CDATA[<p>scrapy 框架的使用</p><br/><p>:::info 👇👇👇
-<strong>本文作者:</strong> Czasg<br/>
-<strong>版权声明:</strong> 转载请注明出处哦~👮‍<br/>
-<!-- -->:::</p>]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[Selenium 学习]]></title>
-            <link>https://czasg.github.io/docusaurus/blog/2019/4/26/selenium 学习</link>
-            <guid>Selenium 学习</guid>
-            <pubDate>Fri, 26 Apr 2019 00:00:00 GMT</pubDate>
-            <description><![CDATA[selenium 使用]]></description>
-            <content:encoded><![CDATA[<p>selenium 使用</p><br/><p>:::info 👇👇👇
-<strong>本文作者:</strong> Czasg<br/>
-<strong>版权声明:</strong> 转载请注明出处哦~👮‍<br/>
-<!-- -->:::</p>]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[Linux 常用指令]]></title>
-            <link>https://czasg.github.io/docusaurus/blog/2019/3/2/Linux常用指令</link>
-            <guid>Linux 常用指令</guid>
-            <pubDate>Sat, 02 Mar 2019 00:00:00 GMT</pubDate>
-            <description><![CDATA[从使用维度划分 Linux 常用指令，便于梳理和总结。]]></description>
-            <content:encoded><![CDATA[<p>从使用维度划分 Linux 常用指令，便于梳理和总结。</p><ul><li>帮助指令</li><li>用户管理</li><li>文件管理</li><li>磁盘管理</li><li>进程管理</li><li>网络管理</li></ul><h2>帮助指令</h2><pre><code class="language-shell" metastring="script title=&quot;获取帮助&quot;" title="&quot;获取帮助&quot;">&gt;&gt;&gt; man ls
-</code></pre><pre><code class="language-shell" metastring="script title=&quot;获取帮助&quot;" title="&quot;获取帮助&quot;">&gt;&gt;&gt; ls --help
-</code></pre><h2>用户管理</h2><pre><code class="language-shell" metastring="script title=&quot;新增用户，ubuntu 下该指令无需 passwd 设置密码&quot;" title="&quot;新增用户，ubuntu">&gt;&gt;&gt; adduser cza
-</code></pre><pre><code class="language-shell" metastring="script title=&quot;切换用户&quot;" title="&quot;切换用户&quot;">&gt;&gt;&gt; su root
-</code></pre><h3>sshkey-gen</h3><h2>文件管理</h2><h3>rm &amp; cp</h3><ul><li>rm -r：递归执行操作，操作对象可以是目录</li><li>rm -f：（--force）强制执行删除且忽略文件不存在等错误</li><li>cp -r：递归复制</li></ul><pre><code class="language-shell" metastring="script title=&quot;创建和删除文件&quot;" title="&quot;创建和删除文件&quot;">rm -rf              // 递归删除
-cp -r               // 递归复制
-</code></pre><h3>wc</h3><p><code>wc</code> 用于计算统计，默认统计文件中的行、字、大小</p><ul><li>-l：计算行数</li><li>-w：计算字数</li><li>-c：计算bytes</li></ul><pre><code class="language-shell" metastring="script title=&quot;查看文件&quot;" title="&quot;查看文件&quot;">&gt;&gt;&gt; wc test.txt              // 输出文件行数、字数、大小
-1  4 17 test.txt
-&gt;&gt;&gt; ls | wc -l               // 统计文件数量
-&gt;&gt;&gt; ls | cat -n              // 显示文件，并给每一个增加一个编号
-</code></pre><h3>find</h3><p><code>find</code> 用于查找文件</p><ul><li>-type：指定查找类型<ul><li>f：文件</li><li>d：目录</li></ul></li><li>-name：指定查找名字</li><li>-delete：找到文件后执行删除</li></ul><pre><code class="language-shell" metastring="script title=&quot;查找文件&quot;" title="&quot;查找文件&quot;">find ./path -type f -name &quot;file_name&quot;
-</code></pre><pre><code class="language-shell" metastring="script title=&quot;查找当前目录下全部文件并统计数量&quot;" title="&quot;查找当前目录下全部文件并统计数量&quot;">find ./ -type f | wc -l
-</code></pre><pre><code class="language-shell" metastring="script title=&quot;查找到 tmp 结尾的文件并删除&quot;" title="&quot;查找到">find ./ -type f -name &quot;*.tmp&quot; -delete
-</code></pre><h3>chmod</h3><p><code>chmod</code> 修改文件读、写、执行权限。一个文件的调用权限可以分为 user、group、other 三级。</p><p>针对用户执行</p><ul><li>u：文件所有者</li><li>g：文件所有者组</li><li>o：其他所有用户</li><li>a：所有用户</li><li>-R：递归执行当前目录所有文件</li></ul><pre><code class="language-shell" metastring="script title=&quot;修改文件权限&quot;" title="&quot;修改文件权限&quot;">&gt;&gt;&gt; chmod u+r test.txt
-&gt;&gt;&gt; chmod g-r test.txt
-&gt;&gt;&gt; chmod o=r test.txt
-&gt;&gt;&gt; chmod a+r test.txt
-</code></pre><pre><code class="language-shell" metastring="script title=&quot;修改文件权限&quot;" title="&quot;修改文件权限&quot;">chmod -R 777 test.txt    // 4（读r）2（写w）1（执行x），此时每个数据对应 u、g、o 的权限
-</code></pre><h3>ln</h3><p><code>ln</code> 文件 软/硬 链接</p><ul><li>-s：软链接，仅生成一个镜像，不占用额外的磁盘空间（仅一个指针空间）。否则生成一个和源一样的文件，二者均实时保持同步。</li></ul><pre><code class="language-shell" metastring="script">ln -s old new       // 符号软链接
-ln old new          // 符号软链接
-</code></pre><h3>xargs</h3><p><code>xargs</code> 是一个命名行参数生成器，可以将其他管道传递过来的数据作为参数执行命名行，其默认执行指令是 echo</p><pre><code class="language-shell" metastring="script title=&quot;多行文本转单行&quot;" title="&quot;多行文本转单行&quot;">cat filename | xargs
-</code></pre><pre><code class="language-shell" metastring="script title=&quot;统计源码文件行数&quot;" title="&quot;统计源码文件行数&quot;">find . -type f -name &quot;*.py&quot; -print0 | xargs -0 wc -l
-</code></pre><pre><code class="language-shell" metastring="script title=&quot;查找并压缩目标文件&quot;" title="&quot;查找并压缩目标文件&quot;">find . -type f -name &quot;*.jpg&quot; | xargs tar -czvf images.tar.gz
-</code></pre><pre><code class="language-shell" metastring="script title=&quot;下载文件&quot;" title="&quot;下载文件&quot;">cat url-list.txt | xargs wget -c
-</code></pre><h3>grep</h3><p><code>grep</code> 用于查找文件中符合条件的字符串</p><ul><li>-n：计算并显示行号</li></ul><h3>sort 排序</h3><ul><li>-n 按数字进行排序 </li><li>-d 按字典序进行排序</li><li>-r 逆序排序</li><li>-k N 指定按第N列排序</li></ul><pre><code class="language-shell" metastring="script">sort -nrk 1 data.txt
-sort -bd data                // 忽略像空格之类的前导空白字符
-
-sort unsort.txt | uniq       // 消除重复行
-sort unsort.txt | uniq -c    // 统计各行出现次数
-sort unsort.txt | uniq -d    // 找出重复行
-</code></pre><h3>tr 转化</h3><p><code>cat test.txt | tr a-z A-z</code></p><h3>cut 切割</h3><p><code>cut</code> 用于显示每行从头开始算起的字符</p><ul><li>-b：以字节为单位进行切割</li><li>-c：以字符为单位进行切割</li><li>-d：自定义分隔符，默认为制表符</li></ul><h2>磁盘管理</h2><h3>df</h3><p><code>df</code> 用于查看当前系统磁盘使用率  </p><ul><li>-h：优化显示</li></ul><h3>du</h3><p><code>du</code> 用于查看当前目录占用磁盘率</p><ul><li>-h：优化显示</li></ul><h3>tar</h3><p><code>tar</code> 用于压缩和解压</p><ul><li>-z：（--gzip）使用 zgip 来压缩或者解压</li><li>-x：（--extract）解压</li><li>-c：（--create）打包</li><li>-v：（--verbose）显示执行过程，具体操作的文件</li><li>-f：（--file）指定备份文件名</li></ul><pre><code class="language-shell" metastring="script title=&quot;压缩文件&quot;" title="&quot;压缩文件&quot;">tar -cvf 压缩文件.zip 单个文件或者目录
-tar -zcvf gzip压缩文件.tar.gz 单个文件或者目录
-</code></pre><h3>zip</h3><p>:::note linux 安装 zip
-centos：
-:::</p><h3>rar</h3><p>:::note linux 安装 rar
-centos：
-:::</p><h2>进程管理</h2><h3>ps</h3><p><code>ps</code> 用于查看 linux 下的进程状态，即 Process Status</p><pre><code class="language-shell" metastring="script title=&quot;显示所有命名及其CMD&quot;" title="&quot;显示所有命名及其CMD&quot;">ps -ef
-ps -aux
-</code></pre><h3>top</h3><p><code>top</code> 用于实时输出进程的状态信息</p><ul><li>-p：仅展示目标进程信息</li></ul><h3>kill</h3><p><code>kill</code> 用于杀掉一个进程，如：<code>kill -9 pid</code></p><ul><li>-l：显示信号</li><li>-9：（SIGKILL）杀掉进程</li><li>-15：（SIGTERM）正常停止一个进程</li></ul><pre><code class="language-text"> 1) SIGHUP       2) SIGINT       3) SIGQUIT      4) SIGILL       5) SIGTRAP
- 6) SIGABRT      7) SIGBUS       8) SIGFPE       9) SIGKILL     10) SIGUSR1
-11) SIGSEGV     12) SIGUSR2     13) SIGPIPE     14) SIGALRM     15) SIGTERM
-16) SIGSTKFLT   17) SIGCHLD     18) SIGCONT     19) SIGSTOP     20) SIGTSTP
-21) SIGTTIN     22) SIGTTOU     23) SIGURG      24) SIGXCPU     25) SIGXFSZ
-26) SIGVTALRM   27) SIGPROF     28) SIGWINCH    29) SIGIO       30) SIGPWR
-31) SIGSYS      34) SIGRTMIN    35) SIGRTMIN+1  36) SIGRTMIN+2  37) SIGRTMIN+3
-38) SIGRTMIN+4  39) SIGRTMIN+5  40) SIGRTMIN+6  41) SIGRTMIN+7  42) SIGRTMIN+8
-43) SIGRTMIN+9  44) SIGRTMIN+10 45) SIGRTMIN+11 46) SIGRTMIN+12 47) SIGRTMIN+13
-48) SIGRTMIN+14 49) SIGRTMIN+15 50) SIGRTMAX-14 51) SIGRTMAX-13 52) SIGRTMAX-12
-53) SIGRTMAX-11 54) SIGRTMAX-10 55) SIGRTMAX-9  56) SIGRTMAX-8  57) SIGRTMAX-7
-58) SIGRTMAX-6  59) SIGRTMAX-5  60) SIGRTMAX-4  61) SIGRTMAX-3  62) SIGRTMAX-2
-63) SIGRTMAX-1  64) SIGRTMAX
-</code></pre><h2>网络管理</h2><h3>dig</h3><p><code>dig</code> 用于查询域名映射的 DNS</p><p>:::note
-centos: yum install -y bind-utils
-:::</p><h3>netstat</h3><p><code>netstat</code> 用于显示网络状态</p><ul><li>-a：显示所有连线中的 socket</li><li>-l：显示监控中的 socket</li></ul><p>:::note linux 安装 netstat
-centos：yum install -y net-tools
-:::</p><br/><p>:::info 👇👇👇
-<strong>本文作者:</strong> Czasg<br/>
-<strong>版权声明:</strong> 转载请注明出处哦~👮‍<br/>
-<!-- -->:::</p>]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[《即兴演讲》]]></title>
-            <link>https://czasg.github.io/docusaurus/blog/2019/1/14/即兴演讲</link>
-            <guid>《即兴演讲》</guid>
-            <pubDate>Mon, 14 Jan 2019 00:00:00 GMT</pubDate>
-            <description><![CDATA[说话无逻辑，说的就是我自己了吧🤣]]></description>
-            <content:encoded><![CDATA[<p>说话无逻辑，说的就是我自己了吧🤣<br/>
-<!-- -->看看还有没有救🧐</p><blockquote><p>你需要做好准备，才能自然应对。一次优秀的即兴演讲，永远不是不经思考、随心所欲就脱口而出的。</p></blockquote><h2>思维模式</h2><p>正确的思维模式：</p><ul><li>领导意识</li><li>倾听</li><li>真实</li><li>专注</li><li>尊重</li></ul><p>保持真实：</p><ul><li>处于当下</li><li>分享想法</li><li>分享信念和价值观</li><li>分享感受</li><li>分享脆肉</li><li>分享故事</li></ul><p>保持专注：</p><ul><li>保持与谈话对象的专注，需要做到主题明确和重点突出</li></ul><p>保持尊重</p><ul><li>任何场景，尊重别人，尊重自己</li></ul><p>一般性的知识
-经验性的知识</p><p>抓手：抓取注意力
-要点：观点
-结构体：论述
-呼吁行动：</p><br/><p>:::info 👇👇👇
 <strong>本文作者:</strong> Czasg<br/>
 <strong>版权声明:</strong> 转载请注明出处哦~👮‍<br/>
 <!-- -->:::</p>]]></content:encoded>
