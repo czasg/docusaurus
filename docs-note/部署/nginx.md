@@ -1,5 +1,5 @@
 ---
-title: nginx 部署
+title: nginx
 ---
 
 ## docker

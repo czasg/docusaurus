@@ -1,5 +1,5 @@
 ---
-title: redis 部署
+title: redis
 ---
 
 ## docker
