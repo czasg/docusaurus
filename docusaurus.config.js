@@ -24,7 +24,7 @@ const config = {
         docs: false,
         blog: {
           showReadingTime: true,
-          blogSidebarCount: 10,
+          blogSidebarCount: 'ALL',  // [ALL, number]
           postsPerPage: 10,
           editUrl: 'https://github.com/czasg/docusaurus/edit/main',
         },
