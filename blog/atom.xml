@@ -274,6 +274,21 @@ worker_cpu_affinity  none;  # 用于绑定 worker 进程与 cpu
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[字符编码]]></title>
+        <id>字符编码</id>
+        <link href="https://czasg.github.io/docusaurus/blog/2021/12/15/字符编码"/>
+        <updated>2021-12-15T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[本文作者: Czasg]]></summary>
+        <content type="html"><![CDATA[<br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg<br/>
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍<br/>
+<!-- -->:::</p>]]></content>
+        <author>
+            <name>Czasg</name>
+            <uri>https://github.com/czasg</uri>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[基于 gRPC 实现负载均衡]]></title>
         <id>基于 gRPC 实现负载均衡</id>
         <link href="https://czasg.github.io/docusaurus/blog/2021/12/13/gRPC负载均衡"/>
@@ -312,18 +327,19 @@ MaxConnectionAge 是 gRPC 服务端的参数，用于指定长连接最大保持
         <link href="https://czasg.github.io/docusaurus/blog/2021/12/10/关于副业的一些思考"/>
         <updated>2021-12-10T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[所谓副业，本质上就是打多份工...]]></summary>
-        <content type="html"><![CDATA[<p>所谓副业，本质上就是打多份工...</p><p>一定要说不同的话，可能就是如今的副业，更多的带上了对人生规划的一些思考。</p><p>我们的主业，往往和我们第一学历专业挂钩。<br/>
+        <content type="html"><![CDATA[<p>所谓副业，本质上就是打多份工...</p><p>一定要和打工区别开来的话，可能就是我们如今所说的副业，更多的带上了对人生规划的一些思考。</p><h2>为什么需要规划</h2><p>&quot;规划&quot;并不神秘，它的本质其实就是一些简单的想法，对未来的一些想法，可以是想做的事，也可以是想去的地方...</p><p>为什么说和人生规划有关系，因为我们的主业，往往和我们第一学历专业挂钩。<br/>
 <!-- -->而大学毕业后，毕业生真正知道自己应该干什么的，其实寥寥无几。
-甚至可能工作两三年后才突然醒悟应该转投其他行业。</p><p>如果自己工作已经一团糟，那就更不谈什么副业了。</p><h2>为什么需要副业</h2><p>以我自己来说，是属于需要依靠打工来维持生计的群体，睡后收入纯靠银行利息，工作的本质是为了混口饭吃。<br/>
+甚至可能工作两三年后才突然醒悟应该转投其他行业。</p><p>比如我本人是工程管理学专业，但我毕业后就投入到了互联网行业，因为我知道我不喜欢进工厂，相反我很喜欢程序编程。<br/>
+<!-- -->而我的大部分同学，毕业两三年后也陆陆续续的转行...</p><p>所以，无论主业还是副业，本质都是打工，主要还是看自己有没有兴趣、精力去执行</p><p>而且，并不是所有人都需要考虑副业。因人而异，如果自己工作已经一团糟，那就更不谈什么副业了。</p><h2>为什么需要副业</h2><p>以我自己来说，是属于需要依靠打工来维持生计的群体，睡后收入纯靠银行利息，工作的本质是为了混口饭吃。<br/>
 <!-- -->当然我没有副业，因为互联网并不算特别轻松，我个人时间也并不是很充裕，很难花时间去思考打第二份工。
 况且互联网收入相对来说是可以的。   </p><p>当然，这一切在我买房之后就改变了...</p><p>试想，当你的一半甚至一大半收入，全部用于还贷了，还得还三十年，一股有形的压力瞬间压得人喘不过气来。  </p><p>所以并不是我很闲，闲的要去找一份副业来充实自己，而是我很需要第二份收入来充实自己...</p><p>现在社会大环境又不好，工资过万，你可以打败全国一半以上的打工群体，但在一二线的房价面前，就是个屁。</p><p>总结下我想到的能坚持发展副业的人群：<br/>
 <!-- -->1、闲不下来。<br/>
 <!-- -->2、入不敷出。<br/>
 <!-- -->3、个人爱好。    </p><p>但整体来看，时间和精力才是最终决定因素。<br/>
-<!-- -->不爱惜自己身体健康的人，建议直接去柬埔寨买血袋。</p><h2>认识自己的主业定位</h2><p>一份稳定的工作，应该大致朝着这个阶段方向发展：  </p><ul><li>积累阶段</li></ul><p>一般指一些刚入行的同学，在这个阶段他们需要去积累一些工作经验。</p><p>处于这个阶段时，会有一些比较明显的特点。<br/>
+<!-- -->不爱惜自己身体健康的人，建议直接去柬埔寨买血袋。</p><h2>认知自己的工作阶段</h2><p>一份稳定的工作，应该大致朝着这个阶段方向发展：  </p><ul><li>积累阶段</li></ul><p>一般指一些刚入行的同学，在这个阶段他们需要去积累一些工作经验。</p><p>处于这个阶段时，会有一些比较明显的特点。<br/>
 <!-- -->比如你的简历上面，可能需要编造大量技能和项目经验，以便通过 HR 的筛选。
 一旦面试被人追着问细节时，就会暴露。</p><ul><li>瓶颈阶段</li></ul><p>一般指在某个领域有足够的经验。</p><p>处于这个阶段，你可能不在需要投递简历就能很轻松的找到一份工作。
-如果工作不开心，你也很自信可以很快找到另一份工作，虽然找的不一定更好，但不用担心失业问题。</p><ul><li>溢出阶段</li></ul><p>一般指在某个领域有足够经验，在公司也处于中高层。</p><p>你可以很轻松的获取工作之外的报酬，比如公司分红等。</p><h2>副业思考</h2><br/><p>:::info 👇👇👇
+如果工作不开心，你也很自信可以很快找到另一份工作，虽然找的不一定更好，但不用担心失业问题。</p><ul><li>溢出阶段</li></ul><p>一般指在某个领域有足够经验，在公司也处于中高层。</p><p>你可以很轻松的获取工作之外的报酬，比如公司分红等。</p><h2>关于副业的思考</h2><br/><p>:::info 👇👇👇
 <strong>本文作者:</strong> Czasg<br/>
 <strong>版权声明:</strong> 转载请注明出处哦~👮‍
 :::</p>]]></content>
@@ -337,8 +353,8 @@ MaxConnectionAge 是 gRPC 服务端的参数，用于指定长连接最大保持
         <id>Github 搭建 Docusaurus 站点</id>
         <link href="https://czasg.github.io/docusaurus/blog/2021/12/3/Github搭建Docusaurus站点"/>
         <updated>2021-12-03T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[基于 Docusaurus 搭建静态站点，并通过 Github-Actions 实现自动部署。]]></summary>
-        <content type="html"><![CDATA[<p>基于 Docusaurus 搭建静态站点，并通过 Github-Actions 实现自动部署。</p><h2>1、新建 Github 仓库</h2><p>首先，登录<a href="https://github.com/new">Github仓库创建页面</a>，我们创建一个全新的空白仓库，项目名命名为 <code>testDocusaurus</code>。</p><p>然后通过 <code>git</code> 将仓库拉取到本地，至此，我们拥有了一个全新的空白仓库 <code>testDocusaurus</code>。  </p><p><img src="gitindex.png"/></p><h2>2、初始化 Docusaurus 项目</h2><blockquote><p><a href="https://docusaurus.io/zh-CN/docs/installation">Docusaurus项目初始化细节请参考官方文档</a></p></blockquote><p>进入到仓库 <code>testDocusaurus</code> 所在的空白目录，并在此目录打开终端界面。</p><p>为了更好的完成接下来的步骤，你可能需要预先安装<strong>nodejs</strong>。在此，假设你已经准备完毕。<br/>
+        <summary type="html"><![CDATA[本文章记录基于 Docusaurus 搭建静态站点，并通过 Github-Actions 实现自动部署。]]></summary>
+        <content type="html"><![CDATA[<p>本文章记录基于 Docusaurus 搭建静态站点，并通过 Github-Actions 实现自动部署。</p><h2>1、新建 Github 仓库</h2><p>首先，登录<a href="https://github.com/new">Github仓库创建页面</a>，我们创建一个全新的空白仓库，项目名命名为 <code>testDocusaurus</code>。</p><p>然后通过 <code>git</code> 将仓库拉取到本地，至此，我们拥有了一个全新的空白仓库 <code>testDocusaurus</code>。  </p><p><img src="gitindex.png"/></p><h2>2、初始化 Docusaurus 项目</h2><blockquote><p><a href="https://docusaurus.io/zh-CN/docs/installation">Docusaurus项目初始化细节请参考官方文档</a></p></blockquote><p>进入到仓库 <code>testDocusaurus</code> 所在的空白目录，并在此目录打开终端界面。</p><p>为了更好的完成接下来的步骤，你可能需要预先安装<strong>nodejs</strong>。在此，假设你已经准备完毕。<br/>
 <!-- -->那我们接下来通过以下指令初始化一个 <code>Docusaurus</code> 项目。</p><pre><code class="language-shell" metastring="script">&gt;&gt;&gt; npx create-docusaurus@latest website classic
 ...
 ...
