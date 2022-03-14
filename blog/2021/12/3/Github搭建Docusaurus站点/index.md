@@ -4,6 +4,8 @@ authors: [czasg]
 tags: [部署, docusaurus]
 ---
 
+基于 Docusaurus 搭建静态站点，并通过 Github-Actions 实现自动部署。
+
 <!--truncate-->
 
 ## 1、新建 Github 仓库
