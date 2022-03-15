@@ -1,7 +1,7 @@
 ---
 title: Github 搭建 Docusaurus 站点
 authors: [czasg]
-tags: [部署, docusaurus]
+tags: [docusaurus]
 ---
 
 本文章记录基于 Docusaurus 搭建静态站点，并通过 Github-Actions 实现自动部署。
