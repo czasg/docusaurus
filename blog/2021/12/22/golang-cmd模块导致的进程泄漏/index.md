@@ -38,7 +38,8 @@ cmd := exec.CommandContext(ctxTimeout, "/third_party/aria2c", args...)
 在上述代码能够看到，调用 `cmd` 时传入了 `ctxTimeout`，并且函数栈退出时调用了 `cancel`。  
 看到这里，我们可以大致确认，`cmd` 最终肯定是可以退出的。但是就是这么一段简单的代码，仍然发生了进程泄漏。
 
-```golang title
+我们需要注意的是，cmd 是 golang 的基础包，其启动方式有两种，如下：
+```golang title="cmd 启动方法"
 {
     cmd.Start()
     cmd.Wait()
