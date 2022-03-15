@@ -59,16 +59,16 @@ type key
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[golang升级导致goland不可用]]></title>
-        <id>golang升级导致goland不可用</id>
+        <title type="html"><![CDATA[记一次 golang 升级导致的 goland 不可用]]></title>
+        <id>记一次 golang 升级导致的 goland 不可用</id>
         <link href="https://czasg.github.io/docusaurus/blog/2022/2/17/golang升级导致goland不可用"/>
         <updated>2022-02-17T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[go1.14.1 升级至 go1.17.7，导致 goland 打开后显示无法找到 GOROOT。]]></summary>
         <content type="html"><![CDATA[<p>go1.14.1 升级至 go1.17.7，导致 goland 打开后显示无法找到 GOROOT。</p><p>错误显示：</p><pre><code class="language-text">The selected directory is not a valid home for Go SDK
-</code></pre><p>通过 go env 查看后发现相关配置无问题，环境变量也无问题。</p><p>最后找的解决方案：
-1、go version 查看自己当前版本<br/>
-<!-- -->2、编辑 {GOROOT}/src/runtime/internal/sys/zversion.go 文件，写入以下变量</p><pre><code class="language-go">const TheVersion = `go1.17.4`
-</code></pre><p>3、重启 goland，然后点击 setroot 即可。  </p><br/><p>:::info 👇👇👇
+</code></pre><p>通过 go env 查看后发现相关配置无问题，环境变量也无问题。</p><p>最后找的解决方案：<br/>
+<strong>1、</strong>go version 查看自己当前版本<br/>
+<strong>2、</strong>编辑 {GOROOT}/src/runtime/internal/sys/zversion.go 文件，写入以下变量</p><pre><code class="language-go">const TheVersion = `go1.17.4`
+</code></pre><p><strong>3、</strong>重启 goland，然后点击 setroot 即可。  </p><br/><p>:::info 👇👇👇
 <strong>本文作者:</strong> Czasg<br/>
 <strong>版权声明:</strong> 转载请注明出处哦~👮‍
 :::</p>]]></content>
@@ -274,6 +274,66 @@ worker_cpu_affinity  none;  # 用于绑定 worker 进程与 cpu
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[记一次 golang cmd 模块导致的进程泄漏]]></title>
+        <id>记一次 golang cmd 模块导致的进程泄漏</id>
+        <link href="https://czasg.github.io/docusaurus/blog/2021/12/22/golang-cmd模块导致的进程泄漏"/>
+        <updated>2021-12-22T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[一个稳定跑了一年多的项目，近期突然被运维告知存在进程泄漏，带着懵逼的心情开始了排查...]]></summary>
+        <content type="html"><![CDATA[<p>一个稳定跑了一年多的项目，近期突然被运维告知存在进程泄漏，带着懵逼的心情开始了排查...</p><h2>僵尸进程拖垮服务器</h2><p>首先来看下运维提供的截图（屏蔽了部分敏感信息）：<br/>
+<strong>1、大面积僵尸进程（进程状态 Z）</strong><br/>
+<img src="./%E8%BF%9B%E7%A8%8B%E6%B3%84%E6%BC%8F1.png"/>  </p><p><strong>2、统计进程数近30w</strong><br/>
+<img src="./%E8%BF%9B%E7%A8%8B%E6%B3%84%E6%BC%8F2.png"/>  </p><p>并且僵尸进程持续增长，最终拖垮服务器。</p><p>:::note 僵尸进程
+一个进程的退出，需要被它的父进程或者相关联的进程接收，否则会一直阻塞，成为僵尸进程。</p><p>常见的僵尸进程产生场景有：<br/>
+<!-- -->1、父进程还在执行，子进程退出了，此时子进程的退出没有被父进程接收到，导致当前进程成为僵尸进程。<br/>
+<!-- -->2、子进程还在执行，父进程退出了，此时子进程的退出无法被其他进程接收，导致成为孤儿进程，也是僵尸进程的一种。     </p><p>僵尸进程状态为：Z<br/>
+<!-- -->以 <code>&lt;defunct&gt;</code> 标记指明<br/>
+<!-- -->:::</p><h2>代码分析</h2><pre><code class="language-golang" metastring="title=&quot;调用 cmd 模块&quot;" title="&quot;调用">ctxTimeout, cancel := context.WithDeadline(ctx, cfg.ExpiredAt)
+defer cancel()
+cmd := exec.CommandContext(ctxTimeout, &quot;/third_party/aria2c&quot;, args...)
+</code></pre><p>在上述代码能够看到，调用 <code>cmd</code> 时传入了 <code>ctxTimeout</code>，并且函数栈退出时调用了 <code>cancel</code>。<br/>
+<!-- -->看到这里，我们可以大致确认，<code>cmd</code> 最终肯定是可以退出的。但是就是这么一段简单的代码，仍然发生了进程泄漏。</p><pre><code class="language-golang" metastring="title">{
+    cmd.Start()
+    cmd.Wait()
+}
+{
+    cmd.Run()  // 等价于 start + wait
+}
+</code></pre><p>继续往下排查：</p><pre><code class="language-golang">ctxTimeout, cancel := context.WithDeadline(ctx, cfg.ExpiredAt)
+defer cancel()
+cmd := exec.CommandContext(ctxTimeout, &quot;/third_party/aria2c&quot;, args...)
+
+path, err := consumeOutput(cmd, ctxTimeout, cfg)
+if err != nil {
+    retrun err
+}
+</code></pre><p><code>consumeOutput</code> 函数中涉及到一些日志输出的读取与分析，这里就不具体展示了，但这个函数的<strong>最后一行调用了</strong> <code>cmd.Wait()</code>。<br/>
+<!-- -->看到这里，问题的起因就大致有点眉目了。</p><p>我们来看下 <code>cmd.Wait()</code> 的文档，最后一行写着：</p><pre><code class="language-text">Wait releases any resources associated with the Cmd.
+</code></pre><p>所以可以初步判定，就是因为该函数调用过程中出现异常，没有执行 <code>cmd.Wait()</code> 函数就直接退出，导致 cmd 相关的子进程资源没有及时释放，从而造成线上大量僵尸进程。</p><h2>解决方法</h2><p>老项目，怎么简单怎来。<br/>
+<!-- -->这个问题说到底，还是 <code>cmd</code> 模块的使用方法不正确导致的，项目能稳定运行一年多，也只能归结于运气好...</p><p>直接在 <code>consumeOutput</code> 函数调用后主动加上 <code>cmd.Wait()</code> 就行了，虽然不优雅，但能解决问题。</p><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg<br/>
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍<br/>
+<!-- -->:::</p>]]></content>
+        <author>
+            <name>Czasg</name>
+            <uri>https://github.com/czasg</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[cpu 调度]]></title>
+        <id>cpu 调度</id>
+        <link href="https://czasg.github.io/docusaurus/blog/2021/12/21/cpu调度"/>
+        <updated>2021-12-21T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<!--]]></summary>
+        <content type="html"><![CDATA[<br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg<br/>
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍<br/>
+<!-- -->:::</p>]]></content>
+        <author>
+            <name>Czasg</name>
+            <uri>https://github.com/czasg</uri>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[字符编码]]></title>
         <id>字符编码</id>
         <link href="https://czasg.github.io/docusaurus/blog/2021/12/15/字符编码"/>
@@ -344,19 +404,23 @@ MaxConnectionAge 是 gRPC 服务端的参数，用于指定长连接最大保持
 <!-- -->我们的第一份工作，往往和我们第一学历专业挂钩。<br/>
 <!-- -->而大学毕业后，毕业生真正知道自己应该干什么的，其实寥寥无几。甚至可能工作两三年后才突然醒悟应该转投其他行业。</p><p>比如我本人是工程管理学专业，但我毕业后就投入到了互联网行业，因为我知道我不喜欢进工厂，相反我很喜欢计算机编程。<br/>
 <!-- -->而我的大部分同学，毕业两三年后也陆陆续续的转行...</p><p>所以，我觉得很重要的一点，就是要想清楚自己现阶段到底需要做什么。<br/>
-<!-- -->你需要取尝试做一个决定，这也许这不是一个长期的决定，但是它应该是现阶段你能够稳定投入精力的一个决定。</p><p>这个时候，也不需要考虑什么主业副业，能做好一件就已经很了不起了。</p><h2>为什么需要副业</h2><p>那为什么现在又有这么多人选择副业呢？</p><p>以我自己的情况来说，毫无疑问，是典型的属于需要依靠打工来维持生计的群体。个人睡后收入纯靠银行利息，工作的本质是为了混口饭吃。<br/>
-<!-- -->当然我没有副业，因为互联网并不算特别轻松，我个人时间也并不是很充裕，很难花时间去思考打第二份工作。
+<!-- -->你需要去尝试做一个决定，这也许这不是一个长期的决定，但是它应该是现阶段你能够稳定投入精力的一个决定。</p><p>这个时候，也不需要考虑什么主业副业，能做好一件就已经很了不起了。</p><h2>为什么需要副业</h2><p>那为什么现在又有这么多人选择副业呢？</p><p>以我自己的情况来说，毫无疑问，是典型的属于需要依靠打工来维持生计的群体。个人睡后收入纯靠银行利息，工作的本质是为了混口饭吃。<br/>
+<!-- -->当然我没有副业，因为互联网并不算特别轻松，我个人时间也并不是很充裕，很难花时间去打第二份工。
 况且互联网收入相对来说是可以的。   </p><p>然而，这一切在我买房之后就改变了...<br/>
 <!-- -->试想，当你的一半甚至一大半收入，全部用于还贷了，还得还三十年，一股有形的压力瞬间压得人喘不过气来。  </p><p>所以并不是我很闲，闲的要去找一份副业来充实自己，而是我很需要第二份收入来充实自己...<br/>
 <!-- -->现在社会大环境又不好，工资过万，你可以打败全国一半以上的打工群体，但在一二线城市的房价物价面前，就是个屁。</p><p>所以，我想到的能坚持发展副业的人群：<br/>
 <strong>1、</strong>入不敷出。<br/>
 <strong>2、</strong>闲不下来。<br/>
-<strong>3、</strong>个人爱好。    </p><p>但整体来看，时间和精力才是最终落地执行的决定因素。<br/>
-<!-- -->对于一个不爱惜自己身体健康的人，建议是直接去国外买血袋。</p><h2>认知自己的工作阶段</h2><p>当你有发展副业的想法时，我还是建议先梳理下你自己当前的工作情况，对于一份稳定的工作，应该大致朝着这个阶段方向发展：  </p><ul><li><strong>积累阶段</strong></li></ul><p>一般指一些刚入行的同学，在这个阶段他们需要去积累一些工作经验。</p><p>处于这个阶段时，会有一些比较明显的特点。<br/>
+<strong>3、</strong>个人爱好。    </p><p>大部分人应该是属于第一类吧... 但整体来看，我觉得时间和精力才是最终落地执行的决定因素。<br/>
+<!-- -->因为过于透支自己的生命换来的财富，将是一笔无法偿还的高利贷。  </p><h2>认知自己的工作阶段</h2><p>当你有发展副业的想法时，我还是建议先梳理下你自己当前的工作情况，对于一份稳定的工作，应该大致朝着这个阶段方向发展：  </p><ul><li><strong>积累阶段</strong></li></ul><p>一般指一些刚入行的同学，在这个阶段他们需要去积累一些工作经验。</p><p>处于这个阶段时，会有一些比较明显的特点。<br/>
 <!-- -->比如你的简历上面，可能需要编造大量技能和项目经验，以便通过 HR 的筛选。
 一旦面试被人追着问细节时，就会暴露。</p><ul><li><strong>瓶颈阶段</strong></li></ul><p>一般指在某个领域有足够的经验。</p><p>处于这个阶段，你可能不在需要投递简历就能很轻松的找到一份工作。
-如果工作不开心，你也很自信可以很快找到另一份工作，虽然找的不一定更好，但不用担心失业问题。</p><ul><li><strong>溢出阶段</strong></li></ul><p>一般指在某个领域有足够经验，在公司也处于中高层。</p><p>你可以很轻松的获取工作之外的报酬，比如公司分红等。</p><h2>关于副业的思考 - 给自己</h2><p>首先，不能盲目跟风，因为有很多发展副业的人都是事业编制，他们相对来说个人时间比较充裕。<br/>
-<!-- -->还有一部分牛人达到了工作的 <strong>瓶颈阶段</strong> 甚至是 <strong>溢出阶段</strong>，他们有能力去执行副业计划。</p><p>互联网，是一个新兴技术频繁更替的行业。而我也通过不断的学习，取得了一定的汇报。</p><br/><p>:::info 👇👇👇
+如果工作不开心，你也很自信可以很快找到另一份工作，虽然找的不一定更好，但不用担心失业问题。</p><ul><li><strong>溢出阶段</strong></li></ul><p>一般指在某个领域有足够经验，在公司也处于中高层。</p><p>你可以很轻松的获取工作之外的报酬，比如公司分红等。</p><p>不是所有的工作都符合这三个阶段，但也可以大致比照着看看自己应该处于什么阶段，对于处于第一阶段的同学，我建议还是先投入精力处理好自己的工作，在考虑发展其他副业。</p><h2>关于副业的思考 - 给自己</h2><blockquote><p>不能盲目跟风！</p></blockquote><p>不管这句话适不适用于所有领域，但它一直都是我长期以来坚信的。虽然我很眼热能发展副业的同学们，但比起盲目发展副业，我觉得我应该先认清自己的情况。</p><p>首先有很多发展副业的人都是事业编制，他们相对来说个人时间比较充裕。<br/>
+<!-- -->而互联网，是一个新兴技术频繁更替的行业，也是加班严重的行业之一，我时常也感觉自己个人时间不是很充裕。</p><p>其次，有部分牛人达到了工作的 <strong>瓶颈阶段</strong> 甚至是 <strong>溢出阶段</strong>，他们有能力、有资源去执行副业计划。<br/>
+<!-- -->而我，菜鸟一个，短时间内是很难雄起了...</p><p>这样一看，我是完全不适合发展副业的了...
+但是，生活环境又不会可怜我... 哎</p><p>基于这种背景，给自己一些建议：<br/>
+<!-- -->1、多整理并总结自己的笔记。
+2、整理文档时，优化下自己的文笔，不要乱糟糟了事，而应该尝试给别人讲述清楚。</p><p>说到底，短期还是只能提升软实力了</p><br/><p>:::info 👇👇👇
 <strong>本文作者:</strong> Czasg<br/>
 <strong>版权声明:</strong> 转载请注明出处哦~👮‍
 :::</p>]]></content>
