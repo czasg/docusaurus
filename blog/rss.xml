@@ -246,6 +246,46 @@ worker_cpu_affinity  none;  # 用于绑定 worker 进程与 cpu
 <!-- -->:::</p>]]></content:encoded>
         </item>
         <item>
+            <title><![CDATA[初步了解 k8s 资源配额]]></title>
+            <link>https://czasg.github.io/docusaurus/blog/2021/12/23/k8s资源配额</link>
+            <guid>初步了解 k8s 资源配额</guid>
+            <pubDate>Thu, 23 Dec 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[<!--]]></description>
+            <content:encoded><![CDATA[<p>用一台服务器同时跑多个任务时，最常发生的事故就是资源抢占问题。比如端口、cpu、内存、存储等都可能会发生冲突。<br/>
+<!-- -->而 k8s 作为容器编排工具，则提供了资源配额来避免这类问题。</p><h2>资源配额 ResourceQuota</h2><p>资源配额用于声明命名空间中所有 pod 的最终资源情况，一旦命名空间中启用了 ResourceQuota，则部署 pod 时必须设定请求值（request）和约束值（limit），否则配额系统将拒绝 pod 的创建。<br/>
+<!-- -->资源配额在 k8s 集群中默认是支持的，当一个命名空间中存在一个 ResourceQuota 对象时，该命名空间的资源配额就是开启的。   </p><pre><code class="language-yaml" metastring="title=&quot;资源配额：ResourceQuota.yaml&quot;" title="&quot;资源配额：ResourceQuota.yaml&quot;">apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: demo
+spec:
+  hard:
+    requests.cpu: &quot;1&quot;
+    requests.memory: 1Gi
+    limits.cpu: &quot;2&quot;
+    limits.memory: 2Gi
+</code></pre><p>此配置表示： </p><ul><li>每个容器必须有 memory、cpu 的请求和限制。</li><li>所有容器的 memory 请求总和不能超过 1 GiB。</li><li>所有容器的 memory 限制总和不能超过 2 GiB。</li><li>所有容器的 cpu 请求总和不能超过 1 cpu。</li><li>所有容器的 cpu 限制总和不能超过 2 cpu。</li></ul><pre><code class="language-yaml" metastring="title=&quot;部署示例：pod.yaml&quot;" title="&quot;部署示例：pod.yaml&quot;">apiVersion: v1
+kind: Pod
+metadata:
+  name: demo
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    resources:
+      limits:
+        cpu: &quot;200m&quot;
+        memory: &quot;400Mi&quot;
+      requests:
+        cpu: &quot;100m&quot;
+        memory: &quot;200Mi&quot;
+</code></pre><h2>requests/limits</h2><p>requests 表示请求值，而 limits 则表示约束值。<br/>
+<!-- -->一般情况下 requests 是小于 limits 的，这里涉及到服务质量等级概念：</p><table><thead><tr><th>服务质量等级</th><th>说明</th></tr></thead><tbody><tr><td>Guaranteed（完全可靠的）</td><td>pod 中全部容器配置了资源配额，且 requests == limits，或者只设置了 limits，此时默认 requests 等于 limits。</td></tr><tr><td>Burstable（弹性波动、较可靠的）</td><td>pod 中部分容器配置了 requests 和 limits。</td></tr><tr><td>BestEffort（尽力而为、不太可靠的）</td><td>pod 中容器未配置 requests 和 limits。</td></tr></tbody></table><p>当我们配置了 requests 请求值，那么部署时，目标节点需要拥有多余该请求值的空闲资源，才可以部署此服务。如果没有符合条件的节点，那么该服务将无法部署。<br/>
+<!-- -->当我们未配置 limits 约束值时，limits 默认就是当前节点的资源上限。   </p><h2>常使用的配额类型</h2><p>资源配额的种类有很多，最常使用的配额主要有三类：</p><ul><li>cpu：中央处理器</li><li>memory：内存</li><li>ephemeral-storage：存储</li></ul><p>大部分资源类型都可以通过标准的模板进行配额设置，如：  </p><ul><li><code>count/&lt;resource&gt;.&lt;group&gt;</code>：用于非核心 core 组的资源</li><li><code>count/&lt;resource&gt;</code>：用于核心组的资源</li></ul><table><thead><tr><th>配额</th><th>说明</th></tr></thead><tbody><tr><td>count/pods</td><td>在该命名空间中允许存在的非终止状态的 pod 总数上限。</td></tr><tr><td>count/services</td><td>在该命名空间中允许存在的 service 总数上限。</td></tr><tr><td>count/configmaps</td><td>在该命名空间中允许存在的 configmaps 总数上限。</td></tr></tbody></table><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg<br/>
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍<br/>
+<!-- -->:::</p>]]></content:encoded>
+        </item>
+        <item>
             <title><![CDATA[记一次 golang cmd 模块导致的进程泄漏]]></title>
             <link>https://czasg.github.io/docusaurus/blog/2021/12/22/golang-cmd模块导致的进程泄漏</link>
             <guid>记一次 golang cmd 模块导致的进程泄漏</guid>
