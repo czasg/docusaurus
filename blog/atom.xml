@@ -2,35 +2,11 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://czasg.github.io/docusaurus/blog</id>
     <title>Czasg Blog</title>
-    <updated>2022-03-01T00:00:00.000Z</updated>
+    <updated>2022-02-22T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://czasg.github.io/docusaurus/blog"/>
     <subtitle>Czasg Blog</subtitle>
     <icon>https://czasg.github.io/docusaurus/img/favicon.ico</icon>
-    <entry>
-        <title type="html"><![CDATA[数据库常用操作]]></title>
-        <id>数据库常用操作</id>
-        <link href="https://czasg.github.io/docusaurus/blog/2022/3/1/数据库常用操作"/>
-        <updated>2022-03-01T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[记录一些在工作常用的数据库操作]]></summary>
-        <content type="html"><![CDATA[<p>记录一些在工作常用的数据库操作</p><h2>mysql</h2><h2>postgres</h2><pre><code class="language-shell" metastring="script">psql -U postgres -d postgres
-select * from pg_database;
-select pg_database_size(&#x27;postgres&#x27;);
-</code></pre><h2>redis</h2><pre><code class="language-shell" metastring="script title=&quot;连接 rds 并简单查询&quot;" title="&quot;连接">redis-cli
-ping
-auth password
-select db
-keys *
-type key
-</code></pre><br/><p>:::info 👇👇👇
-<strong>本文作者:</strong> Czasg
-<strong>版权声明:</strong> 转载请注明出处哦~👮‍
-:::</p>]]></content>
-        <author>
-            <name>Czasg</name>
-            <uri>https://github.com/czasg</uri>
-        </author>
-    </entry>
     <entry>
         <title type="html"><![CDATA[数据库是否适合容器化部署]]></title>
         <id>数据库是否适合容器化部署</id>
