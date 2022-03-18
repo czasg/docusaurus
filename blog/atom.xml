@@ -18,40 +18,80 @@
     key    text,
     value  text
 ) ON COMMIT DROP;
-</code></pre><p>创建临时表，存储最终更新数据。当前表为空。</p><pre><code class="language-sql">CREATE TEMPORARY TABLE tmp_czasg_update (
+</code></pre><p>创建临时表，用于存储最终更新数据。</p><pre><code class="language-sql">CREATE TEMPORARY TABLE tmp_czasg_update (
     key        text,
     value      text,
     old_value  text
 ) ON COMMIT DROP;
-</code></pre><h4>2、join 计算</h4><p>以 key 为连接条件 join 原表，再过滤出 value 不同或者原表 value 为空的数据.</p><pre><code class="language-sql">INSERT INTO tmp_czasg_update 
+</code></pre><h4>2、join 计算结果集</h4><p>以 key 为连接条件 join 原表，再过滤出 value 不同或者原表 value 为空的数据.</p><pre><code class="language-sql">INSERT INTO tmp_czasg_update 
 SELECT newkv.key, newkv.value, kv.value FROM tmp_czasg AS newkv 
 LEFT JOIN czasg AS kv ON newkv.key = kv.key 
 WHERE newkv.value != kv.value OR kv.value IS NULL;
-</code></pre><p><code>tmp_czasg_update</code> 中 old_value 为空的表示新增数据，我们将它插入到原表中。</p><pre><code class="language-sql">INSERT INTO czasg SELECT key, value FROM tmp_czasg_update 
+</code></pre><h4>3、将结果集更新至表 <code>czasg</code></h4><p><code>tmp_czasg_update</code> 中 old_value 为空的表示新增数据，我们将它插入到原表中。</p><pre><code class="language-sql">INSERT INTO czasg SELECT key, value FROM tmp_czasg_update 
 WHERE old_value IS NULL;
 </code></pre><p><code>tmp_czasg_update</code> 中 old_value 非空的表示更新数据，我们将它更新到原表中。</p><pre><code class="language-sql">UPDATE czasg AS kv SET kv.value = newkv.value FROM 
 (SELECT * FROM tmp_czasg_update WHERE old_value IS NOT NULL) AS newkv 
 WHERE kv.key = newkv.key;
-</code></pre><p>至此业务结束。根据当前线上情况，执行完一次需要 N（N &gt;= 2）小时。</p><p>优化需求：由于该业务会长时间阻塞，影响其他关联业务，<strong>希望减少此阶段的执行时间。</strong></p><h2>优化之路：痛点分析</h2><p>看完上面的背景介绍后，我们应该已经初步了解业务流程了。可以看出，主要涉及到的操作就是新增和更新。</p><p>现在我们来拆解当中的流程，大致分析下耗时的原因：</p><p>1、创建临时表<br/>
+</code></pre><p>至此业务结束。根据当前线上情况，执行完一次需要 N（N &gt;= 2）小时。</p><p>优化需求：由于该业务会长时间阻塞，影响其他关联业务，<strong>希望减少此阶段的执行时间。</strong></p><h2>优化之路：痛点分析</h2><p>看完上面的背景介绍后，我们应该已经初步了解业务流程了。可以看出，主要涉及到的操作就是对数据表的新增和更新。</p><p>现在我们来拆解其中的流程，大致分析下耗时的原因：</p><p>1、创建临时表<br/>
 <!-- -->2、数据写入临时表<br/>
 <!-- -->3、<strong>关联计算最终待作业的数据</strong><br/>
 <!-- -->4、<strong>插入新数据</strong><br/>
 <!-- -->5、更新旧数据<br/>
-<!-- -->6、导出结果集   </p><p>在上述流程中，主要耗时点就是 3、4。<br/>
+<!-- -->6、导出结果集   </p><p>在上述流程中，主要耗时点就是步骤 3 和 4。<br/>
 <!-- -->步骤 3 耗时是因为数据量过大，关联过程无法全程在内存中操作，需要借用磁盘来完成中间计算。<br/>
 <!-- -->步骤 4 耗时是因为存在索引，对这个量级的索引进行增删操作都会非常耗时。     </p><p>首先，针对量级过大的问题，解决方案比较统一，那就是进行水平拆分，尽可能减小表的大小。<br/>
 <!-- -->其次，针对索引导致的插入/删除耗时，解决方案也比较简单，就是插入/删除前，先 <code>DROP INDEX</code>，执行完操作后，再 <code>CREATE INDEX</code>。<br/>
 <!-- -->在这里我们之所以不这样做，是因为重建一张 10亿 量级表的索引，不见得比当前方案快多少。     </p><p>有了大致思路，我们再来想想具体的落地方案。</p><h2>优化之路：表分区</h2><p>针对第一个问题，我们计划选择水平拆分这张大表。<br/>
 <!-- -->拆分时要考虑到单表的大小，最好能控制在百万级。<br/>
 <!-- -->所以我们可以选择将这张 10亿 大表拆分成 256 张小表，这样平均到每张表的大小就是 400w 左右了。</p><p>一般拆分的方式就是创建多张物理表，然后将数据按照某种规则均匀的插入到这些表中，从而减小单表的大小。<br/>
-<!-- -->但我们业务场景并没有特别复杂，在这里我们选择了<strong>表分区</strong>。</p><p>:::note 表继承
-在 postgres 中，继承可以快速的关联和区分多张表，让数据维护更加高效。<br/>
-<!-- -->使用继承时，至少需要有一张源表，然后通过指定源表来创建继承表。<br/>
-<!-- -->对于继承表来说，此时的继承表将拥有源表的全部列，并且可以自定义额外的列属性。<br/>
-<!-- -->对于源表来说，此时的源表将可以检索自身以及继承表的全部数据。<br/>
-<!-- -->:::</p><p>:::note 表分区
-在 postgres 中，分区
-:::</p><br/><p>:::info 👇👇👇
+<!-- -->但我们业务场景并没有特别复杂，在这里我们选择了<strong>表分区</strong>。</p><p>:::tip 表继承
+在 postgres 中，继承可以快速的<strong>关联、区分</strong>多张表，让数据维护更加高效。  </p><p>使用继承时，至少需要有一张源表，然后通过指定源表来创建继承表。<br/>
+<!-- -->对于继承表来说，此时的继承表将<strong>拥有源表的全部列</strong>，并且可以自定义额外的列属性。<br/>
+<!-- -->对于源表来说，此时的源表将可以检索<strong>自身以及继承表的全部数据</strong>。   </p><p>在这里我们举一个例子，假设你有一张表 <code>cities</code>，里面存放了国内外所有的城市。</p><pre><code class="language-sql">CREATE TABLE cities (
+    name      text,   -- 城市名
+    altitude  int     -- 城市海拔高度
+);
+</code></pre><p>可是每个国家只有一个首都城市，现在有业务需求要快速筛分首都城市。<br/>
+<!-- -->为了实现这个需求，我们可能需要给这张表加一个字段，或者重新创建一张首都城市的表，这些都是不错的实现方案。<br/>
+<!-- -->现在，让我们用继承来实现这个需求：</p><pre><code class="language-sql">CREATE TABLE capitals (
+    country  text     -- 所属国
+) INHERITS (cities);
+</code></pre><p>在这里我们创建继承表 <code>capitals</code>，继承自 <code>cities</code>。这时我们可以这样存储数据：<br/>
+<!-- -->1、将首都城市存放至 <code>capitals</code>，并指定所属国。<br/>
+<!-- -->2、将其余城市存放至 <code>cities</code>。   </p><pre><code class="language-sql" metastring="title=&quot;查询所有城市中，海拔高于500的城市&quot;" title="&quot;查询所有城市中，海拔高于500的城市&quot;">SELECT * FROM cities WHERE altitude &gt; 500;
+</code></pre><pre><code class="language-sql" metastring="title=&quot;查询非首都城市中，海拔高于500的城市&quot;" title="&quot;查询非首都城市中，海拔高于500的城市&quot;">SELECT * FROM ONLY cities WHERE altitude &gt; 500; -- 通过 ONLY 限制仅查 cities 表
+</code></pre><pre><code class="language-sql" metastring="title=&quot;查询所有首都城市中，海拔高于500的城市&quot;" title="&quot;查询所有首都城市中，海拔高于500的城市&quot;">SELECT * FROM capitals WHERE altitude &gt; 500;
+</code></pre><p>:::</p><p>:::tip 表分区
+在 postgres 中，表分区是将一张大表，划分成一些小的物理上的片。这样划分的好处有很多：  </p><ul><li>某些场景下读写性能提升。<strong>减小单表数据量、索引大小</strong>。      </li><li>某些场景下，<strong>批量操作</strong>性能将得到极大提升。     </li><li>可以按实际需求，将价值低的数据块迁移至便宜且较慢的存储介质上。   </li></ul><p>创建表分区的方式有两种：<br/>
+<!-- -->第一种，初始化时通过 <code>PARTITION BY</code> 声明该表为分区表，且需要指定分区键，然后就可以创建分区了。</p><pre><code class="language-sql" metastring="title=&quot;声明分区表&quot;" title="&quot;声明分区表&quot;">CREATE TABLE measurement (
+    city_id    int not null,
+    logdate    date not null,
+    peaktemp   int,
+    unitsales  int
+) PARTITION BY RANGE (logdate);
+</code></pre><pre><code class="language-sql" metastring="title=&quot;创建分区&quot;" title="&quot;创建分区&quot;">CREATE TABLE measurement_y2006m02 PARTITION OF measurement
+    FOR VALUES FROM (&#x27;2006-02-01&#x27;) TO (&#x27;2006-03-01&#x27;);
+CREATE TABLE measurement_y2006m03 PARTITION OF measurement
+    FOR VALUES FROM (&#x27;2006-03-01&#x27;) TO (&#x27;2006-04-01&#x27;);
+</code></pre><p>创建分区之后，你对 <code>measurement</code> 的操作都会被重定向到某个分区，比如：<br/>
+<!-- -->1、插入一条数据到 <code>measurement</code> 中，当这条数据被<strong>映射到 <code>measurement_y2006m02</code> 时</strong>，
+这条数据将被<strong>重定向</strong>到 <code>measurement_y2006m02</code> 分区。<br/>
+<!-- -->2、读取一条数据，当这条数据被映射到 <code>measurement_y2006m02</code> 时，查询也会重定向。</p><p>第二种，通过继承实现表分区。</p><pre><code class="language-sql" metastring="title=&quot;创建继承表&quot;" title="&quot;创建继承表&quot;">CREATE TABLE measurement_y2006m02 () INHERITS (measurement);
+</code></pre><p>为了实现类似分区表的能力，我们引入触发器：</p><pre><code class="language-sql" metastring="title=&quot;创建触发器与函数&quot;" title="&quot;创建触发器与函数&quot;">CREATE OR REPLACE FUNCTION measurement_insert_trigger()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO measurement_y2008m01 VALUES (NEW.*);
+    RETURN NULL;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER insert_measurement_trigger
+    BEFORE INSERT ON measurement
+    FOR EACH ROW EXECUTE FUNCTION measurement_insert_trigger();
+</code></pre><p>我们可以看到通过继承与触发器的方式，我们可以间接实现分区表的能力，他相比于声明式分区表，优势就是限制会宽松一些，
+比如我们可以为每一个分区创建不同的字段的不同索引，但代价就是更复杂维护逻辑。
+:::</p><h2>优化之路：继承式分区表有坑</h2><h2>优化之路：继承式分区表填坑</h2><br/><p>:::info 👇👇👇
 <strong>本文作者:</strong> Czasg<br/>
 <strong>版权声明:</strong> 转载请注明出处哦~👮‍
 :::</p>]]></content>
