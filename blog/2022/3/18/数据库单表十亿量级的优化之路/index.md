@@ -31,7 +31,7 @@ CREATE TEMPORARY TABLE tmp_czasg (
 ) ON COMMIT DROP;
 ```
 
-创建临时表，存储最终更新数据。当前表为空。
+创建临时表，用于存储最终更新数据。
 ```sql
 CREATE TEMPORARY TABLE tmp_czasg_update (
     key        text,
@@ -41,7 +41,7 @@ CREATE TEMPORARY TABLE tmp_czasg_update (
 ```
 
 
-#### 2、join 计算
+#### 2、join 计算结果集
 以 key 为连接条件 join 原表，再过滤出 value 不同或者原表 value 为空的数据.
 ```sql
 INSERT INTO tmp_czasg_update 
@@ -49,6 +49,8 @@ SELECT newkv.key, newkv.value, kv.value FROM tmp_czasg AS newkv
 LEFT JOIN czasg AS kv ON newkv.key = kv.key 
 WHERE newkv.value != kv.value OR kv.value IS NULL;
 ```
+
+#### 3、将结果集更新至表 `czasg`
 
 `tmp_czasg_update` 中 old_value 为空的表示新增数据，我们将它插入到原表中。
 ```sql
@@ -69,9 +71,9 @@ WHERE kv.key = newkv.key;
 
 
 ## 优化之路：痛点分析
-看完上面的背景介绍后，我们应该已经初步了解业务流程了。可以看出，主要涉及到的操作就是新增和更新。
+看完上面的背景介绍后，我们应该已经初步了解业务流程了。可以看出，主要涉及到的操作就是对数据表的新增和更新。
 
-现在我们来拆解当中的流程，大致分析下耗时的原因：
+现在我们来拆解其中的流程，大致分析下耗时的原因：
 
 1、创建临时表  
 2、数据写入临时表  
@@ -80,7 +82,7 @@ WHERE kv.key = newkv.key;
 5、更新旧数据   
 6、导出结果集   
 
-在上述流程中，主要耗时点就是 3、4。     
+在上述流程中，主要耗时点就是步骤 3 和 4。     
 步骤 3 耗时是因为数据量过大，关联过程无法全程在内存中操作，需要借用磁盘来完成中间计算。               
 步骤 4 耗时是因为存在索引，对这个量级的索引进行增删操作都会非常耗时。     
 
@@ -100,17 +102,99 @@ WHERE kv.key = newkv.key;
 但我们业务场景并没有特别复杂，在这里我们选择了**表分区**。
 
 <!-- http://www.postgres.cn/docs/12/ddl-inherit.html -->
-:::note 表继承
-在 postgres 中，继承可以快速的关联和区分多张表，让数据维护更加高效。  
+:::tip 表继承
+在 postgres 中，继承可以快速的**关联、区分**多张表，让数据维护更加高效。  
+
 使用继承时，至少需要有一张源表，然后通过指定源表来创建继承表。    
-对于继承表来说，此时的继承表将拥有源表的全部列，并且可以自定义额外的列属性。       
-对于源表来说，此时的源表将可以检索自身以及继承表的全部数据。    
+对于继承表来说，此时的继承表将**拥有源表的全部列**，并且可以自定义额外的列属性。       
+对于源表来说，此时的源表将可以检索**自身以及继承表的全部数据**。   
+
+在这里我们举一个例子，假设你有一张表 `cities`，里面存放了国内外所有的城市。
+```sql
+CREATE TABLE cities (
+    name      text,   -- 城市名
+    altitude  int     -- 城市海拔高度
+);
+```
+可是每个国家只有一个首都城市，现在有业务需求要快速筛分首都城市。  
+为了实现这个需求，我们可能需要给这张表加一个字段，或者重新创建一张首都城市的表，这些都是不错的实现方案。  
+现在，让我们用继承来实现这个需求：
+```sql
+CREATE TABLE capitals (
+    country  text     -- 所属国
+) INHERITS (cities);
+```
+在这里我们创建继承表 `capitals`，继承自 `cities`。这时我们可以这样存储数据：  
+1、将首都城市存放至 `capitals`，并指定所属国。  
+2、将其余城市存放至 `cities`。   
+```sql title="查询所有城市中，海拔高于500的城市"
+SELECT * FROM cities WHERE altitude > 500;
+```
+```sql title="查询非首都城市中，海拔高于500的城市"
+SELECT * FROM ONLY cities WHERE altitude > 500; -- 通过 ONLY 限制仅查 cities 表
+```
+```sql title="查询所有首都城市中，海拔高于500的城市"
+SELECT * FROM capitals WHERE altitude > 500;
+```
 :::
 
 <!-- http://www.postgres.cn/docs/12/ddl-partitioning.html -->
-:::note 表分区
-在 postgres 中，分区
+:::tip 表分区
+在 postgres 中，表分区是将一张大表，划分成一些小的物理上的片。这样划分的好处有很多：  
+* 某些场景下读写性能提升。**减小单表数据量、索引大小**。      
+* 某些场景下，**批量操作**性能将得到极大提升。     
+* 可以按实际需求，将价值低的数据块迁移至便宜且较慢的存储介质上。   
+
+创建表分区的方式有两种：    
+第一种，初始化时通过 `PARTITION BY` 声明该表为分区表，且需要指定分区键，然后就可以创建分区了。
+```sql title="声明分区表"
+CREATE TABLE measurement (
+    city_id    int not null,
+    logdate    date not null,
+    peaktemp   int,
+    unitsales  int
+) PARTITION BY RANGE (logdate);
+```
+```sql title="创建分区"
+CREATE TABLE measurement_y2006m02 PARTITION OF measurement
+    FOR VALUES FROM ('2006-02-01') TO ('2006-03-01');
+CREATE TABLE measurement_y2006m03 PARTITION OF measurement
+    FOR VALUES FROM ('2006-03-01') TO ('2006-04-01');
+```
+创建分区之后，你对 `measurement` 的操作都会被重定向到某个分区，比如：  
+1、插入一条数据到 `measurement` 中，当这条数据被**映射到 `measurement_y2006m02` 时**，
+这条数据将被**重定向**到 `measurement_y2006m02` 分区。  
+2、读取一条数据，当这条数据被映射到 `measurement_y2006m02` 时，查询也会重定向。
+
+第二种，通过继承实现表分区。
+```sql title="创建继承表"
+CREATE TABLE measurement_y2006m02 () INHERITS (measurement);
+```
+为了实现类似分区表的能力，我们引入触发器：
+```sql title="创建触发器与函数"
+CREATE OR REPLACE FUNCTION measurement_insert_trigger()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO measurement_y2008m01 VALUES (NEW.*);
+    RETURN NULL;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER insert_measurement_trigger
+    BEFORE INSERT ON measurement
+    FOR EACH ROW EXECUTE FUNCTION measurement_insert_trigger();
+```
+我们可以看到通过继承与触发器的方式，我们可以间接实现分区表的能力，他相比于声明式分区表，优势就是限制会宽松一些，
+比如我们可以为每一个分区创建不同的字段的不同索引，但代价就是更复杂维护逻辑。
 :::
+
+
+## 优化之路：继承式分区表有坑
+
+
+## 优化之路：继承式分区表填坑
+
 
 
 <br/>
