@@ -619,5 +619,18 @@ git config --global user.name &quot;name&quot;
 <strong>版权声明:</strong> 转载请注明出处哦~👮‍<br/>
 <!-- -->:::</p>]]></content:encoded>
         </item>
+        <item>
+            <title><![CDATA[python 基础数据类型中隐藏的知识点]]></title>
+            <link>https://czasg.github.io/docusaurus/blog/2021/11/3/python基础数据类型</link>
+            <guid>python 基础数据类型中隐藏的知识点</guid>
+            <pubDate>Wed, 03 Nov 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[整数]]></description>
+            <content:encoded><![CDATA[<h2>整数</h2><h4>为了更好的区分位数，python 支持以下划线分割整数。</h4><pre><code class="language-python">1_000_000_000 == 1000000000
+</code></pre><h2>字符串</h2><h4>格式化字符</h4><ul><li><code>%d</code> 表示输出十进制。</li><li><code>%.2d</code> 表示输出最低两位有效数字</li><li><code>%2d</code> 表示宽度为 2，以右对齐方式输出，左边不足则补空格</li><li><code>%02d</code> 表示宽度为 2，不足补 0</li><li><code>%06.2d</code> 表示宽度为 6，保留最低两位有效数字，以右对齐方式输出，左边不足补 0</li></ul><h2>变量</h2><blockquote><p>变量，指值可以变的量。在数学中，变量以非数字的符号来表达，一般用拉丁字母。变量的用处在于能抽象化描述。</p></blockquote><p>在弱类型语言中，变量本身的类型是不固定的，可以指向任意对象。<br/>
+<!-- -->在强类型语言中，申明变量时必须要指定变量类型。</p><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg<br/>
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍<br/>
+<!-- -->:::</p>]]></content:encoded>
+        </item>
     </channel>
 </rss>
