@@ -71,7 +71,11 @@ WHERE kv.key = newkv.key;
 
 
 ## 优化之路：痛点分析
-看完上面的背景介绍后，我们应该已经初步了解业务流程了。可以看出，主要涉及到的操作就是对数据表的新增和更新。
+看完上面的背景介绍后，我们应该已经初步了解业务流程了，整理如下图：  
+![](./data-update.png)
+
+
+可以看出，主要涉及到的操作就是对数据表更新并生成版本更新包。
 
 现在我们来拆解其中的流程，大致分析下耗时的原因：
 
@@ -100,6 +104,19 @@ WHERE kv.key = newkv.key;
 
 一般拆分的方式就是创建多张物理表，然后将数据按照某种规则均匀的插入到这些表中，从而减小单表的大小。  
 但我们业务场景并没有特别复杂，在这里我们选择了**表分区**。
+
+自然而然，`key` 字段也就成了我们首选的分区条件。  
+由于该字段是随机字串，没有规律，只能采用哈希的方式散射到各个分区。  
+然后我在分区内创建 `key_btree_index_key` 索引，此时每个分区的索引大小就可以控制在较小的范围内了。  
+
+到这里，初步优化方案已经形成。但考虑到随机字串生成的索引，无论在空间还是性能上都有所欠缺，
+所以本着一步优化到位的想法，我们决定重新设计字段索引：  
+1、新增一个字段 `key_crc32`，用于存储 `key` 值计算出的哈希数，此数位于 `1 ~ 2^32` 之间。    
+2、将分区条件设定为 `key_crc32`     
+3、创建分区索引 `key_crc32_btree_index_key`     
+
+至此，我们的表分区方案初步落地。索引这一块属于过度设计，因为引入了新字段，所以是否属于正向优化，有待考量。
+
 
 <!-- http://www.postgres.cn/docs/12/ddl-inherit.html -->
 :::tip 表继承
@@ -153,7 +170,7 @@ CREATE TABLE measurement (
     logdate    date not null,
     peaktemp   int,
     unitsales  int
-) PARTITION BY RANGE (logdate);
+) PARTITION BY RANGE (logdate); -- 分区支持范围划分、列表划分、哈希划分
 ```
 ```sql title="创建分区"
 CREATE TABLE measurement_y2006m02 PARTITION OF measurement
@@ -190,10 +207,60 @@ CREATE TRIGGER insert_measurement_trigger
 :::
 
 
-## 优化之路：继承式分区表有坑
-
-
 ## 优化之路：继承式分区表填坑
+按照预期方案实现后，我拷贝了一份正式环境数据执行测试，结果令人震惊，耗时 3小时 😱😱😱       
+就离了个大谱，妥妥的反向优化。 😭😭😭  
+
+理论和实际差距过大，不得不让我开始反思到底是哪里出现了异常。   
+通过日志发现在关联计算、插入新数据、更新数据这些流程都非常耗时。  
+但是我们已经设计了分区，减小了每张表的数量和索引大小。所以理论上操作不可能会更耗时。  
+
+通过进一步打断点输出日志，我发现了继承式分区表的触发器，在执行操作时性能非常拉跨。
+```sql title="初始化表分区"
+CREATE TABLE IF NOT EXISTS origin_0 (CHECK (origin_id = 0)) INHERITS (cloud_search_kvs);
+CREATE TABLE IF NOT EXISTS origin_0_0 (CHECK (0 < k_crc32 AND k_crc32 <= 858993459)) INHERITS (origin_0);
+CREATE TABLE IF NOT EXISTS origin_0_1 (CHECK (858993459 < k_crc32 AND k_crc32 <= 1717986918)) INHERITS (origin_0);
+CREATE TABLE IF NOT EXISTS origin_0_2 (CHECK (1717986918 < k_crc32 AND k_crc32 <= 2576980377)) INHERITS (origin_0);
+CREATE TABLE IF NOT EXISTS origin_0_3 (CHECK (2576980377 < k_crc32 AND k_crc32 <= 3435973836)) INHERITS (origin_0);
+CREATE TABLE IF NOT EXISTS origin_0_4 (CHECK (3435973836 < k_crc32 AND k_crc32 <= 4294967295)) INHERITS (origin_0);
+```
+```sql title="初始化触发器"
+CREATE OR REPLACE FUNCTION origin_0_insert_trigger() RETURNS TRIGGER AS $$
+BEGIN
+ IF (0 < NEW.k_crc32 AND NEW.k_crc32 <= 858993459) THEN INSERT INTO origin_0_0 VALUES (NEW.*);
+ ELSIF (858993459 < NEW.k_crc32 AND NEW.k_crc32 <= 1717986918) THEN INSERT INTO origin_0_1 VALUES (NEW.*);
+ ELSIF (1717986918 < NEW.k_crc32 AND NEW.k_crc32 <= 2576980377) THEN INSERT INTO origin_0_2 VALUES (NEW.*);
+ ELSIF (2576980377 < NEW.k_crc32 AND NEW.k_crc32 <= 3435973836) THEN INSERT INTO origin_0_3 VALUES (NEW.*);
+ ELSIF (3435973836 < NEW.k_crc32 AND NEW.k_crc32 <= 4294967295) THEN INSERT INTO origin_0_4 VALUES (NEW.*);
+ END IF;
+ RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
+```
+触发器的原理就是通过查询条件，将数据重定向到指定分区。  
+上面的初始化语句都是简化后的，实际上有 256 个判断条件，而且触发器每次似乎只能执行单条语句，这也导致了整体性能急剧下降。   
+我们方案设计上没有太大的问题，但是执行方式有问题，触发器的重定向不适合这种场景，所以我只能尝试自己维护。
+
+重新优化思路，获取每个分区的数据，直接和目标分区作关联运算，绕开触发器。  
+```sql
+CREATE TEMPORARY TABLE temp_diff_%[2]d (
+    k text,
+    v text,
+	k_crc32 bigint,
+    old_v text
+) ON COMMIT DROP;
+WITH temp_diff_w AS (SELECT * FROM temp_add WHERE (%[3]d < k_crc32 AND k_crc32 <= %[4]d))
+INSERT INTO temp_diff_%[2]d SELECT tadd.k, tadd.v, tadd.k_crc32, tadd.origin_id, kv.v FROM temp_diff_w AS tadd LEFT JOIN origin AS kv ON tadd.k = kv.k AND tadd.k_crc32 = kv.k_crc32 WHERE tadd.v != kv.v OR kv.v IS NULL;
+INSERT INTO temp_diff (SELECT * FROM temp_diff;
+UPDATE origin AS o SET v = row.v FROM (SELECT * FROM temp_diff_%[2]d WHERE old_v IS NOT NULL) as row WHERE o.k_crc32 = row.k_crc32 AND o.k = row.k;
+DROP INDEX IF EXISTS origin_btree_index_key;
+INSERT INTO origin (k, v, k_crc32, origin_id) (SELECT k, v, k_crc32, origin_id FROM temp_diff_%[2]d WHERE old_v IS NULL);
+CREATE INDEX IF NOT EXISTS origin_btree_index_key ON origin USING btree (k_crc32);
+DROP TABLE IF EXISTS temp_diff_%[2]d;
+```
+以上是部分执行语句（已脱敏），可以看出，第一步就取出了分区数据，然后执行关联运算获取最终结果集，再将结果集数据写入源表即可。  
+
+再次测试，执行一次大概在 半小时 左右，完美 🤠🤠🤠
 
 
 
