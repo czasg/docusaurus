@@ -676,6 +676,48 @@ git config --global user.name &quot;name&quot;
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[golang 关于继承的坑点]]></title>
+        <id>golang 关于继承的坑点</id>
+        <link href="https://czasg.github.io/docusaurus/blog/2021/11/18/golang继承的坑点"/>
+        <updated>2021-11-18T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[准确来说，golang 没有继承，而是组合。]]></summary>
+        <content type="html"><![CDATA[<p>准确来说，golang 没有继承，而是组合。</p><pre><code class="language-go">package main
+
+import &quot;fmt&quot;
+
+type People struct{}
+
+func (p People) Hello() {
+    fmt.Println(&quot;hello&quot;)
+    p.CallName()
+}
+
+func (p People) CallName() {
+    fmt.Println(&quot;my name is people&quot;)
+}
+
+type Man struct {
+    People
+}
+
+func (m Man) CallName() {
+    fmt.Println(&quot;my name is man&quot;)
+}
+
+func main() {
+    (Man{}).Hello()
+}
+</code></pre><p>该代码最终输出的都是结构体 <code>People</code> 定义的方法，其中 <code>p.CallName()</code> 方法只会调用自己或者组合过来的方法。<br/>
+<!-- -->这种通过匿名组合的方式，被组合的类型 <code>People</code> 所包含的方法虽然升级成了外部类型 <code>Teacher</code> 这个组合类型的方法，但接受调用的时候并没有发生变化。</p><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg<br/>
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍<br/>
+<!-- -->:::</p>]]></content>
+        <author>
+            <name>Czasg</name>
+            <uri>https://github.com/czasg</uri>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[python 基础数据类型中隐藏的知识点]]></title>
         <id>python 基础数据类型中隐藏的知识点</id>
         <link href="https://czasg.github.io/docusaurus/blog/2021/11/3/python基础数据类型"/>
@@ -684,6 +726,32 @@ git config --global user.name &quot;name&quot;
         <content type="html"><![CDATA[<h2>整数</h2><h4>为了更好的区分位数，python 支持以下划线分割整数。</h4><pre><code class="language-python">1_000_000_000 == 1000000000
 </code></pre><h2>字符串</h2><h4>格式化字符</h4><ul><li><code>%d</code> 表示输出十进制。</li><li><code>%.2d</code> 表示输出最低两位有效数字</li><li><code>%2d</code> 表示宽度为 2，以右对齐方式输出，左边不足则补空格</li><li><code>%02d</code> 表示宽度为 2，不足补 0</li><li><code>%06.2d</code> 表示宽度为 6，保留最低两位有效数字，以右对齐方式输出，左边不足补 0</li></ul><h2>变量</h2><blockquote><p>变量，指值可以变的量。在数学中，变量以非数字的符号来表达，一般用拉丁字母。变量的用处在于能抽象化描述。</p></blockquote><p>在弱类型语言中，变量本身的类型是不固定的，可以指向任意对象。<br/>
 <!-- -->在强类型语言中，申明变量时必须要指定变量类型。</p><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg<br/>
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍<br/>
+<!-- -->:::</p>]]></content>
+        <author>
+            <name>Czasg</name>
+            <uri>https://github.com/czasg</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[python 生成器与迭代器理解]]></title>
+        <id>python 生成器与迭代器理解</id>
+        <link href="https://czasg.github.io/docusaurus/blog/2021/11/3/python生成器与迭代器理解"/>
+        <updated>2021-11-03T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[生成器]]></summary>
+        <content type="html"><![CDATA[<h2>生成器</h2><p>生成器是 python 中的一种特殊对象，它可以运行时返回计算值，而不用一次将所有逻辑执行完。<br/>
+<!-- -->生成器定义的方式有两种：  </p><pre><code class="language-python" metastring="title=&quot;列表生成式中 [] 改 ()&quot;" title="&quot;列表生成式中">(x * x for x in range(10))
+</code></pre><pre><code class="language-python" metastring="title=&quot;在函数中嵌入 yield&quot;" title="&quot;在函数中嵌入">def fib(max):
+    n, a, b = 0, 0, 1
+    while n &lt; max:
+        yield b
+        a, b = b, a + b
+        n = n + 1
+    return &#x27;done&#x27;
+</code></pre><h2>迭代器</h2><p>在 python 中，我们将所有可以直接用于 for 循环的对象，统称为<strong>可迭代对象</strong>：<code>Iterable</code></p><p>而生成器是一种特殊的对象，不仅可以直接作用于 for 循环，还可以被 next 函数不断调用返回下一个值，直至最后抛出 StopIteration 错误，
+表示已获取到最后一个值。<br/>
+<!-- -->所以，我们将可以被 next 函数调用并不断返回值的对象称之为 <strong>迭代器</strong>：<code>Iterator</code></p><p>常见的 list、map 和 <code>Iterator</code> 概念不同：<code>Iterator</code> 表示的是数据流，而他们则表示一个数据集合。</p><br/><p>:::info 👇👇👇
 <strong>本文作者:</strong> Czasg<br/>
 <strong>版权声明:</strong> 转载请注明出处哦~👮‍<br/>
 <!-- -->:::</p>]]></content>
