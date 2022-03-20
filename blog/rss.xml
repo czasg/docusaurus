@@ -620,6 +620,55 @@ git config --global user.name &quot;name&quot;
 <!-- -->:::</p>]]></content:encoded>
         </item>
         <item>
+            <title><![CDATA[golang 切片坑点]]></title>
+            <link>https://czasg.github.io/docusaurus/blog/2021/11/19/golang切片坑点</link>
+            <guid>golang 切片坑点</guid>
+            <pubDate>Fri, 19 Nov 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[切片是 golang 中的一种特殊结构，由指向数组首位的指针、长度、容量组成。]]></description>
+            <content:encoded><![CDATA[<p>切片是 golang 中的一种特殊结构，由指向数组首位的指针、长度、容量组成。</p><h2>坑点：切片之间可以相互影响</h2><p>切片底层使用了数组结构，再没有触发扩容机制前，多切片之间是可能相互影响的。</p><pre><code class="language-go">package main
+
+import &quot;fmt&quot;
+
+func main() {
+    base := []int{1, 2, 3, 4, 5}
+    base01 := base[0:1]
+    base02 := base[0:2]
+    fmt.Println(base01, base02)
+    base01[0] = 11
+    fmt.Println(base01, base02)
+}
+</code></pre><p>此时修改 base01 的值，会直接影响 base02 的值。<br/>
+<!-- -->这是因为他们此时公用的底层数组。</p><p>:::note 扩容机制</p><pre><code class="language-goalng" metastring="title=&quot;src/runtime/slice.go&quot;" title="&quot;src/runtime/slice.go&quot;">func growslice(et *_type, old slice, cap int) slice {
+    ...
+    newcap := old.cap
+    doublecap := newcap + newcap
+    if cap &gt; doublecap {
+        newcap = cap
+    } else {
+        if old.len &lt; 1024 {
+            newcap = doublecap
+        } else {
+            // Check 0 &lt; newcap to detect overflow
+            // and prevent an infinite loop.
+            for 0 &lt; newcap &amp;&amp; newcap &lt; cap {
+                newcap += newcap / 4
+            }
+            // Set newcap to the requested cap when
+            // the newcap calculation overflowed.
+            if newcap &lt;= 0 {
+                newcap = cap
+            }
+        }
+    }
+    ...
+}
+</code></pre><p>看源码可以看到，当切片长度小于 1024 时，扩容时直接 double，当切片长度大于 1024 后，每次扩容为之前的 1/4。
+:::</p><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg<br/>
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍<br/>
+<!-- -->:::</p>]]></content:encoded>
+        </item>
+        <item>
             <title><![CDATA[golang 关于继承的坑点]]></title>
             <link>https://czasg.github.io/docusaurus/blog/2021/11/18/golang继承的坑点</link>
             <guid>golang 关于继承的坑点</guid>
