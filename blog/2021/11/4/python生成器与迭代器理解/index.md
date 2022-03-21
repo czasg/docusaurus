@@ -29,7 +29,7 @@ def fib(max):
 表示已获取到最后一个值。  
 所以，我们将可以被 next 函数调用并不断返回值的对象称之为 **迭代器**：`Iterator`
 
-常见的 list、map 和 `Iterator` 概念不同：`Iterator` 表示的是数据流，而他们则表示一个数据集合。
+`Iterator` 和常见的 list、map 概念不同：`Iterator` 表示的是数据流，而他们则表示一个数据集合。
 
 <br/>
 

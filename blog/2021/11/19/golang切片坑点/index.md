@@ -25,7 +25,11 @@ func main() {
 	fmt.Println(base01, base02)
 }
 ```
-此时修改 base01 的值，会直接影响 base02 的值。     
+此时修改 base01 的值，会直接影响 base02 的值。  
+```text title="输出结果"
+[11]
+[11 2]
+```   
 这是因为他们此时公用的底层数组。
 
 :::note 扩容机制
