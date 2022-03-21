@@ -36,10 +36,10 @@ tags: [未定义]
 
 
 def gen(args: dict):
-    dir_path = os.path.join("blog", year, month, day)
+    dir_path = os.path.join("blog", year)
     if not os.path.exists(dir_path):
         os.makedirs(dir_path)
-    index_dir = os.path.join(dir_path, args.filename)
+    index_dir = os.path.join(dir_path, f"{int(month):02d}-{int(day):02d}-{args.filename}")
     if os.path.exists(index_dir):
         print(f"已存在[{args.filename}]")
         return

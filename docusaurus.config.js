@@ -23,6 +23,7 @@ const config = {
       ({
         docs: false,
         blog: {
+          blogSidebarTitle: '全部博文',
           showReadingTime: true,
           blogSidebarCount: 'ALL',  // [ALL, number]
           postsPerPage: 10,
