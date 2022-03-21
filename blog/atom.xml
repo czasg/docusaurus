@@ -153,13 +153,13 @@ DROP TABLE IF EXISTS temp_diff_%[2]d;
 <!-- -->对于无状态服务来说，特别适合在 k8s 上运行，因为无状态服务，是具有弹性的，可以更好的应对 pod 扩缩容、重启等特性。<br/>
 <!-- -->相反，对于有状态服务（类似数据库等），则存在一定的瓶颈限制。</p><p>先来看下 k8s 如何部署有状态服务，然后讨论下其优缺点。</p><h2>DaemonSet &amp; StatefulSet</h2><p><strong>DaemonSet</strong> 是 k8s 的控制器资源对象之一，其特点是：   </p><blockquote><p>1、确保每个节点仅启动一个 pod 副本，当有新节点加入集群时，自动为其增加一个 pod。</p></blockquote><p>比较典型的是日志收集服务，比如：我们需要确保每个节点上起一个 <code>logstash</code>，以便回收节点上的服务日志。  </p><p>数据库服务可以在类似场景下使用，比如给某个节点打上标签，确保某个数据库在对应节点上以 DaemonSet 类型启动，这样就可以确保该节点仅有一个 pod 副本。
 最后通过 <code>nodeport</code> 的方式对外提供服务。
-此时我们的数据库就拥有了稳定的节点 ip 和本地存储。  </p><p>但是这种方式，和直接在物理机上部署的方式差别不大，主要是复用了 k8s 的管理能力。</p><p><strong>StatefulSet</strong> 是 k8s 专为有状态服务设计的资源类型，它拥有：  </p><blockquote><p>1、稳定的网络标识：当服务重启，pod 绑定的 ip 不会变化，但是手动删除或者重建副本时，会重新分配 ip。
+此时我们的数据库就拥有了稳定的节点 ip 和本地存储。  </p><p>但是这种方式，和直接在物理机上部署的方式差别不大，主要是复用了 k8s 的管理能力。</p><br/><p><strong>StatefulSet</strong> 是 k8s 专为有状态服务设计的资源类型，它拥有：  </p><blockquote><p>1、稳定的网络标识：当服务重启，pod 绑定的 ip 不会变化，但是手动删除或者重建副本时，会重新分配 ip。
 创建 headless service 时可以通过 <code>${serviceName-number}.${service}.${namespace}</code> 访问指定 pod。<br/>
 <!-- -->2、稳定的持久存储：基于 pvc 实现，每个 pod 会绑定专有的 pvc 存储。<br/>
 <!-- -->3、有序的扩缩容：会安装顺序从 0 逐一启动或者重建，此时类似滚动更新的扩容策略不在适用。      </p></blockquote><p>当我们的数据库服务部署 k8s 上时，可以选择 StatefulSet 资源类型。<br/>
-<!-- -->它的基本特点，足够支持一个有状态服务的正常运转。</p><h2>性能瓶颈</h2><p>数据库主要是和存储打交道，其性能瓶颈通常在磁盘IO。<br/>
+<!-- -->它的基本能力，足够支持一个有状态服务的正常运转。</p><h2>性能瓶颈</h2><p>数据库主要是和存储打交道，其性能瓶颈通常在磁盘IO。<br/>
 <!-- -->那么快速的磁盘IO，将有助于提升数据库的性能和吞吐量。<br/>
-<!-- -->比如：分别部署在 HDD 和 SSD 上的两个数据库，在相同其他条件下，SSD 上的数据库肯定拥有更高的性能。 </p><p>当我们的数据库部署在 k8s 上时，可以通过挂载卷 volume（nfs、ceph）持久化数据，但是这样就不可避免的引入了网络IO，在本身就拉跨的瓶颈上又补一刀。<br/>
+<!-- -->比如：分别部署在 HDD 和 SSD 上的两个数据库，在相同其他条件下，SSD 上的数据库肯定拥有更高的性能。 </p><p>当我们的数据库部署在 k8s 上时，可以通过挂载卷 volume（nfs、ceph）持久化数据，但是这样就不可避免的引入了网络IO，在本身的瓶颈上又补一刀。<br/>
 <!-- -->所以当我们使用 k8s 部署数据库时，可能需要重点考虑下性能问题。</p><p>除了 nfs、ceph 之外，还有 hostpath 这类本地存储，可以忽略网络影响。
 但是这需要我们的副本绑定到固定的节点上，此时就走的类似 DaemonSet 的部署路线了。</p><br/><p>:::info 👇👇👇
 <strong>本文作者:</strong> Czasg<br/>
@@ -214,7 +214,8 @@ summary +  11924 in 00:00:30 =  397.5/s Avg:    25 Min:     0 Max:    80 Err:   
 summary =  67685 in 00:02:54 =  388.5/s Avg:    25 Min:     0 Max:   346 Err:     0 (0.00%)
 summary +  11884 in 00:00:30 =  396.2/s Avg:    25 Min:     0 Max:   240 Err:     0 (0.00%) Active: 10 Started: 10 Finished: 0
 summary =  79569 in 00:03:24 =  389.6/s Avg:    25 Min:     0 Max:   346 Err:     0 (0.00%)
-</code></pre><p>(1000ms/25ms)*10=400TPS</p><h2>分布式压力测试</h2><pre><code class="language-shell" metastring="script title=&quot;启动指令&quot;" title="&quot;启动指令&quot;">/jmeter/bin/jmeter -n -t tmpl.jmx -R 1.1.1.1:8000,1.1.1.2:8000
+</code></pre><p>(1000ms/25ms)*10=400TPS</p><h2>分布式压力测试</h2><pre><code class="language-shell" metastring="script title=&quot;启动指令&quot;" title="&quot;启动指令&quot;">/jemeter/bin/jmeter -n -t ./script.jmx -r -l ./script.jtl -e -o ./script
+</code></pre><pre><code class="language-shell" metastring="script title=&quot;分布式 jmeter 启动指令&quot;" title="&quot;分布式">/jmeter/bin/jmeter -n -t tmpl.jmx -R 1.1.1.1:8000,1.1.1.2:8000
 </code></pre><br/><p>:::info 👇👇👇
 <strong>本文作者:</strong> Czasg<br/>
 <strong>版权声明:</strong> 转载请注明出处哦~👮‍
@@ -225,44 +226,19 @@ summary =  79569 in 00:03:24 =  389.6/s Avg:    25 Min:     0 Max:   346 Err:   
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[常用 sql 操作]]></title>
-        <id>常用 sql 操作</id>
+        <title type="html"><![CDATA[常见 sql 批量操作]]></title>
+        <id>常见 sql 批量操作</id>
         <link href="https://czasg.github.io/docusaurus/blog/2022/1/20/常用 sql 操作"/>
         <updated>2022-01-20T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[整理下 sql 常见的操作。]]></summary>
-        <content type="html"><![CDATA[<p>整理下 sql 常见的操作。</p><h2>mysql</h2><h2>postgres</h2><h3>建表</h3><pre><code class="language-sql" metastring="title=&quot;创建普通表&quot;" title="&quot;创建普通表&quot;">CREATE TABLE IF NOT EXISTS my_table (
-    k  text,
-    v  text
-)
-</code></pre><pre><code class="language-sql" metastring="title=&quot;创建临时表&quot;" title="&quot;创建临时表&quot;">CREATE TEMPORARY TABLE IF NOT EXISTS my_table (
-    k  text,
-    v  text
-) ON COMMIT DROP;
-</code></pre><pre><code class="language-sql" metastring="title=&quot;删除表&quot;" title="&quot;删除表&quot;">DROP TABLE IF EXISTS my_table; -- 普通删除
-DROP TABLE IF EXISTS my_table CASCADE; -- 级联删除
-</code></pre><h3>索引</h3><pre><code class="language-sql">CREATE INDEX IF NOT EXISTS my_table_hash_index USING HASH(k);
-DROP INDEX IF EXISTS my_table_hash_index;
-</code></pre><h3>插入</h3><pre><code class="language-sql">INSERT INTO my_table (k, v) VALUES (&#x27;k&#x27;, &#x27;v&#x27;); -- 插入单条
+        <summary type="html"><![CDATA[整理下 sql 常见的批量操作写法。]]></summary>
+        <content type="html"><![CDATA[<p>整理下 sql 常见的批量操作写法。</p><h2>插入</h2><pre><code class="language-sql" metastring="title=&quot;批量插入&quot;" title="&quot;批量插入&quot;">INSERT INTO my_table (k, v) VALUES (&#x27;k&#x27;, &#x27;v&#x27;); -- 插入单条
 INSERT INTO my_table (SELECT * FROM same_table); -- 相同结构表之间的批量插入
 INSERT INTO my_table (k, v) (SELECT k, v FROM other_table); -- 不同结构表之间的批量插入
-</code></pre><h3>更新</h3><pre><code class="language-sql">UPDATE my_table SET v = &#x27;new_v&#x27; WHERE k = &#x27;new_k&#x27;; -- 更新一次
+</code></pre><h2>更新</h2><pre><code class="language-sql" metastring="title=&quot;批量更新&quot;" title="&quot;批量更新&quot;">UPDATE my_table SET v = &#x27;new_v&#x27; WHERE k = &#x27;new_k&#x27;; -- 更新一次
 UPDATE my_table AS o SET v = new_table.v FROM (SELECT * FROM other_table) as new_table WHERE o.k = new_table.k; -- 批量更新
+</code></pre><h2>删除</h2><pre><code class="language-sql" metastring="title=&quot;批量删除&quot;" title="&quot;批量删除&quot;">DELETE FROM new_table AS kv USING other_table AS row WHERE kv.k = row.k;
+</code></pre><pre><code class="language-sql" metastring="title=&quot;联级删除 CASCADE&quot;" title="&quot;联级删除">DROP TABLE IF EXISTS my_table CASCADE;
 </code></pre>]]></content>
-        <author>
-            <name>Czasg</name>
-            <uri>https://github.com/czasg</uri>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[redis 整理]]></title>
-        <id>redis 整理</id>
-        <link href="https://czasg.github.io/docusaurus/blog/2022/1/18/redis 整理"/>
-        <updated>2022-01-18T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[整理下 redis 常见知识点。]]></summary>
-        <content type="html"><![CDATA[<p>整理下 redis 常见知识点。</p><p>:::note redis 单线程理解
-在 6.0 版本之前，redis 内部的网络IO和键值对的读写是在同一个线程中完成的。<br/>
-<!-- -->但类似数据持久化、主从同步等，都是多线程完成的。所以本质上，redis 并不是一个绝对的单线程服务。
-而官方之所以这样描述，也只是因为他的核心逻辑都是单线程实现的，然后还能提供这么高的并发，整体听上去就很牛了。</p><p>在 6.0 版本之后，redis 在网络IO部分引入了多线程，而键值对的读写则还是由单线程完成。  </p><p>:::</p><h2>常见数据类型</h2><ul><li>string</li><li>hash</li><li>list</li><li>set</li><li>zset</li><li>bitmap</li><li>hyperloglog</li><li>geo</li></ul><h2></h2>]]></content>
         <author>
             <name>Czasg</name>
             <uri>https://github.com/czasg</uri>
@@ -386,6 +362,32 @@ worker_cpu_affinity  none;  # 用于绑定 worker 进程与 cpu
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[RAID 独立磁盘冗余阵列]]></title>
+        <id>RAID 独立磁盘冗余阵列</id>
+        <link href="https://czasg.github.io/docusaurus/blog/2021/12/24/raid初识"/>
+        <updated>2021-12-24T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[独立磁盘冗余阵列 RAID（redundant array of independent disks）技术]]></summary>
+        <content type="html"><![CDATA[<p>独立磁盘冗余阵列 RAID（redundant array of independent disks）技术<br/>
+<!-- -->是将多块磁盘通过某种协议管理起来，使其共同对外提供服务，从而提升性能。</p><p>常见 RAID 有五种：RAID 0、RAID 1、RAID 10、RAID 5、RAID 6。</p><h2>RAID 0</h2><p>RAID 0 是将一个文件的数据分成 N 片，同时向 N 个磁盘写入，这样单个文件就可以存储在 N 个磁盘上。<br/>
+<!-- -->理论上通过 RAID 0，单文件容量可以提升 N 倍，读写速度也可以提升 N 倍。<br/>
+<!-- -->但是 RAID 0 可能提升文件损坏的风险，因为任何一个磁盘损坏，都将导致数据不完整。<br/>
+<img src="./raid-0.png"/></p><h2>RAID 1</h2><p>RAID 1 是同时往两块磁盘上写数据，其中一块用户数据备份。这样只要不是磁盘全部损坏，那么文件数据就不会丢失，文件的可用性大大提升。<br/>
+<!-- -->但是可用的存储空间就降低一半了。<br/>
+<img src="./raid-1.png"/></p><h2>RAID 10</h2><p>RAID 10 是结合了 RAID 1 和 RAID 0，将多块硬盘进行两两分组。文件数据被分成了 N 份，每个组写入一份，并且每个分组的数据都有一份备份。<br/>
+<!-- -->这样不仅提升了文件存储的容量和性能，也提高了文件的可用性。<br/>
+<!-- -->但不可避免的和 RAID 1 一样，磁盘整体存储利用只有 50% 了。<br/>
+<img src="./raid-10.png"/></p><h2>RAID 5</h2><p>RAID 5 针对 RAID 1 和 RAID 10 中磁盘浪费的情况进行了优化。<br/>
+<!-- -->将数据分成 N - 1 份，再利用这 N - 1 份数据进行位运算，计算一片校验数据，然后将这 N 片数据写入 N 个磁盘中。<br/>
+<!-- -->这样任何一个磁盘损坏，都可以利用校验数据进行恢复，磁盘利用率也提高到 (N-1)/N  </p><p>虽然 RAID 5 可以解决一块磁盘损坏后修复的场景，但是两块磁盘损坏，就仍然会出现数据丢失的情况。   </p><p>实践过程中，使用最多的还是 RAID 5.</p><h2>RAID 6</h2><p>针对 RAID 5 中可能出现的两块磁盘损坏的场景，引入了两种位运算计算和存储数据，这样即使两块磁盘损坏，仍然是可以得到修复的。</p><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg<br/>
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍<br/>
+<!-- -->:::</p>]]></content>
+        <author>
+            <name>Czasg</name>
+            <uri>https://github.com/czasg</uri>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[初步了解 k8s 资源配额]]></title>
         <id>初步了解 k8s 资源配额</id>
         <link href="https://czasg.github.io/docusaurus/blog/2021/12/23/k8s资源配额"/>
@@ -486,7 +488,7 @@ if err != nil {
 <!-- -->此时，这些寄存器中的信息，就是我们常说的 cpu 上下文。</p><p>所以简单点理解就是，将当前任务的上下文保存，并将下一个执行任务的上下文加载到寄存器中的过程，称之为 cpu 的上下文切换。
 当然，实际过程更为复杂。</p><p>:::note 用户级和系统级的上下文
 我们常说的上下文更多的是用户级别的，他和系统级上下文保存内容有所不同：  </p><ul><li>用户级上下文：程序运行时堆栈信息、数据块、代码块等。  </li><li>系统级上下文：进程标识信息、控制信息等。
-:::</li></ul><h4><strong>cpu：上下文信保存的方式</strong></h4><p>操作系统给进程分配资源时，会分配一个内核空间，这部分空间只能够由内核代码访问。<br/>
+:::</li></ul><h4><strong>cpu：上下文保存的方式</strong></h4><p>操作系统给进程分配资源时，会分配一个内核空间，这部分空间只能够由内核代码访问。<br/>
 <!-- -->执行上下文切换时，会将上下文信息保存在内核空间中，等待下次调度时，再重新加载到 cpu 中。</p><h4><strong>cpu：上下文切换的方式</strong></h4><p>执行上下文切换，需要由 cpu 来执行。但由于当前 cpu 已经被进程占用了，所以需要一种策略，来获取 cpu 的执行权限。获取的方式主要有两种：</p><p>1、协作式策略<br/>
 <!-- -->由进程主动让出 cpu</p><p>2、抢占式策略<br/>
 <!-- -->依赖硬件的定时中断机制，操作系统初始化时向硬件注册中断回调，以便当硬件发生中断时，硬件会将 cpu 的处理权交还给操作系统。<br/>
@@ -527,12 +529,12 @@ linux 提供了权重机制，用于标记任务的优先级。<br/>
         <updated>2021-12-15T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[字符串是使用的最多的数据类型之一。]]></summary>
         <content type="html"><![CDATA[<p>字符串是使用的最多的数据类型之一。<br/>
-<!-- -->如果说在使用过程中会遇到什么问题，那可以说，大部分都是编码方面的问题了。</p><h2>ascii 编码</h2><blockquote><p>字符编码的本质，是数字到字符串的映射</p></blockquote><p>最早的编码是 ascii 编码，它是一个包含 127 个字符的字符集，可以编码字母和特殊字符。</p><p>:::note 比特与字节
+<!-- -->如果说在使用过程中会遇到什么问题，那可以说，大部分都是编码方面的问题了。</p><h2>ascii 编码</h2><blockquote><p>字符编码的本质，是数字到字符串的映射</p></blockquote><p>最早的编码是 ascii 编码，它是一个包含 128 个字符的字符集，可以编码字母和特殊字符。</p><p>:::note 比特与字节
 由于计算机底层只能够处理数字，如果要处理类似文本图片等数据，就需要先将这些数据转化为数字才能够继续处理。<br/>
 <!-- -->最早计算机在设计时采用 8 个比特（bit）作为一个字节（byte），所以一个字节能表示的最大数字就是 255，二进制表示 <code>1111 1111</code></p><p>如果需要表示更大的数，就需要更多的字节
 :::</p><h2>unicode 编码</h2><p>随着计算机的发展，单一的 ascii 编码已经无法满足多元的文化需求。<br/>
 <!-- -->计算机需要支持更多的编码集，例如：中国制定有 gb2312，其他国家也有类似的编码集。</p><p>虽然每个国家都实现了特定的编码，但是当一个文本中混合了多个国家的语言时，就不可避免的出现局部乱码。</p><p>为了解决这个问题，业界决定使用统一的 unicode 编码。<br/>
-<!-- -->即将所有国家的编码收录到一个字符集中。</p><h2>utf-8 编码</h2><p>虽然 unicode 可以解决乱码问题，但是会出现一个这样的问题：<br/>
+<!-- -->即将所有国家的编码收录到一个字符集中。</p><h2>utf-8 编码</h2><p>虽然 unicode 可以解决乱码问题，但并不优雅。因为它存在一个这样的问题：<br/>
 <!-- -->中英混合时，一个中文可能需要占据两个字节，这个时候为了正确编码，原本只需要占据一个字节的英文，不得不占据两个字节。<br/>
 <!-- -->从而造成了资源浪费。</p><p>为了解决这个缺陷，基于 unicode 编码又推出了可变长编码 utf-8</p><p>即 utf-8 会根据实际类型选择最佳的字节占位，从而节省空间。</p><h2>计算机通用编码方式</h2><p>搞清楚了 ascii、unicode、utf-8 编码，我们梳理下计算机通用的编码方式：<br/>
 <!-- -->1、在计算机内存中，统一使用 unicode 编码<br/>
@@ -553,23 +555,23 @@ linux 提供了权重机制，用于标记任务的优先级。<br/>
         <link href="https://czasg.github.io/docusaurus/blog/2021/12/13/gRPC负载均衡"/>
         <updated>2021-12-13T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[本文主要介绍在 k8s 环境下 gRPC 服务在实现负载均衡时遇到的问题和解决思路。]]></summary>
-        <content type="html"><![CDATA[<p>本文主要介绍在 k8s 环境下 gRPC 服务在实现负载均衡时遇到的问题和解决思路。</p><h2>概述</h2><p>我们的 gRPC 应用最初使用 <code>DaemonSet</code> 类型的资源对象部署在 k8s 上。通过污点和容忍配置，使得单台 Node 节点不在部署其他 Pod 应用。
-而该 gRPC 应用，则通过 <code>NodePort Service</code> 的方式对外暴露服务。</p><p>在这种场景下直接对外暴露固定 IP 提供服务，业务流量全部打到单台宿主机上，所以也不存在负载均衡的说法。</p><p>随着业务压力逐渐增大，单点提供的能力已逐渐达到极限，我们采用水平拓展的方式，部署了多台单节点服务。也算暂时抗住了压力。但随后的暴露的问题，也让我们被迫选择了重构。</p><p>:::note 为什么选择重构
+        <content type="html"><![CDATA[<p>本文主要介绍在 k8s 环境下 gRPC 服务在实现负载均衡时遇到的问题和解决思路。</p><h2>概述</h2><p>我们的 gRPC 应用最初使用 <code>DaemonSet</code> 类型的资源对象部署在 k8s 上。通过标签配置，使得单台 Node 节点仅部署一个 pod 应用。
+而 gRPC 应用则通过 <code>NodePort Service</code> 的方式对外暴露服务。</p><p>在这种场景下直接对外暴露固定 IP 提供服务，业务流量全部打到单台宿主机上，所以也不存在负载均衡的说法。</p><p>随着业务压力逐渐增大，单点提供的能力已逐渐达到极限，我们采用水平拓展的方式，部署了多台单节点服务。也算暂时抗住了压力。但随后的暴露的问题，也让我们被迫选择了重构。</p><p>:::note 为什么选择重构
 业务持续拓展，引入多节点的问题也逐渐暴露出来，当前服务架构下，多节点之间的数据一致性完全不能保证，人工运维简直不要太恶心，无奈只能重构。这里我们不针对此展开。<br/>
-<!-- -->:::</p><p>服务改造升级完毕后，完全兼容历史 gRPC 接口，在 k8s 的配置上也有部分改动，以前的 <code>DaemontSet</code> 资源变更为 <code>Deployment</code> 资源，而 <code>NodePort Service</code> 资源则变更为 <code>ClusterIP Service</code> 资源。
-项目正式进入到了提测阶段。</p><p>功能上基本没有太大的问题，毕竟引用了相同的 gRPC 接口文件。</p><p>问题主要出现在了负载均衡上，在多副本的场景下，发生了严重的流量倾斜，具体表现就是某个副本的压力非常高，而其他副本的压力很小，进而导致服务整体异常。</p><p>:::tip 简单分析
-gRPC 是基于 HTTP2.0 实现的长连接，且默认没有超时，这种长连接能够大量减少 TCP 连接管理所带来的开销，但也破坏了标准的连接级的负载均衡。因为连接已经建立且不断开，也无法再进一步负载均衡了。  </p><p>那么再回到上述场景，显然就是客户端与某个具体的服务建立了长连接，而连接又不会断开，从而导致了持续的流量倾斜问题。
+<!-- -->:::</p><p>服务改造升级完毕后，完全兼容历史 gRPC 接口，在 k8s 的配置上也有部分改动，以前的 <code>DaemontSet</code> 资源变更为 <code>Deployment</code> 资源，而 <code>NodePort Service</code> 资源则变更为 <code>ClusterIP Service</code> 资源。<br/>
+<!-- -->项目正式进入到了提测阶段。</p><p>功能上基本没有太大的问题，毕竟引用了相同的 gRPC 接口文件。</p><p>问题主要出现在了负载均衡上，在多副本的场景下，发生了严重的流量倾斜，具体表现就是某个副本的压力非常高，而其他副本的压力很小，进而导致服务整体异常。</p><p>:::tip 简单分析
+gRPC 是基于 HTTP2.0 实现的长连接，且默认没有超时，这种长连接能够大量减少 TCP 连接管理所带来的开销，但也破坏了标准的连接级的负载均衡。因为连接已经建立且不断开，所以也无法再进一步负载均衡了。  </p><p>那么再回到上述场景，显然就是客户端与某个具体的服务建立了长连接，而连接又不会断开，从而导致了持续的流量倾斜问题。
 :::</p><p>选择有效的 gRPC 负载均衡方案，是解决我们当前问题的核心。</p><p>具体解决的方法有多种，我们主要将其分为：  </p><ul><li>用户侧的负载均衡</li><li>服务侧的负载均衡</li></ul><h2>gRPC 负载均衡 - 用户侧</h2><p>用户侧的 gRPC 负载均衡，是通过 DNS，使用户解析出全部的 gRPC 服务地址，然后用户自己实现负载策略。
 最简单的策略就是与每个服务建立 gRPC 连接，然后轮询访问，实现 rr 负载。</p><p><img src="client-load-balancer.png"/></p><p>该方案实施起来比较容易，但对于用户侧有一定的要求。如：</p><ul><li>安全方面，要考虑用户的可靠性。</li><li>更新策略，解析 DNS 虽有现成的方案，但是常规方案一般无法探知到后续新创建的服务，所以需要设计更新策略。</li></ul><h2>gRPC 负载均衡 - 服务侧</h2><p>服务侧的 gRPC 负载均衡，需要引入一个负载均衡代理，我们称之为 <code>Load Balancer</code>，
 用户向 LB 发起 RPC 请求，然后由该 LB 将 RPC 分配到一个可用的后端服务器上，
 由该服务器提供 gRPC 服务，并将负载情况报告给 LB，进一步补全 LB 的负载信息。
 <img src="server-load-balancer.png"/></p><p>在该方案中，负载均衡由 LB 统一管理，有一定的实施难度。<br/>
-<!-- -->除非能找到高 star 的开源项目，不然开发与运维就是一笔不小的投入。</p><h2>方案选择</h2><p>考虑到实施难度，我们选择了用户侧的负载均衡方式。</p><p>首先要解决 DNS 的解析与负载，这一块，官方已经封装了 gRPC SDK，故用户可以通过升级 SDK 实现该功能。问题就在如何检测更新这一块了。</p><p>解决的方案也有两种：<br/>
-<!-- -->1、服务端实现：MaxConnectionAge<br/>
-<!-- -->2、客户端实现：KubeResolver   </p><p>:::info MaxConnectionAge
+<!-- -->除非能找到高 star 的开源项目，不然开发与运维就是一笔不小的投入。</p><h2>方案选择</h2><p>考虑到实施难度，我们选择了用户侧的负载均衡方式。</p><p><strong>首先要解决 DNS 的解析与负载</strong>，这一块，官方已经封装了 gRPC SDK，用户可以通过简单升级 SDK 即可实现该功能。</p><p><strong>其次就是服务发现这一块了</strong>。解决的方案也有两种：<br/>
+<!-- -->1、服务端实现：MaxConnectionAge。定期断开连接，从而触发客户端重解析。<br/>
+<!-- -->2、客户端实现：KubeResolver。客户端接入 k8s api 从而实现服务发现。   </p><p>:::note MaxConnectionAge
 MaxConnectionAge 是 gRPC 服务端的参数，用于指定长连接最大保持时间。<br/>
 <!-- -->配置该参数会使得长连接变成“短”连接，故性能会有一定的降低。</p><p>该方案的原理是，通过定期释放连接，使得客户端重新解析 DNS 获取最新的服务地址。
-:::</p><p>:::info KubeResolver
+:::</p><p>:::note KubeResolver
 该方案的原理是通过监听 k8s 的 api 资源状态，实时获取 gRPC 服务资源信息，从而实现检测更新。
 :::</p><p>综合考虑后，最终选择了 MaxConnectionAge 方案，因为此方案仅仅通过适配参数就可以完成预期功能，虽然略显僵硬，但实际上效果还不错。</p><br/><p>:::info 👇👇👇
 <strong>本文作者:</strong> Czasg<br/>
@@ -604,10 +606,9 @@ MaxConnectionAge 是 gRPC 服务端的参数，用于指定长连接最大保持
 一旦面试被人追着问细节时，就会暴露。</p><ul><li><strong>瓶颈阶段</strong></li></ul><p>一般指在某个领域有足够的经验。</p><p>处于这个阶段，你可能不在需要投递简历就能很轻松的找到一份工作。
 如果工作不开心，你也很自信可以很快找到另一份工作，虽然找的不一定更好，但不用担心失业问题。</p><ul><li><strong>溢出阶段</strong></li></ul><p>一般指在某个领域有足够经验，在公司也处于中高层。</p><p>你可以很轻松的获取工作之外的报酬，比如公司分红等。</p><p>不是所有的工作都符合这三个阶段，但也可以大致比照着看看自己应该处于什么阶段，对于处于第一阶段的同学，我建议还是先投入精力处理好自己的工作，在考虑发展其他副业。</p><h2>关于副业的思考 - 给自己</h2><blockquote><p>不能盲目跟风！</p></blockquote><p>不管这句话适不适用于所有领域，但它一直都是我长期以来坚信的。虽然我很眼热能发展副业的同学们，但比起盲目发展副业，我觉得我应该先认清自己的情况。</p><p>首先有很多发展副业的人都是事业编制，他们相对来说个人时间比较充裕。<br/>
 <!-- -->而互联网，是一个新兴技术频繁更替的行业，也是加班严重的行业之一，我时常也感觉自己个人时间不是很充裕。</p><p>其次，有部分牛人达到了工作的 <strong>瓶颈阶段</strong> 甚至是 <strong>溢出阶段</strong>，他们有能力、有资源去执行副业计划。<br/>
-<!-- -->而我，菜鸟一个，短时间内是很难雄起了...</p><p>这样一看，我是完全不适合发展副业的了...
-但是，生活环境又不会可怜我... 哎</p><p>基于这种背景，给自己一些建议：<br/>
-<!-- -->1、多整理并总结自己的笔记。
-2、整理文档时，优化下自己的文笔，不要乱糟糟了事，而应该尝试给别人讲述清楚。</p><p>说到底，短期还是只能提升软实力了</p><br/><p>:::info 👇👇👇
+<!-- -->而我，菜鸟一个，短时间内是很难雄起了...</p><p>这样一看，我是完全不适合发展副业的了...</p><p>基于这种背景，给自己一些建议：<br/>
+<!-- -->1、<strong>多整理并总结自己的笔记。</strong><br/>
+<!-- -->2、<strong>整理文档时，优化下自己的文笔，不要乱糟糟了事，而应该尝试给别人讲述清楚。</strong>      </p><p>说到底，短期还是只能提升软实力了。</p><br/><p>:::info 👇👇👇
 <strong>本文作者:</strong> Czasg<br/>
 <strong>版权声明:</strong> 转载请注明出处哦~👮‍
 :::</p>]]></content>
@@ -690,7 +691,7 @@ false
 </code></pre><p>这是一个坑点，在 code 过程中，我们常常认为 interface 被赋值了一个空值 nil，再做判断时，可以直接和 nil 做对比。<br/>
 <!-- -->显然这是错误的，这样会得到与我们预期不符的结果。 </p><p>这是因为 interface 并不是一个指针类型，而是一个特殊的结构体，内部包含了两类数据结构：<strong>类型</strong> 和 <strong>值</strong>。<br/>
 <!-- -->所以在上面的判断中，需要类型和值都为 nil 的是否才会判断正确。<br/>
-<!-- -->一旦赋予了某个类型或者值，此时再进行判断就会出现令人困惑的场景。   </p><p>针对这种场景，一般正确的方式是调用 reflect 反射包进行判断。</p><br/><p>:::info 👇👇👇
+<!-- -->一旦对 interface 赋予了某个类型或者值，即便是空值，当再次进行判断时，也会出现令人困惑的场景。   </p><p>针对这种场景，一般正确的方式是调用 reflect 反射包进行判断。</p><br/><p>:::info 👇👇👇
 <strong>本文作者:</strong> Czasg<br/>
 <strong>版权声明:</strong> 转载请注明出处哦~👮‍<br/>
 <!-- -->:::</p>]]></content>
@@ -717,8 +718,9 @@ func main() {
     base01[0] = 11
     fmt.Println(base01, base02)
 }
-</code></pre><p>此时修改 base01 的值，会直接影响 base02 的值。<br/>
-<!-- -->这是因为他们此时公用的底层数组。</p><p>:::note 扩容机制</p><pre><code class="language-goalng" metastring="title=&quot;src/runtime/slice.go&quot;" title="&quot;src/runtime/slice.go&quot;">func growslice(et *_type, old slice, cap int) slice {
+</code></pre><p>此时修改 base01 的值，会直接影响 base02 的值。  </p><pre><code class="language-text" metastring="title=&quot;输出结果&quot;" title="&quot;输出结果&quot;">[11]
+[11 2]
+</code></pre><p>这是因为他们此时公用的底层数组。</p><p>:::note 扩容机制</p><pre><code class="language-goalng" metastring="title=&quot;src/runtime/slice.go&quot;" title="&quot;src/runtime/slice.go&quot;">func growslice(et *_type, old slice, cap int) slice {
     ...
     newcap := old.cap
     doublecap := newcap + newcap
@@ -784,8 +786,10 @@ func (m Man) CallName() {
 func main() {
     (Man{}).Hello()
 }
-</code></pre><p>该代码最终输出的都是结构体 <code>People</code> 定义的方法，其中 <code>p.CallName()</code> 方法只会调用自己或者组合过来的方法。<br/>
-<!-- -->这种通过匿名组合的方式，被组合的类型 <code>People</code> 所包含的方法虽然升级成了外部类型 <code>Teacher</code> 这个组合类型的方法，但接受调用的时候并没有发生变化。</p><br/><p>:::info 👇👇👇
+</code></pre><p>该代码最终输出的都是结构体 <code>People</code> 定义的方法:</p><pre><code class="language-text" metastring="title=&quot;输出结果&quot;" title="&quot;输出结果&quot;">hello
+my name is people
+</code></pre><p>这是因为 <code>p.CallName()</code> 方法只会调用自己或者组合过来的方法。<br/>
+<!-- -->通过这种匿名组合的方式，被组合的类型 <code>People</code> 所包含的方法，虽然升级成了外部类型 <code>Teacher</code> 这个组合类型的方法，但接受调用的时候并没有发生变化。</p><br/><p>:::info 👇👇👇
 <strong>本文作者:</strong> Czasg<br/>
 <strong>版权声明:</strong> 转载请注明出处哦~👮‍<br/>
 <!-- -->:::</p>]]></content>
@@ -811,7 +815,7 @@ func main() {
     return &#x27;done&#x27;
 </code></pre><h2>迭代器</h2><p>在 python 中，我们将所有可以直接用于 for 循环的对象，统称为<strong>可迭代对象</strong>：<code>Iterable</code></p><p>而生成器是一种特殊的对象，不仅可以直接作用于 for 循环，还可以被 next 函数不断调用返回下一个值，直至最后抛出 StopIteration 错误，
 表示已获取到最后一个值。<br/>
-<!-- -->所以，我们将可以被 next 函数调用并不断返回值的对象称之为 <strong>迭代器</strong>：<code>Iterator</code></p><p>常见的 list、map 和 <code>Iterator</code> 概念不同：<code>Iterator</code> 表示的是数据流，而他们则表示一个数据集合。</p><br/><p>:::info 👇👇👇
+<!-- -->所以，我们将可以被 next 函数调用并不断返回值的对象称之为 <strong>迭代器</strong>：<code>Iterator</code></p><p><code>Iterator</code> 和常见的 list、map 概念不同：<code>Iterator</code> 表示的是数据流，而他们则表示一个数据集合。</p><br/><p>:::info 👇👇👇
 <strong>本文作者:</strong> Czasg<br/>
 <strong>版权声明:</strong> 转载请注明出处哦~👮‍<br/>
 <!-- -->:::</p>]]></content>
