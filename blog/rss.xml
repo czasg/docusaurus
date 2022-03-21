@@ -9,7 +9,7 @@
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
             <title><![CDATA[数据库单表十亿量级的优化之路]]></title>
-            <link>https://czasg.github.io/docusaurus/blog/2022/3/18/数据库单表十亿量级的优化之路</link>
+            <link>https://czasg.github.io/docusaurus/blog/2022/03/18/数据库单表十亿量级的优化之路</link>
             <guid>数据库单表十亿量级的优化之路</guid>
             <pubDate>Fri, 18 Mar 2022 00:00:00 GMT</pubDate>
             <description><![CDATA[在常规数据库中，单表数据量到达百万时，查询方面就可能出现性能问题。而当单表数据量达到千万量级时，不仅查询，连索引维护也可能出现问题。]]></description>
@@ -141,7 +141,7 @@ DROP TABLE IF EXISTS temp_diff_%[2]d;
         </item>
         <item>
             <title><![CDATA[数据库是否适合容器化部署]]></title>
-            <link>https://czasg.github.io/docusaurus/blog/2022/2/22/数据库是否适合容器化部署</link>
+            <link>https://czasg.github.io/docusaurus/blog/2022/02/22/数据库是否适合容器化部署</link>
             <guid>数据库是否适合容器化部署</guid>
             <pubDate>Tue, 22 Feb 2022 00:00:00 GMT</pubDate>
             <description><![CDATA[随着 Kubernetes 的流行，越来越来的应用被打包成镜像，作为容器部署在 k8s 上。]]></description>
@@ -164,7 +164,7 @@ DROP TABLE IF EXISTS temp_diff_%[2]d;
         </item>
         <item>
             <title><![CDATA[记一次 golang 升级导致的 goland 不可用]]></title>
-            <link>https://czasg.github.io/docusaurus/blog/2022/2/17/golang升级导致goland不可用</link>
+            <link>https://czasg.github.io/docusaurus/blog/2022/02/17/golang升级导致goland不可用</link>
             <guid>记一次 golang 升级导致的 goland 不可用</guid>
             <pubDate>Thu, 17 Feb 2022 00:00:00 GMT</pubDate>
             <description><![CDATA[go1.14.1 升级至 go1.17.7，导致 goland 打开后显示无法找到 GOROOT。]]></description>
@@ -179,7 +179,7 @@ DROP TABLE IF EXISTS temp_diff_%[2]d;
         </item>
         <item>
             <title><![CDATA[Jmeter及性能测试]]></title>
-            <link>https://czasg.github.io/docusaurus/blog/2022/2/2/Jmeter及性能测试</link>
+            <link>https://czasg.github.io/docusaurus/blog/2022/02/02/jmeter及性能测试</link>
             <guid>Jmeter及性能测试</guid>
             <pubDate>Wed, 02 Feb 2022 00:00:00 GMT</pubDate>
             <description><![CDATA[记录 jmeter 工具的使用，以及在性能测试过程中学习到的一些知识点。]]></description>
@@ -211,7 +211,7 @@ summary =  79569 in 00:03:24 =  389.6/s Avg:    25 Min:     0 Max:   346 Err:   
         </item>
         <item>
             <title><![CDATA[常见 sql 批量操作]]></title>
-            <link>https://czasg.github.io/docusaurus/blog/2022/1/20/常用 sql 操作</link>
+            <link>https://czasg.github.io/docusaurus/blog/2022/01/20/常用sql操作</link>
             <guid>常见 sql 批量操作</guid>
             <pubDate>Thu, 20 Jan 2022 00:00:00 GMT</pubDate>
             <description><![CDATA[整理下 sql 常见的批量操作写法。]]></description>
@@ -226,7 +226,7 @@ UPDATE my_table AS o SET v = new_table.v FROM (SELECT * FROM other_table) as new
         </item>
         <item>
             <title><![CDATA[nginx 配置说明]]></title>
-            <link>https://czasg.github.io/docusaurus/blog/2022/1/12/nginx配置说明</link>
+            <link>https://czasg.github.io/docusaurus/blog/2022/01/12/nginx配置说明</link>
             <guid>nginx 配置说明</guid>
             <pubDate>Wed, 12 Jan 2022 00:00:00 GMT</pubDate>
             <description><![CDATA[记录一下 nginx 常见配置说明和部署模板（docker、k8s）。]]></description>
@@ -567,7 +567,7 @@ MaxConnectionAge 是 gRPC 服务端的参数，用于指定长连接最大保持
         </item>
         <item>
             <title><![CDATA[Github 搭建 Docusaurus 站点]]></title>
-            <link>https://czasg.github.io/docusaurus/blog/2021/12/3/Github搭建Docusaurus站点</link>
+            <link>https://czasg.github.io/docusaurus/blog/2021/12/03/Github搭建Docusaurus站点</link>
             <guid>Github 搭建 Docusaurus 站点</guid>
             <pubDate>Fri, 03 Dec 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[本文章记录基于 Docusaurus 搭建静态站点，并通过 Github-Actions 实现自动部署。]]></description>
@@ -732,7 +732,7 @@ my name is people
         </item>
         <item>
             <title><![CDATA[python 生成器与迭代器理解]]></title>
-            <link>https://czasg.github.io/docusaurus/blog/2021/11/4/python生成器与迭代器理解</link>
+            <link>https://czasg.github.io/docusaurus/blog/2021/11/04/python生成器与迭代器理解</link>
             <guid>python 生成器与迭代器理解</guid>
             <pubDate>Thu, 04 Nov 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[生成器]]></description>
@@ -754,7 +754,7 @@ my name is people
         </item>
         <item>
             <title><![CDATA[python 基础数据类型中隐藏的知识点]]></title>
-            <link>https://czasg.github.io/docusaurus/blog/2021/11/3/python基础数据类型</link>
+            <link>https://czasg.github.io/docusaurus/blog/2021/11/03/python基础数据类型</link>
             <guid>python 基础数据类型中隐藏的知识点</guid>
             <pubDate>Wed, 03 Nov 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[整数]]></description>
