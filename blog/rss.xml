@@ -620,6 +620,26 @@ git config --global user.name &quot;name&quot;
 <!-- -->:::</p>]]></content:encoded>
         </item>
         <item>
+            <title><![CDATA[golang interface 坑点]]></title>
+            <link>https://czasg.github.io/docusaurus/blog/2021/11/20/golang-interface坑点</link>
+            <guid>golang interface 坑点</guid>
+            <pubDate>Sat, 20 Nov 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[坑点：interface == nil]]></description>
+            <content:encoded><![CDATA[<h2>坑点：interface == nil</h2><pre><code class="language-go">var v interface{}
+fmt.Println(v == nil)
+v = (*int)(nil)
+fmt.Println(v == nil)
+</code></pre><p>这是一段简单的代码，我们来看下它的输出结果：  </p><pre><code class="language-text">true
+false
+</code></pre><p>这是一个坑点，在 code 过程中，我们常常认为 interface 被赋值了一个空值 nil，再做判断时，可以直接和 nil 做对比。<br/>
+<!-- -->显然这是错误的，这样会得到与我们预期不符的结果。 </p><p>这是因为 interface 并不是一个指针类型，而是一个特殊的结构体，内部包含了两类数据结构：<strong>类型</strong> 和 <strong>值</strong>。<br/>
+<!-- -->所以在上面的判断中，需要类型和值都为 nil 的是否才会判断正确。<br/>
+<!-- -->一旦赋予了某个类型或者值，此时再进行判断就会出现令人困惑的场景。   </p><p>针对这种场景，一般正确的方式是调用 reflect 反射包进行判断。</p><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg<br/>
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍<br/>
+<!-- -->:::</p>]]></content:encoded>
+        </item>
+        <item>
             <title><![CDATA[golang 切片坑点]]></title>
             <link>https://czasg.github.io/docusaurus/blog/2021/11/19/golang切片坑点</link>
             <guid>golang 切片坑点</guid>
