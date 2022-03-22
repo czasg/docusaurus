@@ -4,9 +4,45 @@
         <title>Czasg Blog</title>
         <link>https://czasg.github.io/docusaurus/blog</link>
         <description>Czasg Blog</description>
-        <lastBuildDate>Fri, 18 Mar 2022 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 22 Mar 2022 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[记一次关于 httpClient 的坑点]]></title>
+            <link>https://czasg.github.io/docusaurus/blog/2022/03/22/记一次关于httpClient的坑点</link>
+            <guid>记一次关于 httpClient 的坑点</guid>
+            <pubDate>Tue, 22 Mar 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[坑点：DefaultClient 无超时]]></description>
+            <content:encoded><![CDATA[<h2>坑点：DefaultClient 无超时</h2><p>go 默认的 httpClient 不包含超时时间，不像其他语言可能会有默认的超时时间。<br/>
+<!-- -->一般尽量少用默认的 http.DefaultClient，未每一个请求加上默认超时时间。</p><pre><code class="language-golang" metastring="title=&quot;配置超时时间&quot;" title="&quot;配置超时时间&quot;">client := &amp;http.Client{
+    Timeout: time.Second * 10,
+}
+</code></pre><h2>坑点：DefaultClient 长连接受限</h2><pre><code class="language-go">var DefaultTransport RoundTripper = &amp;Transport{
+    Proxy: ProxyFromEnvironment,
+    DialContext: (&amp;net.Dialer{
+        Timeout:   30 * time.Second,
+        KeepAlive: 30 * time.Second,
+    }).DialContext,
+    ForceAttemptHTTP2:     true,
+    MaxIdleConns:          100,
+    IdleConnTimeout:       90 * time.Second,
+    TLSHandshakeTimeout:   10 * time.Second,
+    ExpectContinueTimeout: 1 * time.Second,
+}
+
+// DefaultMaxIdleConnsPerHost is the default value of Transport&#x27;s
+// MaxIdleConnsPerHost.
+const DefaultMaxIdleConnsPerHost = 2
+</code></pre><h4>DefaultMaxIdleConnsPerHost</h4><p>DefaultMaxIdleConnsPerHost 表示客户端对每个主机服务保留的最大空闲连接数。  </p><p>在这里可以看到，http.DefaultClient 配置有 DefaultMaxIdleConnsPerHost，值为 2。<br/>
+<!-- -->表示客户端对每个主机服务保留的最大空闲连接数为 2，所以当我们有较多长连接场景时，http.DefaultClient 可能会干掉其他长连接，仅保留两个。</p><h4>KeepAlive</h4><p>KeepAlive 表示长连接存活时间。  </p><p>此处默认为 30s，在某些压力测试场景下可能会导致 socket 连接被耗尽。</p><pre><code class="language-go" metastring="title=&quot;配置存活时间 24h 案例&quot;" title="&quot;配置存活时间">client := &amp;http.Client{
+    Transport: &amp;http.Transport{
+        DialContext: (&amp;net.Dialer{
+            KeepAlive: time.Hour * 24,
+        }).DialContext,
+    },
+}
+</code></pre>]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[数据库单表十亿量级的优化之路]]></title>
             <link>https://czasg.github.io/docusaurus/blog/2022/03/18/数据库单表十亿量级的优化之路</link>
