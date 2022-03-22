@@ -76,7 +76,7 @@ make 用于初始化数组，第二个初始化参数表示数组的长度，第
 ```
 
 ## interface
-```go title="下面代码能够正确编译"
+```go title="下面代码能否正确编译？"
 type People interface {
 	Speak(string) string
 }
