@@ -4,9 +4,42 @@
         <title>Czasg Blog</title>
         <link>https://czasg.github.io/docusaurus/blog</link>
         <description>Czasg Blog</description>
-        <lastBuildDate>Tue, 22 Mar 2022 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 24 Mar 2022 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[make和new之间的区别]]></title>
+            <link>https://czasg.github.io/docusaurus/blog/2022/03/24/make和new之间的区别</link>
+            <guid>make和new之间的区别</guid>
+            <pubDate>Thu, 24 Mar 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[make 和 new 都是用来创建对象和初始化内存的。在实际使用场景中还是有一些不同的。]]></description>
+            <content:encoded><![CDATA[<p>make 和 new 都是用来创建对象和初始化内存的。在实际使用场景中还是有一些不同的。</p><h4>new</h4><pre><code class="language-go" metastring="title=&quot;new 源码注释&quot;" title="&quot;new">// The new built-in function allocates memory. The first argument is a type,
+// not a value, and the value returned is a pointer to a newly
+// allocated zero value of that type.
+func new(Type) *Type
+</code></pre><p>在源码注释中我们可以看出 new 的功能：<strong>输入一个类型，不能是值，返回一个指向该类型零值的指针。</strong></p><h4>make</h4><pre><code class="language-go" metastring="title=&quot;make 源码注释&quot;" title="&quot;make">// The make built-in function allocates and initializes an object of type
+// slice, map, or chan (only). Like new, the first argument is a type, not a
+// value. Unlike new, make&#x27;s return type is the same as the type of its
+// argument, not a pointer to it. The specification of the result depends on
+// the type:
+//  Slice: The size specifies the length. The capacity of the slice is
+//  equal to its length. A second integer argument may be provided to
+//  specify a different capacity; it must be no smaller than the
+//  length. For example, make([]int, 0, 10) allocates an underlying array
+//  of size 10 and returns a slice of length 0 and capacity 10 that is
+//  backed by this underlying array.
+//  Map: An empty map is allocated with enough space to hold the
+//  specified number of elements. The size may be omitted, in which case
+//  a small starting size is allocated.
+//  Channel: The channel&#x27;s buffer is initialized with the specified
+//  buffer capacity. If zero, or the size is omitted, the channel is
+//  unbuffered.
+func make(t Type, size ...IntegerType) Type
+</code></pre><p>在源码注释中我们可以看出 make 的功能：<strong>输入一个类型（必须是slice、map、chan），返回一个按指定条件初始化后的类型对象。</strong></p><h2>主要区别</h2><p>其实感觉没什么太大关系，都是内置的初始化函数，new 返回指针，make 只能用于特定类型。</p><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍
+:::</p>]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[记一次关于 httpClient 的坑点]]></title>
             <link>https://czasg.github.io/docusaurus/blog/2022/03/22/记一次关于httpClient的坑点</link>
