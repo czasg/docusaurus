@@ -67,6 +67,29 @@ func make(t Type, size ...IntegerType) Type
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[golang测试梳理]]></title>
+        <id>golang测试梳理</id>
+        <link href="https://czasg.github.io/docusaurus/blog/2022/03/23/golang测试梳理"/>
+        <updated>2022-03-23T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[单元测试 flag]]></summary>
+        <content type="html"><![CDATA[<h2>单元测试 flag</h2><h4>-bench regexp</h4><p>执行基准测试，后面可以接正则表达式，如果需要执行全部的基准测试，可以使用 <code>-bench=.</code></p><pre><code class="language-go">func Benchmark(b *testing.B) {
+    b.ResetTimer()
+    for i := 0; i &lt; b.N; i++ {
+    }
+}
+</code></pre><h4>-benchtime t</h4><p>基准测试的持续时间，默认是 1s，可以使用 <code>-benchtime=1h30s</code></p><h4>-count n</h4><p>基准测试的执行次数，默认仅执行一次。</p><h4>-cover</h4><p>用于分析并输出单元测试覆盖率。</p><h4>-covermode set,count,atomic</h4><p>单元测试的覆盖率分析模式。默认分析模式是 set，当使用 -race 时，则分析模式变为 atomic。</p><p>set：哪一行代码被执行了。<br/>
+<!-- -->count：哪行代码被执行了，且被执行了多少次。<br/>
+<!-- -->atomic：类似 count，但是会多线程并发检测，存在并发冲突时会报错。  </p><h4>-cpu</h4><p>指定 GOMAXPROCS</p><h4>-failfast</h4><p>当测试失败时立即退出当前测试，而不是继续执行剩下的测试。</p><h4>-timeout</h4><p>单个单元测试执行的最长时间，默认是 10 分钟</p><h4>-benchmem</h4><p>输出基准测试过程中内存的分配与统计。</p><h4>-coverprofile cover.out</h4><p>测试过程覆盖率情况</p><pre><code class="language-shell" metastring="script title=&quot;可视化单元测试覆盖率&quot;" title="&quot;可视化单元测试覆盖率&quot;">go tool cover -html=cover.out
+</code></pre><h4>-cpuprofile cpu.out</h4><p>测试过程 cpu 调度情况</p><h4>-memprofile</h4><p>测试过程内存使用情况</p><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍
+:::</p>]]></content>
+        <author>
+            <name>Czasg</name>
+            <uri>https://github.com/czasg</uri>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[记一次关于 httpClient 的坑点]]></title>
         <id>记一次关于 httpClient 的坑点</id>
         <link href="https://czasg.github.io/docusaurus/blog/2022/03/22/记一次关于httpClient的坑点"/>
@@ -455,6 +478,43 @@ worker_cpu_affinity  none;  # 用于绑定 worker 进程与 cpu
 <strong>本文作者:</strong> Czasg<br/>
 <strong>版权声明:</strong> 转载请注明出处哦~👮‍<br/>
 <!-- -->:::</p>]]></content>
+        <author>
+            <name>Czasg</name>
+            <uri>https://github.com/czasg</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[python内存管理]]></title>
+        <id>python内存管理</id>
+        <link href="https://czasg.github.io/docusaurus/blog/2021/12/26/python内存管理"/>
+        <updated>2021-12-26T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[python 是一门高级语言，它内置了内存管理机制，所以开发过程中，不需要像 C/C++ 那样需要手动申请并回收内存。]]></summary>
+        <content type="html"><![CDATA[<p>python 是一门高级语言，它内置了内存管理机制，所以开发过程中，不需要像 C/C++ 那样需要手动申请并回收内存。  </p><p>python 的内存管理器，是用来直接管理各种诸如：内存分配、共享内存、垃圾回收等方面的操作。</p><h2>垃圾回收</h2><p>python 的垃圾回收主要有三种机制：<strong>引用计数</strong>、<strong>标记清除</strong>、<strong>分代回收</strong>   </p><h4>引用计数</h4><p>首先是 引用计数，这是最简单的一种回收机制：<br/>
+<!-- -->为每一个对象维护一个引用计数，有变量或者容器结构引用时，该对象的引用计数加一，反之减一。当对象的引用计数值为 0 时，则可以进行回收。</p><h4>标记清除</h4><p>标记清除算法分为标记阶段和清除阶段：<br/>
+<!-- -->标记阶段：从根对象开始遍历，将可以访问到的对象标记为可达对象<br/>
+<!-- -->清除阶段：将不可达对象清除</p><h4>分代回收</h4><p>分代回收基于一个统计理论，即存活越久的对象，被清除的可能性就越小。所以为了提高性能，引入了分代回收算法。<br/>
+<!-- -->将对象分为三代：0、1、2代，活过一次 gc，则分配到下一代。</p><p>默认阈值为：700、10、10<br/>
+<!-- -->700：表示新创建对象减去从新对象中回收的对象的值，大于 700 则进行一次 0 代回收。<br/>
+<!-- -->10：10 次 0 代回收触发一次 1 代回收。<br/>
+<!-- -->10：10 次 1 代回收触发一次 2 代回收。</p><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍
+:::</p>]]></content>
+        <author>
+            <name>Czasg</name>
+            <uri>https://github.com/czasg</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[golang内存管理]]></title>
+        <id>golang内存管理</id>
+        <link href="https://czasg.github.io/docusaurus/blog/2021/12/25/golang内存管理"/>
+        <updated>2021-12-25T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[摘要在此处]]></summary>
+        <content type="html"><![CDATA[<p>摘要在此处</p><p>正文在此处</p><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍
+:::</p>]]></content>
         <author>
             <name>Czasg</name>
             <uri>https://github.com/czasg</uri>
