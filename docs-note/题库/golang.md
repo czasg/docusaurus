@@ -1,4 +1,4 @@
-# golang 面试题
+# golang 题库
 
 ## 切片
 ```go title="切片 a、b、c 的长度和容量分别是多少？"
