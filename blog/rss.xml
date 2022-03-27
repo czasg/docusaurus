@@ -4,9 +4,21 @@
         <title>Czasg Blog</title>
         <link>https://czasg.github.io/docusaurus/blog</link>
         <description>Czasg Blog</description>
-        <lastBuildDate>Fri, 25 Mar 2022 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 27 Mar 2022 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[golang 的 CSP&GMP 模型]]></title>
+            <link>https://czasg.github.io/docusaurus/blog/2022/03/27/golang-GMP模型</link>
+            <guid>golang 的 CSP&amp;GMP 模型</guid>
+            <pubDate>Sun, 27 Mar 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[CSP]]></description>
+            <content:encoded><![CDATA[<h2>CSP</h2><p>在 go 中有一种推崇的并发模式， 叫 CSP（communicating sequential processes）并发模式。比较经典的一句话是：<br/>
+<strong>不要以共享内存的方式来通信，相反，以通信的方式来共享内存。</strong></p><p>在常见的多线程共享内存的模式中，当涉及到多线程操作共享数据时，一般需要通过加锁来保证数据和线程安全。  </p><p>go 则引入了 chan 信道，可以用于多 goroutine 之间的通信。</p><h2>GMP</h2><p>GMP 类似一种生产者消费者模式。</p><ul><li>G：goroutine，此处指协程。</li><li>M：machine，此处指内核线程。</li><li>P：processor，此处指调度器。</li></ul><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍
+:::</p>]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[记一次pg迁移k8s的坑点]]></title>
             <link>https://czasg.github.io/docusaurus/blog/2022/03/25/记一次pg迁移k8s的坑点</link>
@@ -775,6 +787,22 @@ git config --global user.name &quot;name&quot;
 <strong>本文作者:</strong> Czasg<br/>
 <strong>版权声明:</strong> 转载请注明出处哦~👮‍<br/>
 <!-- -->:::</p>]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[关于协程的一些理解]]></title>
+            <link>https://czasg.github.io/docusaurus/blog/2021/11/27/关于协程的一些理解</link>
+            <guid>关于协程的一些理解</guid>
+            <pubDate>Sat, 27 Nov 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[以下场景均以单核 cpu 为例。]]></description>
+            <content:encoded><![CDATA[<p>以下场景均以单核 cpu 为例。</p><h4>并发</h4><p>cpu 在短时间内来回执行多个任务，使得这些任务看上去是同一时间进行的。<br/>
+<!-- -->这种宏观意义上是同时执行，微观上仍然是顺序执行的，我们称之为并发。</p><h4>并行</h4><p>当系统存在多核 cpu，使得任务可以同一时刻执行，称之为并行。</p><h4>进程</h4><p>进程是计算机资源分配的基本单位。  </p><p>因为 cpu 在多任务之间切换时，如果不正确保存上一个任务的上下文状态，那么下次执行时就会丢失这个任务的执行信息。<br/>
+<!-- -->进程就是用来定义任务及其资源边界。</p><h4>线程</h4><p>线程是 cpu 调度的基本单位。</p><h4>协程</h4><p>协程是用户态的轻量级线程。</p><p>协程拥有以下特点：<br/>
+<!-- -->1、调度由用户控制。即在用户态而非内核态完成协程间的调度。
+2、更轻量。创建一个协程仅需要很小的空间。<br/>
+<!-- -->3、协程拥有自己的寄存器上下文和栈空间。   </p><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍
+:::</p>]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[golang interface 坑点]]></title>
