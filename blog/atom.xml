@@ -484,6 +484,33 @@ worker_cpu_affinity  none;  # 用于绑定 worker 进程与 cpu
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[golang内存管理]]></title>
+        <id>golang内存管理</id>
+        <link href="https://czasg.github.io/docusaurus/blog/2021/12/27/golang内存管理"/>
+        <updated>2021-12-27T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[golang 的 GC 一直是大家诟病最多的话题之一。下面是 golang 不同版本之中有一些重要改进：]]></summary>
+        <content type="html"><![CDATA[<p>golang 的 GC 一直是大家诟病最多的话题之一。下面是 golang 不同版本之中有一些重要改进：  </p><ul><li>v1.1 STW</li><li>v1.3 Mark STW，Sweep 并行</li><li>v1.5 三色标记法</li><li>v1.8 hybrid write barrier</li></ul><h2>三色标记法</h2><p>三色标记法，就是将对象按状态分为三类，并分为赋予三种颜色：<br/>
+<!-- -->1、<strong>白色对象</strong>（可能死亡）：未被回收器访问到的对象。在回收开始阶段，所有对象均为白色，当回收结束后，白色对象均不可达。<br/>
+<!-- -->2、<strong>灰色对象</strong>（中间态）：已被回收器访问到的对象，但回收器需要对其中的一个或多个指针进行扫描，因为他们可能还指向白色对象。<br/>
+<!-- -->3、<strong>黑色对象</strong>（确定存活）：已被回收器访问到的对象，其中所有字段都已被扫描，黑色对象中任何一个指针都不可能直接指向白色对象。  </p><p>除此之外，在 v1.8 版本重还引入<strong>写屏障</strong>的概念：在 GC 执行期间，新创建的对象会被默认赋予灰色对象，以便垃圾回收的正常执行。</p><h4>标记起始阶段</h4><p>1、STW<br/>
+<!-- -->2、确定 GC ROOT，并将其置为灰色<br/>
+<!-- -->3、引入写屏障  </p><h4>标记阶段</h4><p>1、标记与业务并行</p><h4>标记终止阶段</h4><p>1、STW<br/>
+<!-- -->2、移除写屏障</p><h4>清除阶段</h4><p>1、回收白色对象</p><p>三色标记法，大大减少了 GC 的 STW 时间，使得标记阶段与业务并行。<br/>
+<!-- -->引入写屏障，使得程序在 GC 期间会有额外的性能消耗。  </p><p>:::note 逃逸分析
+用来在编译阶段确认对象的内存是分配到堆中还是分配到栈中。
+:::</p><h2>调优：避免在GC期间引入耗时操作</h2><p>背景：希望收集线上 GC 日志，以便用于后续分析。<br/>
+<!-- -->实现：开启 GODEBUG=gctrace=1，并将输出流指向某文件。<br/>
+<!-- -->导致：监控显示，线上业务必定间隔性抖动。<br/>
+<!-- -->原因：GC 日志输出属于 STW 期间，原本 STW 基于内存完成，但现在强行引入磁盘 IO，导致堆程序造成性能影响。</p><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍
+:::</p>]]></content>
+        <author>
+            <name>Czasg</name>
+            <uri>https://github.com/czasg</uri>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[python内存管理]]></title>
         <id>python内存管理</id>
         <link href="https://czasg.github.io/docusaurus/blog/2021/12/26/python内存管理"/>
@@ -496,26 +523,12 @@ worker_cpu_affinity  none;  # 用于绑定 worker 进程与 cpu
 <!-- -->为每一个对象维护一个引用计数，有变量或者容器结构引用时，该对象的引用计数加一，反之减一。<br/>
 <!-- -->当对象的引用计数值为 0 时，则可以进行回收。</p><p>但是引用计数有一个致命的缺陷，就是循环引用，在这种场景下对象间的引用计数无法清零，会造成资源泄露。</p><h4>标记清除</h4><p>标记清除算法分为标记阶段和清除阶段：<br/>
 <!-- -->标记阶段：从根对象开始遍历，将可以访问到的对象标记为可达对象。<br/>
-<!-- -->清除阶段：将不可达对象清除。</p><p>虽然 标记-清除 可以很好的解决引用计数中循环依赖造成的资源泄露问题，但是标记清除它本身是一个很笨重的行为，需要遍历全部对象。</p><h4>分代回收</h4><p>分代回收基于一个统计理论，即存活越久的对象，被清除的可能性就越小。所以为了提高性能，引入了分代回收算法。<br/>
+<!-- -->清除阶段：将不可达对象清除。</p><p>虽然 标记-清除 可以很好的解决引用计数中循环依赖造成的资源泄露问题，但是标记清除它本身是一个很笨重的行为，
+需要STW（stop the world）且遍历全部对象。</p><h4>分代回收</h4><p>分代回收基于一个统计理论，即存活越久的对象，被清除的可能性就越小。所以为了提高性能，引入了分代回收算法。<br/>
 <!-- -->将对象分为三代：0、1、2代，活过一次 gc，则分配到下一代。</p><p>默认阈值为：700、10、10<br/>
 <!-- -->700：表示新创建对象减去从新对象中回收的对象的值，大于 700 则进行一次 0 代回收。<br/>
 <!-- -->10：10 次 0 代回收触发一次 1 代回收。<br/>
 <!-- -->10：10 次 1 代回收触发一次 2 代回收。</p><br/><p>:::info 👇👇👇
-<strong>本文作者:</strong> Czasg
-<strong>版权声明:</strong> 转载请注明出处哦~👮‍
-:::</p>]]></content>
-        <author>
-            <name>Czasg</name>
-            <uri>https://github.com/czasg</uri>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[golang内存管理]]></title>
-        <id>golang内存管理</id>
-        <link href="https://czasg.github.io/docusaurus/blog/2021/12/25/golang内存管理"/>
-        <updated>2021-12-25T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[摘要在此处]]></summary>
-        <content type="html"><![CDATA[<p>摘要在此处</p><p>正文在此处</p><br/><p>:::info 👇👇👇
 <strong>本文作者:</strong> Czasg
 <strong>版权声明:</strong> 转载请注明出处哦~👮‍
 :::</p>]]></content>
