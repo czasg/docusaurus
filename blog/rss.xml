@@ -4,9 +4,48 @@
         <title>Czasg Blog</title>
         <link>https://czasg.github.io/docusaurus/blog</link>
         <description>Czasg Blog</description>
-        <lastBuildDate>Sun, 27 Mar 2022 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 28 Mar 2022 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[golang 选项模式]]></title>
+            <link>https://czasg.github.io/docusaurus/blog/2022/03/28/golang选项模式</link>
+            <guid>golang 选项模式</guid>
+            <pubDate>Mon, 28 Mar 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[在 golang 开发过程中，可能会遇到这么一种问题：参数过多，当希望将参数配置成可选的模式。]]></description>
+            <content:encoded><![CDATA[<p>在 golang 开发过程中，可能会遇到这么一种问题：参数过多，当希望将参数配置成可选的模式。    </p><p>在其他语言中有不同的解决方法，比如 python 就支持默认参数，可以很好的处理这个问题。<br/>
+<!-- -->在 golang 中也有一种选项模式，可以比较友好的处理这类问题。   </p><p>选项模式的主要流程是：初始化一个默认参数，然后提供可变参数，这些参数可以针对性的修改此默认参数，最终得到目标参数。</p><pre><code class="language-go">type MyFuncOption func(options *MyFuncOptions)
+
+func WithOptionStr1(str1 string) MyFuncOption {
+    return func(options *MyFuncOptions) {
+        options.optionStr1 = str1
+    }
+}
+
+func WithOptionInt1(int1 int) MyFuncOption {
+    return func(options *MyFuncOptions) {
+        options.optionInt1 = int1
+    }
+}
+
+func WithOptionStr2AndInt2(str2 string, int2 int) MyFuncOption {
+    return func(options *MyFuncOptions) {
+        options.optionStr2 = str2
+        options.optionInt2 = int2
+    }
+}
+
+func NewIns(options ...MyFuncOption) {
+    defaultOptions := Options{}
+    for _, f := range options {
+        f(&amp;defaultOptions)
+    }
+}
+</code></pre><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍
+:::</p>]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[golang 的 CSP&GMP 模型]]></title>
             <link>https://czasg.github.io/docusaurus/blog/2022/03/27/golang-GMP模型</link>
