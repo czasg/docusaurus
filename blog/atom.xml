@@ -14,7 +14,7 @@
         <updated>2022-03-28T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[在 golang 开发过程中，可能会遇到这么一种问题：参数过多，当希望将参数配置成可选的模式。]]></summary>
         <content type="html"><![CDATA[<p>在 golang 开发过程中，可能会遇到这么一种问题：参数过多，当希望将参数配置成可选的模式。    </p><p>在其他语言中有不同的解决方法，比如 python 就支持默认参数，可以很好的处理这个问题。<br/>
-<!-- -->在 golang 中也有一种选项模式，可以比较友好的处理这类问题。   </p><p>选项模式的主要流程是：初始化一个默认参数，然后提供可变参数，这些参数可以针对性的修改此默认参数，最终得到目标参数。</p><pre><code class="language-go">type MyFuncOption func(options *MyFuncOptions)
+<!-- -->在 golang 中也有一种选项模式，可以比较友好的处理这类问题。   </p><h4>选项模式</h4><p>选项模式的主要流程是：初始化一个默认参数，然后提供可变参数，这些参数可以针对性的修改此默认参数，最终得到目标参数。</p><pre><code class="language-go">type MyFuncOption func(options *MyFuncOptions)
 
 func WithOptionStr1(str1 string) MyFuncOption {
     return func(options *MyFuncOptions) {
@@ -39,6 +39,20 @@ func NewIns(options ...MyFuncOption) {
     defaultOptions := Options{}
     for _, f := range options {
         f(&amp;defaultOptions)
+    }
+}
+</code></pre><h4>常见方法</h4><p>这类参数的选择起始比较自由，一般选项模式适用于参数量较多的场景，当参数较少时，不妨直接匹配选项</p><pre><code class="language-go">type Opt int
+
+const (
+    OptEnv Opt = 1 &lt;&lt; iota
+    OptDefault
+    OptSilent // ignore err and iterate over all fields.
+)
+
+func NewIns(opts ...Opt) {
+    var opt Opt = 0
+    for _, o := range opts {
+        opt = opt | o
     }
 }
 </code></pre><br/><p>:::info 👇👇👇
