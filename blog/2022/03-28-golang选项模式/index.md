@@ -11,6 +11,7 @@ tags: [golang]
 
 <!--truncate-->
 
+#### 选项模式
 选项模式的主要流程是：初始化一个默认参数，然后提供可变参数，这些参数可以针对性的修改此默认参数，最终得到目标参数。
 
 ```go
@@ -43,6 +44,24 @@ func NewIns(options ...MyFuncOption) {
 }
 ```
 
+#### 常见方法
+这类参数的选择起始比较自由，一般选项模式适用于参数量较多的场景，当参数较少时，不妨直接匹配选项
+```go
+type Opt int
+
+const (
+    OptEnv Opt = 1 << iota
+    OptDefault
+    OptSilent // ignore err and iterate over all fields.
+)
+
+func NewIns(opts ...Opt) {
+    var opt Opt = 0
+    for _, o := range opts {
+        opt = opt | o
+    }
+}
+```
 
 <br/>
 
