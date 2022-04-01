@@ -4,9 +4,28 @@
         <title>Czasg Blog</title>
         <link>https://czasg.github.io/docusaurus/blog</link>
         <description>Czasg Blog</description>
-        <lastBuildDate>Mon, 28 Mar 2022 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 01 Apr 2022 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[记一次 redis 查询 异常]]></title>
+            <link>https://czasg.github.io/docusaurus/blog/2022/04/01/记一次redis查询异常</link>
+            <guid>记一次 redis 查询 异常</guid>
+            <pubDate>Fri, 01 Apr 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[今天遇到一个诡异的事情，有一个基于 redis 提供高性能查询的服务，在非高峰期时居然大量报错。]]></description>
+            <content:encoded><![CDATA[<p>今天遇到一个诡异的事情，有一个基于 redis 提供高性能查询的服务，在非高峰期时居然大量报错。<br/>
+<!-- -->为什么说诡异呢，因为报错内容为：<code>redis: connection pool timeout</code>。而这个服务的查询场景及其简单，只有 <code>get</code> 和 <code>mget</code> 两种，报这个错就意味着 redis 查询性能不足？<br/>
+<!-- -->本文记录一下排查问题的过程。<br/>
+<img src="./1.1.png"/></p><h2>问题分析</h2><p>这个服务当时的并发压力在 3w QPS左右，redis 不应该存在抗不住的问题。翻了下报错时间点的上下文日志，确实发现了一些问题：<br/>
+<img src="1.2.png"/><br/>
+<!-- -->箭头时间段，即在42分到44分之间，刚好就是 redis 查询报错的时间段。<br/>
+<!-- -->说明就是42分的同步行为，影响到了 redis 的查询性能。   </p><p>通过排查发现，这个服务有点特殊，是以 daemon 的形式部署在 k8s 上，且单 pod 独占节点。pod 内又包含 redis 和 postgres 等多个服务。<br/>
+<!-- -->进一步排查了解到，因为资源有限，所以没加资源配额，避免服务部署不上去。因此，存在某时刻的<strong>资源倾斜</strong>导致其余服务不可用。</p><p>这类问题其实在物理机上经常发生，没想到这次换了种形式发生在了 k8s 上面。    </p><h2>解决方案</h2><p>1、增加机器资源，建议 4c 升级 8c。<br/>
+<!-- -->2、增加资源配额。   </p><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍
+:::</p>]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[golang 选项模式]]></title>
             <link>https://czasg.github.io/docusaurus/blog/2022/03/28/golang选项模式</link>
