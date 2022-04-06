@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://czasg.github.io/docusaurus/blog</id>
     <title>Czasg Blog</title>
-    <updated>2022-04-06T00:00:00.000Z</updated>
+    <updated>2022-04-02T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://czasg.github.io/docusaurus/blog"/>
     <subtitle>Czasg Blog</subtitle>
@@ -10,8 +10,8 @@
     <entry>
         <title type="html"><![CDATA[redis指标小结]]></title>
         <id>redis指标小结</id>
-        <link href="https://czasg.github.io/docusaurus/blog/2022/04/06/redis指标小结"/>
-        <updated>2022-04-06T00:00:00.000Z</updated>
+        <link href="https://czasg.github.io/docusaurus/blog/2022/04/02/redis指标小结"/>
+        <updated>2022-04-02T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[本文学习总结下 redis 常用的观测指标，包括：性能指标、内存指标等。]]></summary>
         <content type="html"><![CDATA[<p>本文学习总结下 redis 常用的观测指标，包括：性能指标、内存指标等。</p><h2>性能指标</h2><p>redis 作为高性能缓存服务，其性能指标是一个很重要的观测点。</p><table><thead><tr><th>名称</th><th>说明</th></tr></thead><tbody><tr><td>latency</td><td>平均响应时间。该数据无法从 info 中获取，需要使用 redis-cli 加指定参数。eg：<code>redis-cli --latency</code></td></tr><tr><td>instantaneous_ops_per_sec</td><td>每秒处理的命令总数，可以在 info stats 中获取。</td></tr><tr><td>hit rate</td><td>缓存命中率。该值无法直接获取，需要通过计算：<code>keyspace_hits /（keyspace_hits + keyspace_misses）</code></td></tr></tbody></table><h2>内存指标</h2><p>redis 作为常见内存数据库，其内存指标也是一个很重要的观测点。</p><table><thead><tr><th>名称</th><th>说明</th></tr></thead><tbody><tr><td>used_memory</td><td>内存使用量，可以在 info memory 中获取。</td></tr><tr><td>mem_fragmentation_ratio</td><td>操作系统分配的内存和 redis 请求的内存的比率。计算方式为：<code>mem_fragmentation_ratio = used_memory_rss / used_memory</code>。该指标可以用于观测 redis 服务器的内存碎片率。该值大于1，表示存在内存碎片，比如1.5，则表示50%是内存碎片。若该值小于1，则表示redis内存分配超出了物理内存，操作系统正在进行内存交换。</td></tr></tbody></table><br/><p>:::info 👇👇👇
 <strong>本文作者:</strong> Czasg
