@@ -33,7 +33,8 @@
 ---
 
 ## redis存在慢操作吗？
-
+<!-- https://baijiahao.baidu.com/s?id=1707123040872138305&wfr=spider&for=pc -->
+<!-- https://zhuanlan.zhihu.com/p/120004818 -->
 
 
 在 redis 中，类似数据读写等核心逻辑，是单线程处理的。所以，如果在单线程处理这一块耗时过久，这次操作就变成了慢操作。常见的有：  
