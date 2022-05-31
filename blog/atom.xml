@@ -26,9 +26,28 @@
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[go mod理解]]></title>
+        <id>go mod理解</id>
+        <link href="https://czasg.github.io/docusaurus/blog/2022/04/07/gomod理解"/>
+        <updated>2022-04-07T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[如果你搭建过早期 Go 项目，应该会比较熟悉 GOPATH。]]></summary>
+        <content type="html"><![CDATA[<p>如果你搭建过早期 Go 项目，应该会比较熟悉 GOPATH。<br/>
+<!-- -->在以前，项目依赖三方包时，我们需要通过<code>go get</code>将三方依赖库下载到 GOPATH。这就涉及到一个版本维护的问题。  </p><p>为了解决这个问题，引入了<code>go mod</code>。</p><h2>go mod</h2><p><code>go mod</code> 是一个包依赖管理工具。</p><h2>git没法拉代码</h2><p>go mod vendor拉取代码报错：</p><pre><code class="language-text" metastring="title=&quot;&quot;" title="&quot;&quot;">The project you were looking for could not be found
+</code></pre><p>这种属于git未配置好导致的，可以再根目录下创建：</p><pre><code class="language-text" metastring="title=&quot;.git-credentials&quot;" title="&quot;.git-credentials&quot;">https://user:pwd@gitee.com
+https://user:pwd@github.com
+</code></pre><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍
+:::</p>]]></content>
+        <author>
+            <name>Czasg</name>
+            <uri>https://github.com/czasg</uri>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[tcmalloc理解]]></title>
         <id>tcmalloc理解</id>
-        <link href="https://czasg.github.io/docusaurus/blog/2022/04/5/tcmalloc理解"/>
+        <link href="https://czasg.github.io/docusaurus/blog/2022/04/05/tcmalloc理解"/>
         <updated>2022-04-05T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[tcmalloc（Thread-Caching Malloc）是一个内存分配器，用于管理堆内存。]]></summary>
         <content type="html"><![CDATA[<p>tcmalloc（Thread-Caching Malloc）是一个内存分配器，用于管理堆内存。<br/>
