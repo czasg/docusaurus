@@ -26,6 +26,24 @@
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[tcmalloc理解]]></title>
+        <id>tcmalloc理解</id>
+        <link href="https://czasg.github.io/docusaurus/blog/2022/04/5/tcmalloc理解"/>
+        <updated>2022-04-05T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[tcmalloc（Thread-Caching Malloc）是一个内存分配器，用于管理堆内存。]]></summary>
+        <content type="html"><![CDATA[<p>tcmalloc（Thread-Caching Malloc）是一个内存分配器，用于管理堆内存。<br/>
+<!-- -->主要影响的是malloc和free，用于降低频繁分配、释放内存场景所造成的性能损耗，可以有效的控制内存碎片。</p><h2>ptmalloc &amp; tcmalloc</h2><p>在tcmalloc之前，还有一个ptmalloc，tcmalloc号称要比它快。<br/>
+<!-- -->一次malloc和free操作，ptmalloc需要300ns，而tcmalloc只需要50ns。   </p><p>tcmalloc将内存请求分为了两类：大对象请求和小对象请求。（大于32K的属于大对象）<br/>
+<!-- -->它会为每个线程分配本地缓存，小对象请求可以直接从本地缓存获取，所以对于小对象的分配基本不存在锁竞争。</p><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍
+:::</p>]]></content>
+        <author>
+            <name>Czasg</name>
+            <uri>https://github.com/czasg</uri>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[redis指标小结]]></title>
         <id>redis指标小结</id>
         <link href="https://czasg.github.io/docusaurus/blog/2022/04/02/redis指标小结"/>
