@@ -2,11 +2,29 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://czasg.github.io/docusaurus/blog</id>
     <title>Czasg Blog</title>
-    <updated>2022-04-02T00:00:00.000Z</updated>
+    <updated>2022-05-31T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://czasg.github.io/docusaurus/blog"/>
     <subtitle>Czasg Blog</subtitle>
     <icon>https://czasg.github.io/docusaurus/img/favicon.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[golang高IO场景下的坑点]]></title>
+        <id>golang高IO场景下的坑点</id>
+        <link href="https://czasg.github.io/docusaurus/blog/2022/05/31/golang高IO场景下的坑点"/>
+        <updated>2022-05-31T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[计算机程序场景可分为计算密集型和IO密集型。计算密集型，即CPU占用较高的程序，一般类似AI算法等。IO密集型则包括磁盘IO和网络IO等。]]></summary>
+        <content type="html"><![CDATA[<p>计算机程序场景可分为计算密集型和IO密集型。计算密集型，即CPU占用较高的程序，一般类似AI算法等。IO密集型则包括磁盘IO和网络IO等。<br/>
+<!-- -->Go 的协程，天然支持并发场景，对于计算密集型和IO密集型都比较友好。但是高磁盘IO场景会有点问题，使用不当还可能造成坑点。</p><p>网络IO属于<strong>事件驱动</strong>型，可以通过注册回调实现异步化。<br/>
+<!-- -->磁盘IO的 read/write 都是同步IO，是阻塞事件，需要同步等待。</p><p>所以，磁盘IO会造成Go的线程阻塞，而Go基于GMP模型，当M阻塞的时候，会重新创建新的M来执行G任务。<br/>
+<!-- -->所以当类似任务足够多时，会造成Go的M暴涨，超过1w以后，会被杀掉。</p><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍
+:::</p>]]></content>
+        <author>
+            <name>Czasg</name>
+            <uri>https://github.com/czasg</uri>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[redis指标小结]]></title>
         <id>redis指标小结</id>
