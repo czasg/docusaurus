@@ -197,4 +197,7 @@ SELECT * FROM table WHERE name = 'cza' ORDER BY name;
 行锁：   
 间隙锁：   
 
-按锁级别可以划分：共享锁、排他锁、意向锁。
+按锁级别可以划分：共享锁、排他锁、意向锁。     
+共享锁：   
+排他锁：   
+意向锁：   
