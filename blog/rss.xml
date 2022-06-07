@@ -4,9 +4,20 @@
         <title>Czasg Blog</title>
         <link>https://czasg.github.io/docusaurus/blog</link>
         <description>Czasg Blog</description>
-        <lastBuildDate>Tue, 31 May 2022 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 07 Jun 2022 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Postgres vs MySQL]]></title>
+            <link>https://czasg.github.io/docusaurus/blog/2022/06/07/pgvsmysql</link>
+            <guid>Postgres vs MySQL</guid>
+            <pubDate>Tue, 07 Jun 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[https://www.herodotus.cn/knowledge/postgresql/]]></description>
+            <content:encoded><![CDATA[<p><a href="https://www.herodotus.cn/knowledge/postgresql/">https://www.herodotus.cn/knowledge/postgresql/</a></p><p><a href="https://www.modb.pro/db/51063">https://www.modb.pro/db/51063</a></p><p>正文在此处</p><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍
+:::</p>]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[golang高IO场景下的坑点]]></title>
             <link>https://czasg.github.io/docusaurus/blog/2022/05/31/golang高IO场景下的坑点</link>
