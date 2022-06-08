@@ -4,9 +4,20 @@
         <title>Czasg Blog</title>
         <link>https://czasg.github.io/docusaurus/blog</link>
         <description>Czasg Blog</description>
-        <lastBuildDate>Tue, 07 Jun 2022 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 08 Jun 2022 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[多人在线编辑功能设计]]></title>
+            <link>https://czasg.github.io/docusaurus/blog/2022/06/08/多人在线编辑功能设计</link>
+            <guid>多人在线编辑功能设计</guid>
+            <pubDate>Wed, 08 Jun 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[摘要在此处]]></description>
+            <content:encoded><![CDATA[<p>摘要在此处</p><p>正文在此处</p><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍
+:::</p>]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[Postgres vs MySQL]]></title>
             <link>https://czasg.github.io/docusaurus/blog/2022/06/07/pgvsmysql</link>
@@ -14,6 +25,17 @@
             <pubDate>Tue, 07 Jun 2022 00:00:00 GMT</pubDate>
             <description><![CDATA[https://www.herodotus.cn/knowledge/postgresql/]]></description>
             <content:encoded><![CDATA[<p><a href="https://www.herodotus.cn/knowledge/postgresql/">https://www.herodotus.cn/knowledge/postgresql/</a></p><p><a href="https://www.modb.pro/db/51063">https://www.modb.pro/db/51063</a></p><p>正文在此处</p><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍
+:::</p>]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[golanghttp模块]]></title>
+            <link>https://czasg.github.io/docusaurus/blog/2022/06/05/golanghttp模块</link>
+            <guid>golanghttp模块</guid>
+            <pubDate>Sun, 05 Jun 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[摘要在此处]]></description>
+            <content:encoded><![CDATA[<p>摘要在此处</p><p>正文在此处</p><br/><p>:::info 👇👇👇
 <strong>本文作者:</strong> Czasg
 <strong>版权声明:</strong> 转载请注明出处哦~👮‍
 :::</p>]]></content:encoded>
