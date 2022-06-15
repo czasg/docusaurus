@@ -19,12 +19,13 @@
 :::</p>]]></content:encoded>
         </item>
         <item>
-            <title><![CDATA[Postgres vs MySQL]]></title>
+            <title><![CDATA[PostgreSQL vs MySQL]]></title>
             <link>https://czasg.github.io/docusaurus/blog/2022/06/07/pgvsmysql</link>
-            <guid>Postgres vs MySQL</guid>
+            <guid>PostgreSQL vs MySQL</guid>
             <pubDate>Tue, 07 Jun 2022 00:00:00 GMT</pubDate>
-            <description><![CDATA[https://www.herodotus.cn/knowledge/postgresql/]]></description>
-            <content:encoded><![CDATA[<p><a href="https://www.herodotus.cn/knowledge/postgresql/">https://www.herodotus.cn/knowledge/postgresql/</a></p><p><a href="https://www.modb.pro/db/51063">https://www.modb.pro/db/51063</a></p><p><a href="http://postgres.cn/docs/12/datatype-json.html">http://postgres.cn/docs/12/datatype-json.html</a></p><p>正文在此处</p><br/><p>:::info 👇👇👇
+            <description><![CDATA[MySQL 是业界主流的关系型数据库，目前被 Oracle 收购，并提供免费与付费等多种版本。]]></description>
+            <content:encoded><![CDATA[<p>MySQL 是业界主流的关系型数据库，目前被 Oracle 收购，并提供免费与付费等多种版本。<br/>
+<!-- -->PostgreSQL 则是一个开源的数据库。其中有句比较经典的话就是：PostgreSQL 能与 Oracle 媲美，且没有那么昂贵的价格和傲慢的客服。</p><p>本文主要学习总结下二者之间的特点，以及各自的优势。</p><h2>PG相较于MySQL优势</h2><h3>更丰富的数据类型</h3><p>####支持json、jsonb类型</p><h4>text无长度限制，支持全文索引</h4><h4>字符编码支持更友好</h4><p>MySQL 存储 emoji 的坑，在 PG 种遇不到。</p><h3>更丰富的索引类型</h3><h3>更丰富的集群支持</h3><h2>MySQL相较于PG优势</h2><h3>业界主流</h3><p>更多的解决方案和社区支持</p><h3>线程模式比进程模式更占据优势</h3><h3>存储引擎插件化</h3><br/><p>:::info 👇👇👇
 <strong>本文作者:</strong> Czasg
 <strong>版权声明:</strong> 转载请注明出处哦~👮‍
 :::</p>]]></content:encoded>
