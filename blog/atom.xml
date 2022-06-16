@@ -43,12 +43,12 @@
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[golanghttp模块]]></title>
-        <id>golanghttp模块</id>
+        <title type="html"><![CDATA[Go Http模块]]></title>
+        <id>Go Http模块</id>
         <link href="https://czasg.github.io/docusaurus/blog/2022/06/05/golanghttp模块"/>
         <updated>2022-06-05T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[摘要在此处]]></summary>
-        <content type="html"><![CDATA[<p>摘要在此处</p><p>正文在此处</p><br/><p>:::info 👇👇👇
+        <summary type="html"><![CDATA[本文作者: Czasg]]></summary>
+        <content type="html"><![CDATA[<br/><p>:::info 👇👇👇
 <strong>本文作者:</strong> Czasg
 <strong>版权声明:</strong> 转载请注明出处哦~👮‍
 :::</p>]]></content>
