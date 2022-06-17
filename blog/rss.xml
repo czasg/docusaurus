@@ -12,8 +12,39 @@
             <link>https://czasg.github.io/docusaurus/blog/2022/06/17/基于docker搭建gitlan-runner</link>
             <guid>基于docker搭建gitlan-runner</guid>
             <pubDate>Fri, 17 Jun 2022 00:00:00 GMT</pubDate>
-            <description><![CDATA[摘要在此处]]></description>
-            <content:encoded><![CDATA[<p>摘要在此处</p><p>正文在此处</p><br/><p>:::info 👇👇👇
+            <description><![CDATA[gitlab-runner实际运行时，会远程获取我们的代码仓，然后执行配置的.gitlab-ci.yaml文件，这个文件和jenkinsfile一个性质，里面定义了 CICD 的检测流程。]]></description>
+            <content:encoded><![CDATA[<p><code>gitlab-runner</code>实际运行时，会远程获取我们的代码仓，然后执行配置的<code>.gitlab-ci.yaml</code>文件，这个文件和<code>jenkinsfile</code>一个性质，里面定义了 CICD 的检测流程。</p><p>换句话说，<code>gitlab-runner</code>和我们的代码仓是完全解耦的。是可以部署在其他服务器上，并且可以部署多个的。</p><h2>1、创建 volume</h2><p>首先需要为 <code>gitlab-runner</code> 创建一个公共配置存在路径，目的是为了共享配置。</p><p>可以是具体的文件路径，也可以使用 <code>docker volume create</code> 创建一个公共挂载，后续其他的 runner 都挂载此目录，即可实现共享配置。   </p><pre><code class="language-shell" metastring="script">docker volume create gitlab-runner-config
+</code></pre><h2>2、注册 runner</h2><p>首先需要获取 gitlab 基础信息。<br/>
+<img src="./register-runner.png"/></p><p>然后注册 runner   </p><pre><code class="language-shell" metastring="script">docker run --rm -v gitlab-runner-config:/etc/gitlab-runner gitlab/gitlab-runner register \
+  --non-interactive \
+  --url &quot;Gitlab 的 URL 复制过来&quot; \
+  --registration-token &quot;Gitlab 的 Token 复制过来&quot; \
+  --executor &quot;docker&quot; \
+  --docker-image &quot;要运行的镜像，eg: python:3.6.8&quot; \
+  --description &quot;docker-runner-test&quot; \
+  --tag-list &quot;docker,test&quot; \
+  --run-untagged=&quot;true&quot; \
+  --locked=&quot;false&quot; \
+  --access-level=&quot;not_protected&quot; \
+  --docker-pull-policy=&quot;if-not-present&quot;
+</code></pre><p>注册完成后，在 gitlab 界面会出现你注册的 runner 信息。没有可以刷新看看，实在没有，应该是注册失败了。<br/>
+<img src="./register-runner-2.png"/>   </p><h2>3、启动 runner</h2><pre><code class="language-shell" metastring="script title=&quot;help帮助指令1&quot;" title="&quot;help帮助指令1&quot;">docker run -it --name gitlab-runner --rm \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -v gitlab-runner-config:/etc/gitlab-runner \
+    gitlab/gitlab-runner:latest help
+</code></pre><pre><code class="language-shell" metastring="script title=&quot;help帮助指令2&quot;" title="&quot;help帮助指令2&quot;">docker run -it --name gitlab-runner --rm \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -v gitlab-runner-config:/etc/gitlab-runner \
+    gitlab/gitlab-runner:latest help unregister
+</code></pre><pre><code class="language-shell" metastring="script title=&quot;list 列表查看runner&quot;" title="&quot;list">docker run -it --name gitlab-runner --rm \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -v gitlab-runner-config:/etc/gitlab-runner \
+    gitlab/gitlab-runner:latest list
+</code></pre><pre><code class="language-shell" metastring="script title=&quot;unregister 删除runner&quot;" title="&quot;unregister">docker run -it --name gitlab-runner --rm \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -v gitlab-runner-config:/etc/gitlab-runner \
+    gitlab/gitlab-runner:latest unregister -t=GIRLAB_TOKEN
+</code></pre><br/><p>:::info 👇👇👇
 <strong>本文作者:</strong> Czasg
 <strong>版权声明:</strong> 转载请注明出处哦~👮‍
 :::</p>]]></content:encoded>
