@@ -88,12 +88,15 @@
 :::</p>]]></content:encoded>
         </item>
         <item>
-            <title><![CDATA[Go Http模块]]></title>
+            <title><![CDATA[Go Http模块坑点]]></title>
             <link>https://czasg.github.io/docusaurus/blog/2022/06/05/golanghttp模块</link>
-            <guid>Go Http模块</guid>
+            <guid>Go Http模块坑点</guid>
             <pubDate>Sun, 05 Jun 2022 00:00:00 GMT</pubDate>
-            <description><![CDATA[本文作者: Czasg]]></description>
-            <content:encoded><![CDATA[<br/><p>:::info 👇👇👇
+            <description><![CDATA[记录原生库 net/http 中可能遇到的坑点。]]></description>
+            <content:encoded><![CDATA[<p>记录原生库 <code>net/http</code> 中可能遇到的坑点。</p><h2>默认 HttpClient 未配置超时</h2><p>默认的 <code>http.DefaultClient</code> 不包含请求超时时间。在某些场景会造成程序异常阻塞。</p><pre><code class="language-go" metastring="title=&quot;增加超时时间&quot;" title="&quot;增加超时时间&quot;">client := &amp;http.Client{
+    Timeout: 60 * time.Second,
+}
+</code></pre><br/><p>:::info 👇👇👇
 <strong>本文作者:</strong> Czasg
 <strong>版权声明:</strong> 转载请注明出处哦~👮‍
 :::</p>]]></content:encoded>
