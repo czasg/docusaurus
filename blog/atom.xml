@@ -80,21 +80,6 @@
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[多人在线编辑功能设计]]></title>
-        <id>多人在线编辑功能设计</id>
-        <link href="https://czasg.github.io/docusaurus/blog/2022/06/08/多人在线编辑功能设计"/>
-        <updated>2022-06-08T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[本文作者: Czasg]]></summary>
-        <content type="html"><![CDATA[<br/><p>:::info 👇👇👇
-<strong>本文作者:</strong> Czasg
-<strong>版权声明:</strong> 转载请注明出处哦~👮‍
-:::</p>]]></content>
-        <author>
-            <name>Czasg</name>
-            <uri>https://github.com/czasg</uri>
-        </author>
-    </entry>
-    <entry>
         <title type="html"><![CDATA[PostgreSQL vs MySQL]]></title>
         <id>PostgreSQL vs MySQL</id>
         <link href="https://czasg.github.io/docusaurus/blog/2022/06/07/pgvsmysql"/>
