@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocusaurus=self.webpackChunkdocusaurus||[]).push([[7167],{7944:function(s){s.exports=JSON.parse('{"allTagsPath":"/docusaurus/blog/tags","slug":"/docusaurus/blog/tags/\u57fa\u7840\u6280\u80fd","name":"\u57fa\u7840\u6280\u80fd","count":1,"permalink":"/docusaurus/blog/tags/\u57fa\u7840\u6280\u80fd"}')}}]);
