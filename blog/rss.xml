@@ -55,7 +55,7 @@
             <guid>如何理解 OKR &amp; KPI</guid>
             <pubDate>Thu, 09 Jun 2022 00:00:00 GMT</pubDate>
             <description><![CDATA[什么是 KPI]]></description>
-            <content:encoded><![CDATA[<h2>什么是 KPI</h2><p>KPI 指 <code>Key Performance Indicator</code>，即<strong>关键绩效指标</strong>。</p><p>对于公司来讲，他可以将公司的目标从上之下地分解，然后通过相关的关键绩效指标来衡量实际的执行效果。</p><h2>KPI 存在的问题</h2><p>经过大量实践证明，KPI 只适合<strong>标准化的、目标稳定的工作。</strong></p><p>比如某标准的工业流水线中，KPI 可以制定流水线中转化效率、转化比等，这些都是可以定量的。<br/>
+            <content:encoded><![CDATA[<h2>什么是 KPI</h2><p>KPI 指 <code>Key Performance Indicator</code>，即<strong>关键绩效指标</strong>。</p><p>对于公司来讲，他可以将公司的目标从上至下地分解，然后通过相关的关键绩效指标来衡量实际的执行效果。</p><h2>KPI 存在的问题</h2><p>经过大量实践证明，KPI 只适合<strong>标准化的、目标稳定的工作。</strong></p><p>比如某标准的工业流水线中，KPI 可以制定流水线中转化效率、转化比等，这些都是可以定量的。<br/>
 <!-- -->但是对于<strong>创新类</strong>技术来说，存在较大的不确定性，这种就不适合 KPI 衡量了。</p><p>其次，<strong>KPI 会给团队带来不良风气</strong>，比如：<br/>
 <!-- -->1、低指标：如果制定指标过高，完不成，那就是搬起石头砸自己的脚，所以大家会更倾向于制定低指标。<br/>
 <!-- -->2、短视：一些需要长期投入的事情会被人嫌弃，大家更加关注短期获益的KPI。<br/>
