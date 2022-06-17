@@ -1,14 +1,10 @@
 ---
 title: 多人在线编辑功能设计
 authors: [czasg]
-tags: [未定义]
+tags: [其他]
 ---
 
-https://zhuanlan.zhihu.com/p/402307680
-
 <!--truncate-->
-
-正文在此处
 
 
 <br/>
