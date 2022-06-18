@@ -2,11 +2,29 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://czasg.github.io/docusaurus/blog</id>
     <title>Czasg Blog</title>
-    <updated>2022-06-17T00:00:00.000Z</updated>
+    <updated>2022-06-18T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://czasg.github.io/docusaurus/blog"/>
     <subtitle>Czasg Blog</subtitle>
     <icon>https://czasg.github.io/docusaurus/img/favicon.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[gRPC原理]]></title>
+        <id>gRPC原理</id>
+        <link href="https://czasg.github.io/docusaurus/blog/2022/06/18/gRPC原理"/>
+        <updated>2022-06-18T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[RPC 是 Remote Procedure Call 的缩写，即远程过程调用。]]></summary>
+        <content type="html"><![CDATA[<p>RPC 是 <code>Remote Procedure Call</code> 的缩写，即<strong>远程过程调用</strong>。<br/>
+<!-- -->一般 RPC 框架会屏蔽底层的序列化方式和传输方式，让服务调用者可以像调用本地接口一样调用远程的服务。</p><p>业界主流的 RPC 框架主要有：<br/>
+<!-- -->1、Google 的 gRPC，基于 HTTP2 实现，是支持多语言的 RPC 框架。<br/>
+<!-- -->2、阿里的 Dubbo，底层由 RPC 实现，是可以用于实现微服务治理的分布式服务框架。   </p><p>本文主要学习 gRPC 的相关原理。  </p><h2>gRPC 特点</h2><p>说到 gRPC 有什么特点，我们第一反应就是：Google 出品，必属精品~😃   </p><p>除此之外，gRPC 还是一个<strong>基于HTTP2的、支持多语言的、高性能的、面向服务端和移动端</strong>的RPC框架。</p><h2>gRPC与高性能</h2><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍
+:::</p>]]></content>
+        <author>
+            <name>Czasg</name>
+            <uri>https://github.com/czasg</uri>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[基于docker搭建gitlan-runner]]></title>
         <id>基于docker搭建gitlan-runner</id>
