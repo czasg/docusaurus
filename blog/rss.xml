@@ -12,7 +12,7 @@
             <link>https://czasg.github.io/docusaurus/blog/2022/06/18/gRPC原理</link>
             <guid>gRPC原理</guid>
             <pubDate>Sat, 18 Jun 2022 00:00:00 GMT</pubDate>
-            <description><![CDATA[RPC 是 Remote Procedure Call 的缩写，即远程过程调用。]]></description>
+            <description><![CDATA[<!--]]></description>
             <content:encoded><![CDATA[<p>RPC 是 <code>Remote Procedure Call</code> 的缩写，即<strong>远程过程调用</strong>。<br/>
 <!-- -->一般 RPC 框架会屏蔽底层的序列化方式和传输方式，让服务调用者可以像调用本地接口一样调用远程的服务。</p><p>业界主流的 RPC 框架主要有：<br/>
 <!-- -->1、Google 的 gRPC，基于 HTTP2 实现，是支持多语言的 RPC 框架。<br/>
