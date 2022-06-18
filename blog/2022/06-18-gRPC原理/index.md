@@ -4,6 +4,10 @@ authors: [czasg]
 tags: [gRPC]
 ---
 
+<!-- 
+https://doc.oschina.net/grpc?t=58008
+-->
+
 RPC 是 `Remote Procedure Call` 的缩写，即**远程过程调用**。    
 一般 RPC 框架会屏蔽底层的序列化方式和传输方式，让服务调用者可以像调用本地接口一样调用远程的服务。
 
