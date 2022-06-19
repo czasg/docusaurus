@@ -1,5 +1,5 @@
 ---
-title: gRPC原理及使用
+title: gRPC 原理及使用
 authors: [czasg]
 tags: [gRPC]
 ---
@@ -39,7 +39,45 @@ RPC 是 `Remote Procedure Call` 的缩写，即**远程过程调用**。
 
 ![](./landing-2.svg)
 
-```go title="/hello.demo.proto"
+## protocol buffers
+`protocol buffers` 是一种序列化机制，类似 JSON，只是它更小更快，并且与生成的本地代码绑定。
+
+在学习 `protocol buffers` 之前，必须要先学习并了解 proto 的相关规范。
+
+### 定义 message
+所谓消息类型，即 message 类型。
+```proto
+syntax = "proto3";
+
+message ConstantRequest {
+  string one = 1;
+  int32 two = 2;
+  float three = 3;
+}
+```
+在上面代码中可以看到：
+* 文件第一行指定 `proto3` 语法，没有则默认使用 `proto2`语法。
+* 文件后面定义了一个 `ConstantRequest` 的消息，该消息指定了三个字段，每个字段包括：类型、名称、值，这三个字段都是**标量字段**（int、float、bool等）。
+
+在定义字段模块，我们可以看到一些很特殊的地方，就是这些数字编号（1、2、3）。      
+在 proto 的一个消息中，每一个字段都应该被**分配一个唯一的编号**，这些编号，用于在二进制消息中标识并区分对应字段，可以理解为编码关键字。
+者对于那些有着很长字段的消息来说，是减小体积的一种方式。
+
+所以字段编号在proto中很重要，1-15 编码占据一个字节，这15个字段应该尽可能的分配给出现较频繁的消息元素。    
+除此之外，一旦涉及到字段编码的变更，需要尤其小心，不然会引起意想不到的坑，包括数据损坏、隐私错误等。   
+
+一般尽可能的避免变更字段编码，如果真的需要变更，可以采用 `reserved` 关键字来处理。
+```go
+message Foo {
+  reserved 2, 15, 9 to 11;
+  reserved "foo", "bar";
+}
+```
+
+### 定义 service
+```go
+syntax = "proto3";
+
 service HelloService {
   rpc SayHello (HelloRequest) returns (HelloResponse);
 }
@@ -53,7 +91,7 @@ message HelloResponse {
 }
 ```
 
-gRPC 允许你定义四类服务方法：
+服务类型即 `service` 类型。同时，gRPC 允许你定义四类服务方法：
 
 ```go title="单次响应"
 rpc SayHello(HelloRequest) returns (HelloResponse){
@@ -75,10 +113,96 @@ rpc BidiHello(stream HelloRequest) returns (stream HelloResponse){
 }
 ```
 
-## protocol buffers
+### 定义 enum
+在定义消息时，有时希望某字段，是属于预定义值之一。这时枚举字段可以起到很好的作用。
+```go {2,6}
+message SearchRequest {
+  enum Corpus {
+    UNIVERSAL = 0;
+    WEB = 1;
+    LOCAL = 2;
+  }
+  Corpus corpus = 1;
+}
+```
 
+### 定义嵌套类型
+字段类型可以是其他消息类型。
+```go {2}
+message SearchResponse {
+  repeated Result results = 1;
+}
 
+message Result {
+  string url = 1;
+  string title = 2;
+  repeated string snippets = 3;
+}
+```
 
+### 定义 repeated
+在此处 `repeated` 字段表示此处接收一个数组类型。
+```go {2}
+message SearchResponse {
+  repeated Result results = 1;
+}
+
+message Result {
+  string url = 1;
+  string title = 2;
+  repeated string snippets = 3;
+}
+```
+
+### 定义 any
+任意类型比较特殊，需要导入其他包：`google/protobuf/any.proto`。
+```go {1，5}
+import "google/protobuf/any.proto";
+
+message ErrorStatus {
+  string message = 1;
+  repeated google.protobuf.Any details = 2;
+}
+```
+
+### 定义 oneof
+当存在包含多个字段的消息，并且最多同时设置其中某一个字段时，可以使用 oneof 节省内存。
+```go {2}
+message SampleMessage {
+  oneof test_oneof {
+    string name = 4;
+    string sub_message = 9;
+  }
+}
+```
+
+### 定义 map
+```go {2}
+message SampleMessage {
+  map<string, Project> projects = 3;
+}
+
+message Project {
+  string message = 1;
+}
+```
+
+### 定义 package
+```go
+option go_package = "pb";
+```
+
+## 生成代码
+```shell script
+protoc --proto_path=IMPORT_PATH --python_out=DST_DIR --go_out=DST_DIR file.proto
+```
+* IMPORT_PATH指定.proto解析import指令时在其中查找文件的目录。如果省略，则使用当前目录。
+* --proto_path：多次传递该选项可以指定多个导入目录。他们将被按顺序搜索。
+    * `-I=IMPORT_PATH` 是 `--proto_path` 的简写形式。
+    * IMPORT_PATH 是指定.proto解析import指令时在其中查找文件的目录。
+* --go_out：生成 Go 代码DST_DIR。
+* --python_out：生成 Python 代码DST_DIR。
+* file.proto：必须提供一个或多个.proto文件作为输入。.proto可以一次指定多个文件。尽管文件是相对于当前目录命名的，但每个文件必须位于其中一个IMPORT_PATHs 中，以便编译器可以确定其规范名称。
 
 <br/>
 
