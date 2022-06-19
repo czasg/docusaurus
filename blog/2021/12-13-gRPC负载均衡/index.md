@@ -1,5 +1,5 @@
 ---
-title: 基于 gRPC 实现负载均衡
+title: gRPC 负载均衡
 authors: [czasg]
 tags: [grpc]
 ---
