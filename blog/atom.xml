@@ -1040,8 +1040,8 @@ linux 提供了权重机制，用于标记任务的优先级。<br/>
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[基于 gRPC 实现负载均衡]]></title>
-        <id>基于 gRPC 实现负载均衡</id>
+        <title type="html"><![CDATA[gRPC 负载均衡]]></title>
+        <id>gRPC 负载均衡</id>
         <link href="https://czasg.github.io/docusaurus/blog/2021/12/13/gRPC负载均衡"/>
         <updated>2021-12-13T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[本文主要介绍在 k8s 环境下 gRPC 服务在实现负载均衡时遇到的问题和解决思路。]]></summary>

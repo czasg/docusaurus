@@ -928,9 +928,9 @@ linux 提供了权重机制，用于标记任务的优先级。<br/>
 <!-- -->:::</p>]]></content:encoded>
         </item>
         <item>
-            <title><![CDATA[基于 gRPC 实现负载均衡]]></title>
+            <title><![CDATA[gRPC 负载均衡]]></title>
             <link>https://czasg.github.io/docusaurus/blog/2021/12/13/gRPC负载均衡</link>
-            <guid>基于 gRPC 实现负载均衡</guid>
+            <guid>gRPC 负载均衡</guid>
             <pubDate>Mon, 13 Dec 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[本文主要介绍在 k8s 环境下 gRPC 服务在实现负载均衡时遇到的问题和解决思路。]]></description>
             <content:encoded><![CDATA[<p>本文主要介绍在 k8s 环境下 gRPC 服务在实现负载均衡时遇到的问题和解决思路。</p><h2>概述</h2><p>我们的 gRPC 应用最初使用 <code>DaemonSet</code> 类型的资源对象部署在 k8s 上。通过标签配置，使得单台 Node 节点仅部署一个 pod 应用。
