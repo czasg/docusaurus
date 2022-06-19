@@ -1073,15 +1073,19 @@ MaxConnectionAge 是 gRPC 服务端的参数，用于指定长连接最大保持
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[gRPC原理]]></title>
-        <id>gRPC原理</id>
+        <title type="html"><![CDATA[gRPC原理及使用]]></title>
+        <id>gRPC原理及使用</id>
         <link href="https://czasg.github.io/docusaurus/blog/2021/12/12/gRPC原理"/>
         <updated>2021-12-12T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[<!--]]></summary>
         <content type="html"><![CDATA[<p>RPC 是 <code>Remote Procedure Call</code> 的缩写，即<strong>远程过程调用</strong>。<br/>
 <!-- -->一般 RPC 框架会屏蔽底层的序列化方式和传输方式，让服务调用者可以像调用本地接口一样调用远程的服务。</p><p>业界主流的 RPC 框架主要有：<br/>
 <!-- -->1、Google 的 gRPC，基于 HTTP2 实现，是支持多语言的 RPC 框架。<br/>
-<!-- -->2、阿里的 Dubbo，底层由 RPC 实现，是可以用于实现微服务治理的分布式服务框架。   </p><p>本文主要学习 gRPC 的相关原理。  </p><h2>gRPC 特点</h2><p>说到 gRPC 有什么特点，我们第一反应就是：Google 出品，必属精品~😃   </p><p>除此之外，gRPC 还是一个<strong>基于HTTP2的、支持多语言的、高性能的、面向服务端和移动端</strong>的RPC框架。</p><h2>gRPC与高性能</h2><br/><p>:::info 👇👇👇
+<!-- -->2、阿里的 Dubbo，底层由 RPC 实现，是可以用于实现微服务治理的分布式服务框架。   </p><p>本文主要学习 gRPC 的相关原理及其使用。  </p><h2>gRPC 揭秘</h2><p>说到 gRPC，我们脑海中第一反应可能就是：Google 出品，必属精品~😃<br/>
+<!-- -->除此之外，可能还有基于 HTTP2、基于 <code>protocol buffers</code> 等等...</p><p>虽然脑海中有很多关于 gRPC 的描述与特点，但总<strong>感觉说不清 gRPC 到底是什么</strong>。</p><p>和其他 RPC 框架一样，gRPC 也有一个理念：<br/>
+<!-- -->定义一个服务，指定其能够被远程调用的方法、参数、返回等。
+在服务端实现这个接口，并运行一个 gRPC 服务器来处理客户端的调用。
+使得客户端能够像本地一样调用远程服务端的方法。</p><p>整体来看，gRPC 就是一个 RPC 框架，而且是一个<strong>基于HTTP2、支持<code>protocol buffers</code>序列化机制、支持支持多语言的、高性能的、面向服务端和移动端</strong>的高级RPC框架。</p><p>所以我们可以看到 gRPC 的标签非常多，噱头一堆。那它区别于常规 RPC 框架的亮点是什么?</p><p>如果你用过 gRPC，那你一定接触过 <code>.proto</code> 文件，这是 gRPC 的亮点之一，即 <code>protocol buffers</code> 机制。    </p><p><img src="./landing-2.svg"/></p><h2>protocol buffers</h2><br/><p>:::info 👇👇👇
 <strong>本文作者:</strong> Czasg
 <strong>版权声明:</strong> 转载请注明出处哦~👮‍
 :::</p>]]></content>
