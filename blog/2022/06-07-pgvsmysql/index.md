@@ -4,6 +4,10 @@ authors: [czasg]
 tags: [数据库]
 ---
 
+<!--
+《postgresql修炼之道》
+-->
+
 MySQL 是业界主流的关系型数据库，目前被 Oracle 收购，并提供包括免费、付费等多种社区版本。    
 PostgreSQL 则是一个开源的数据库。有句比较经典的话你可能听过，那就是："PostgreSQL 能与 Oracle 媲美，并且没有那么昂贵的价格和傲慢的客服。"    
 
