@@ -84,7 +84,7 @@
         <id>PostgreSQL vs MySQL</id>
         <link href="https://czasg.github.io/docusaurus/blog/2022/06/07/pgvsmysql"/>
         <updated>2022-06-07T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[MySQL 是业界主流的关系型数据库，目前被 Oracle 收购，并提供包括免费、付费等多种社区版本。]]></summary>
+        <summary type="html"><![CDATA[<!--]]></summary>
         <content type="html"><![CDATA[<p>MySQL 是业界主流的关系型数据库，目前被 Oracle 收购，并提供包括免费、付费等多种社区版本。<br/>
 <!-- -->PostgreSQL 则是一个开源的数据库。有句比较经典的话你可能听过，那就是：&quot;PostgreSQL 能与 Oracle 媲美，并且没有那么昂贵的价格和傲慢的客服。&quot;    </p><p>两类数据库各有高低，本文主要学习总结下二者之间的特点，以及各自的优势。</p><h2>PG相较于MySQL优势</h2><p>首先 PG 完全开源，相较于 MySQL 来说，拥有更迅速的功能迭代。</p><h3>更丰富的数据类型</h3><p>除了常规的数据类型外，PG 的数据类型更加丰富，且完善了部分 MySQL 数据类型的一些槽点。</p><h4>支持json、jsonb类型</h4><p>随着json格式的流行，越来越多的数据存储和传输，采用json格式。     </p><p>但存储这类半结构化数据，对于关系型数据库来说并不友好。往往只能先将json数据序列化为成字符串，然后存储字符串。<br/>
 <!-- -->这也是 MongoDB 等非关系型数据库逐渐流行的原因之一。       </p><p>PG 支持 json、jsonb 两类数据类型：   </p><ul><li>json：存储文本数据，每次读取都会对其进行json解析。不支持索引。  </li><li>jsonb：存储二进制数据，相对于json类型来说，避免了重复解析，并且支持索引。  </li></ul><p>所以当数据库字段设计时，仅仅有部分字段数据类型是半结构化的，数据库选型时 PG 将是非常优秀的选择。</p><h4>text无长度限制，支持全文索引</h4><p>一般关系型数据库的字符串有长度限制，大小在8k左右，PG 则没有限制。</p><h4>字符编码支持更友好</h4><p>对于 emoji 的存储，MySQL 需要 utf8mb4 编码才能正确显示，在 PG 种遇不到。</p><h3>更丰富的索引类型</h3><p>MySQL 的索引类型取决于底层引擎选型，像 MyISAM、InnoDB 等支持B+树索引类型。<br/>
