@@ -4,9 +4,20 @@
         <title>Czasg Blog</title>
         <link>https://czasg.github.io/docusaurus/blog</link>
         <description>Czasg Blog</description>
-        <lastBuildDate>Mon, 20 Jun 2022 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 21 Jun 2022 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[redis 分布式锁]]></title>
+            <link>https://czasg.github.io/docusaurus/blog/2022/06/21/redis分布式锁</link>
+            <guid>redis 分布式锁</guid>
+            <pubDate>Tue, 21 Jun 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[<!--]]></description>
+            <content:encoded><![CDATA[<p>并发场景下的<strong>锁机制</strong>，其实就是用来保护不同线程对<strong>共享资源</strong>的访问，这样可以确保程序按预设的逻辑执行。<strong>分布式锁</strong>也是一样的原理，它是用于分布式系统并发场景下访问共享资源的一种锁机制。   </p><p>一把合格的分布式锁，应该至少具备以下特征：</p><ul><li>互斥性：任意时刻，只有一个客户端持有。</li><li>超时机制：持有锁并超时时，可以自动释放，避免死锁。</li><li>安全性：在未超时场景下，锁只能被持有者释放</li></ul><p>正文在此处</p><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍
+:::</p>]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[PEP8 规范]]></title>
             <link>https://czasg.github.io/docusaurus/blog/2022/06/20/pep8规范</link>
