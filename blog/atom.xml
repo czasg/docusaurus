@@ -2,11 +2,26 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://czasg.github.io/docusaurus/blog</id>
     <title>Czasg Blog</title>
-    <updated>2022-06-17T00:00:00.000Z</updated>
+    <updated>2022-06-20T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://czasg.github.io/docusaurus/blog"/>
     <subtitle>Czasg Blog</subtitle>
     <icon>https://czasg.github.io/docusaurus/img/favicon.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[PEP8 规范]]></title>
+        <id>PEP8 规范</id>
+        <link href="https://czasg.github.io/docusaurus/blog/2022/06/20/pep8规范"/>
+        <updated>2022-06-20T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[PEP 是 Python Enhancement Proposal 的缩写，表示Python 增强提案，其中第8条提案则是针对编码规范的提案。]]></summary>
+        <content type="html"><![CDATA[<p>PEP 是 <code>Python Enhancement Proposal</code> 的缩写，表示<strong>Python 增强提案</strong>，其中第8条提案则是针对编码规范的提案。</p><p>包括：<strong>命名规范、编排规范、注释规范、代码规范</strong>等。</p><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍
+:::</p>]]></content>
+        <author>
+            <name>Czasg</name>
+            <uri>https://github.com/czasg</uri>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[基于docker搭建gitlan-runner]]></title>
         <id>基于docker搭建gitlan-runner</id>
