@@ -12,8 +12,8 @@
         <id>PEP8 规范</id>
         <link href="https://czasg.github.io/docusaurus/blog/2022/06/20/pep8规范"/>
         <updated>2022-06-20T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[PEP 是 Python Enhancement Proposal 的缩写，表示Python 增强提案，其中第8条提案则是针对编码规范的提案。]]></summary>
-        <content type="html"><![CDATA[<p>PEP 是 <code>Python Enhancement Proposal</code> 的缩写，表示<strong>Python 增强提案</strong>，其中第8条提案则是针对编码规范的提案。</p><p>包括：<strong>命名规范、编排规范、注释规范、代码规范</strong>等。</p><br/><p>:::info 👇👇👇
+        <summary type="html"><![CDATA[PEP 是 Python Enhancement Proposal 的缩写，表示Python 增强提案。]]></summary>
+        <content type="html"><![CDATA[<p>PEP 是 <code>Python Enhancement Proposal</code> 的缩写，表示<strong>Python 增强提案</strong>。</p><p>PEP8 则表示其中第8条提案，这是针对编码规范的提案。其中包括：<strong>命名规范、编排规范、注释规范、代码规范</strong>等。</p><br/><p>:::info 👇👇👇
 <strong>本文作者:</strong> Czasg
 <strong>版权声明:</strong> 转载请注明出处哦~👮‍
 :::</p>]]></content>
