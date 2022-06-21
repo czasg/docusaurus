@@ -14,16 +14,13 @@
             <pubDate>Tue, 21 Jun 2022 00:00:00 GMT</pubDate>
             <description><![CDATA[<!--]]></description>
             <content:encoded><![CDATA[<p>并发场景下的<strong>锁机制</strong>，其实就是用来保护不同线程对<strong>共享资源</strong>的访问，这样可以确保程序按预设的逻辑执行。
-<strong>分布式锁</strong>也是一样的原理，它是用于分布式系统并发场景下访问共享资源的一种锁机制。   </p><p>一把合格的分布式锁，应该至少具备以下特征：</p><ul><li>互斥性：任意时刻，只有一个客户端持有。</li><li>超时机制：持有锁并超时时，可以自动释放，避免死锁。</li><li>安全性：在未超时场景下，锁只能被持有者释放。</li></ul><h2>redis 单机器分布式锁</h2><h3>setnx</h3><p>这是一个基于 setnx 实现的一个完整的分布式锁，其中主要包含三个 redis 关键字操作。</p><pre><code class="language-shell" metastring="script">SETNX key uniqueValue
-EXPIRE key 10
-DEL key
-</code></pre><p>具体的操作就是：<br/>
-<!-- -->1、创建随机的唯一值<br/>
-<!-- -->2、使用 setnx 赋值，赋值成功，则获取分布式锁</p><h4>setnx key uniqueValue</h4><p><code>setnx</code> 是 redis 的一个关键字指令操作，该指令是原子操作，其作用是只有当 key 不存在的情况下，才能赋值成功。所以基于 setnx 指令我们呢可以轻松的实现互斥性。</p><p>具体操作就是</p><p>所以基于该指令我们可以很快的实现一个分布式锁。目前原子操作 setnx 已经实现了互斥性。  </p><p>然后时超时机制。我们需要注意到，一旦客户端因为某些异常，需要长时间持有锁，就会导致整个系统跟着阻塞。为了避免这种情况，我们还需要给锁设置一个过期时间。<br/>
-<code>expire key num</code> 是 redis 的指令操作，其作用是给 key 设置过期时间。</p><p>当出现锁过期的场景时，前一个持锁用户，需要感知到当前锁不属于他，进而避免误删锁。</p><h4>expire key 10</h4><h4>del key</h4><pre><code class="language-shell" metastring="script">SETNX key value
-EXPIRE key 10
-DEL key
-</code></pre><p>而 redis 作为主流的内存数据库，其 <code>setnx</code> 命令，可以很轻松的实现一个单机的分布式锁。对于redis集群，也有 <code>redlock</code> 算法保证锁机制。</p><h2>redis 多机分布式锁</h2><br/><p>:::info 👇👇👇
+<strong>分布式锁</strong>也是一样的原理，它是用于分布式系统并发场景下访问共享资源的一种锁机制。   </p><p>一把合格的分布式锁，应该至少具备以下特征：</p><ul><li>互斥性：任意时刻，只有一个客户端持有。</li><li>超时机制：持有锁并超时时，可以自动释放，避免死锁。</li><li>安全性：在未超时场景下，锁只能被持有者释放。</li></ul><h2>单节点分分布式锁</h2><p>SET 是 redis 关键字指令，属于原子操作，其作用是给指定 key 赋值 value。并且支持 NX 和 PX 参数：</p><ul><li>NX：<code>if not exists</code> 缩写，当 key 不存在时才允许赋值成功。</li><li>PX：表示过期时间。</li></ul><pre><code class="language-shell" metastring="script title=&quot;核心语句&quot;" title="&quot;核心语句&quot;">SET key uniqueValue NX PX 1000
+</code></pre><p>具体的场景如下：<br/>
+<!-- -->1、用户一：创建随机值，使用 set 赋值，赋值成功，持有分布式锁。<br/>
+<!-- -->2、用户二：创建随机值，使用 set 赋值，赋值失败。<br/>
+<!-- -->3、用户一：执行任务超过1秒，自动释放锁。<br/>
+<!-- -->4、用户二：创建随机值，使用 set 赋值，赋值成功，持有分布式锁。<br/>
+<!-- -->5、用户一：任务结束，获取锁，对比当前锁是否属于自己，不属于则忽略。    </p><h2>多节点分布式锁</h2><br/><p>:::info 👇👇👇
 <strong>本文作者:</strong> Czasg
 <strong>版权声明:</strong> 转载请注明出处哦~👮‍
 :::</p>]]></content:encoded>
