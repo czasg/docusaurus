@@ -23,8 +23,40 @@
             <link>https://czasg.github.io/docusaurus/blog/2022/07/09/权限设计整理</link>
             <guid>权限设计整理</guid>
             <pubDate>Sat, 09 Jul 2022 00:00:00 GMT</pubDate>
-            <description><![CDATA[摘要在此处]]></description>
-            <content:encoded><![CDATA[<p>摘要在此处</p><br/><p>:::info 👇👇👇
+            <description><![CDATA[<!--]]></description>
+            <content:encoded><![CDATA[<h2>ACL</h2><p>ACL 是 Access Control List 的缩写，表示<strong>访问控制列表</strong>。</p><pre><code class="language-yaml" metastring="title=&quot;ACL配置表&quot;" title="&quot;ACL配置表&quot;">资源列表:
+- 核心资产页面:
+  - 用户: 员工A
+    权限: 无权限
+  - 用户: 员工B
+    权限: 查询权限
+  - 用户: 员工C
+    权限: 增话、删除、修改、查询权限
+</code></pre><p>ACL 的设计思想主要是围绕<strong>资源</strong>来设计的权限管理</p><p>从维护角度来看，每新增一名用户时，需要赋予初始化权限，会比较繁琐。但针对员工的权限修改，会显得比较容易。</p><h2>RBAC</h2><p>RBAC 是 Role Base Access Control 的缩写，表示<strong>基于角色的访问控制</strong>，</p><pre><code class="language-yaml" metastring="title=&quot;RBAC&quot;" title="&quot;RBAC&quot;">用户表:
+- 用户: A
+  角色: [研发]
+- 用户: B
+  角色: [测试]
+---
+角色表:
+- 角色: 研发
+  权限: [修复BGU]
+- 角色: 测试
+  权限: [创建BUG]
+---
+权限表:
+- 权限: 创建BUG
+  资源表:
+  - 资源: BUG单
+    权限: [创建、修改]
+- 权限: 修复BGU
+  资源表:
+  - 资源:: BUG单
+    权限: [修改、完成]
+</code></pre><p>RBAC 的思想，来源于现实世界中的企业结构，不同的角色设计有不同的权限，而不用的主体将拥有一个至多个角色。</p><p>从维护角度来看，在相对静态的情况下，是比较容易维护的。相对静态的意思就是说，每个角色拥有的权限是相对固定的。<br/>
+<!-- -->比如一名刚入职的员工，他的角色可能就是未转正员工，此时该名员工所拥有的权限将是非常小的一部分。
+但是由于某些特殊情况，这名员工又需要申请更高权限时，就会比较难处理。因为不能直接修改角色的权限，这样会破坏这名角色的原生属性。<br/>
+<!-- -->在这种场景下，一般只能创建新的角色并赋予此名员工，这样就会降低系统的可维护性。</p><br/><p>:::info 👇👇👇
 <strong>本文作者:</strong> Czasg
 <strong>版权声明:</strong> 转载请注明出处哦~👮‍
 :::</p>]]></content:encoded>
