@@ -4,9 +4,30 @@
         <title>Czasg Blog</title>
         <link>https://czasg.github.io/docusaurus/blog</link>
         <description>Czasg Blog</description>
-        <lastBuildDate>Tue, 12 Jul 2022 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 17 Jul 2022 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[如何设计一个结构化日志]]></title>
+            <link>https://czasg.github.io/docusaurus/blog/2022/07/17/结构化日志</link>
+            <guid>如何设计一个结构化日志</guid>
+            <pubDate>Sun, 17 Jul 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[结构化日志，即日志遵循一定的结构。程序输出内容不再是自由格式，而是类似JSON格式的文本。]]></description>
+            <content:encoded><![CDATA[<p>结构化日志，即日志遵循一定的结构。程序输出内容不再是自由格式，而是类似JSON格式的文本。</p><p>结构化日志的最大好处就是简化日志解析，便于日志分类、聚合。</p><h2>定义标准</h2><p>在开始编程前，需要先设计好项目的整体架构。</p><h3>日志基础信息</h3><p>首先，日志格式我们选择JSON格式。<br/>
+<!-- -->此外，还需要附带基础日志信息，这里我们选择时间和日志级别。  </p><pre><code class="language-python">import json, datetime
+
+def log(msg):
+    print(json.dumps(dict(
+        time=f&quot;{datetime.datetime.now()}&quot;,
+        level=&quot;info&quot;,
+        msg=msg,
+    )))
+log(&quot;hello world&quot;)
+</code></pre><p>这样，一个简单的结构化日志雏形就已经出现了。</p><h3>项目结构</h3><ul><li>Logger: 日志实体<ul><li>Level: 日志级别</li><li>Format: 日志格式</li><li>Hook: 日志钩子</li></ul></li><li>Entry: 数据实体<ul><li>Data: 数据</li></ul></li></ul><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍
+:::</p>]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[云服务初识]]></title>
             <link>https://czasg.github.io/docusaurus/blog/2022/07/12/云服务初识</link>
