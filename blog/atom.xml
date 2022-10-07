@@ -2,11 +2,26 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://czasg.github.io/docusaurus/blog</id>
     <title>Czasg Blog</title>
-    <updated>2022-07-18T00:00:00.000Z</updated>
+    <updated>2022-10-07T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://czasg.github.io/docusaurus/blog"/>
     <subtitle>Czasg Blog</subtitle>
     <icon>https://czasg.github.io/docusaurus/img/favicon.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[如何理解引擎]]></title>
+        <id>如何理解引擎</id>
+        <link href="https://czasg.github.io/docusaurus/blog/2022/10/07/如何理解引擎"/>
+        <updated>2022-10-07T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[在软件开发过程中，经常遇到各种高级词汇，比如病毒查杀引擎、云引擎等等。]]></summary>
+        <content type="html"><![CDATA[<p>在软件开发过程中，经常遇到各种高级词汇，比如病毒查杀引擎、云引擎等等。   </p><p>我个人理解，引擎更多用于定义一种经过高度抽象的业务执行逻辑。   </p><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍
+:::</p>]]></content>
+        <author>
+            <name>Czasg</name>
+            <uri>https://github.com/czasg</uri>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[如何从零开始设计一个后端框架]]></title>
         <id>如何从零开始设计一个后端框架</id>

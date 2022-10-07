@@ -4,9 +4,20 @@
         <title>Czasg Blog</title>
         <link>https://czasg.github.io/docusaurus/blog</link>
         <description>Czasg Blog</description>
-        <lastBuildDate>Mon, 18 Jul 2022 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 07 Oct 2022 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[如何理解引擎]]></title>
+            <link>https://czasg.github.io/docusaurus/blog/2022/10/07/如何理解引擎</link>
+            <guid>如何理解引擎</guid>
+            <pubDate>Fri, 07 Oct 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[在软件开发过程中，经常遇到各种高级词汇，比如病毒查杀引擎、云引擎等等。]]></description>
+            <content:encoded><![CDATA[<p>在软件开发过程中，经常遇到各种高级词汇，比如病毒查杀引擎、云引擎等等。   </p><p>我个人理解，引擎更多用于定义一种经过高度抽象的业务执行逻辑。   </p><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍
+:::</p>]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[如何从零开始设计一个后端框架]]></title>
             <link>https://czasg.github.io/docusaurus/blog/2022/07/18/如何从零开始设计一个后端框架</link>
