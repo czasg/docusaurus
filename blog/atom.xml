@@ -2,11 +2,32 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://czasg.github.io/docusaurus/blog</id>
     <title>Czasg Blog</title>
-    <updated>2022-10-07T00:00:00.000Z</updated>
+    <updated>2022-10-14T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://czasg.github.io/docusaurus/blog"/>
     <subtitle>Czasg Blog</subtitle>
     <icon>https://czasg.github.io/docusaurus/img/favicon.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[SQL随录]]></title>
+        <id>SQL随录</id>
+        <link href="https://czasg.github.io/docusaurus/blog/2022/10/14/SQL随录"/>
+        <updated>2022-10-14T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[需求说明：table.key是一个JSONB字段，存储数据为：[{"rule": ["hash=hashstring;"]}]，现需要解析此数据，]]></summary>
+        <content type="html"><![CDATA[<pre><code class="language-sql">SELECT 
+    SUBSTRING( ( table.key -&gt; 0- &gt; &#x27;rule&#x27; -&gt; 0 ) :: TEXT, &#x27;=*([0-9a-zA-Z]*);&#x27; ) AS hash 
+FROM
+    table;
+</code></pre><p>需求说明：<code>table.key</code>是一个<code>JSONB</code>字段，存储数据为：<code>[{&quot;rule&quot;: [&quot;hash=hashstring;&quot;]}]</code>，现需要解析此数据，
+并截取出此数据结构中的哈希数据。</p><p>参考：<a href="http://postgres.cn/docs/12/functions-json.html">9.15. JSON 函数和操作符</a><br/>
+<!-- -->参考：<a href="http://postgres.cn/docs/12/functions-string.html">9.4. 字符串函数和操作符</a>     </p><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍
+:::</p>]]></content>
+        <author>
+            <name>Czasg</name>
+            <uri>https://github.com/czasg</uri>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[如何理解引擎]]></title>
         <id>如何理解引擎</id>
