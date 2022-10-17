@@ -2,11 +2,32 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://czasg.github.io/docusaurus/blog</id>
     <title>Czasg Blog</title>
-    <updated>2022-10-14T00:00:00.000Z</updated>
+    <updated>2022-10-17T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://czasg.github.io/docusaurus/blog"/>
     <subtitle>Czasg Blog</subtitle>
     <icon>https://czasg.github.io/docusaurus/img/favicon.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[SQL随录]]></title>
+        <id>SQL随录</id>
+        <link href="https://czasg.github.io/docusaurus/blog/2022/10/17/SQL随录"/>
+        <updated>2022-10-17T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[需求说明：在众多函数中，找到与目标表相关的函数。]]></summary>
+        <content type="html"><![CDATA[<pre><code class="language-sql">SELECT
+    proname 
+FROM
+    pg_proc 
+WHERE
+    prosrc LIKE&#x27;%table_name%&#x27;;
+</code></pre><p>需求说明：在众多函数中，找到与目标表相关的函数。</p><p>实现说明：</p><ul><li>pg_proc：pg存储函数的表</li><li>prosrc：是函数源码，通过模糊匹配查询所有源码中，与目标表有关的函数</li><li>proname：函数名</li></ul><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍
+:::</p>]]></content>
+        <author>
+            <name>Czasg</name>
+            <uri>https://github.com/czasg</uri>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[SQL随录]]></title>
         <id>SQL随录</id>
