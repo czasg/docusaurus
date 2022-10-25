@@ -6,8 +6,8 @@
 <meta name="generator" content="Docusaurus v2.0.0-beta.9">
 <link rel="alternate" type="application/rss+xml" href="/docusaurus/blog/rss.xml" title="Czasg RSS Feed">
 <link rel="alternate" type="application/atom+xml" href="/docusaurus/blog/atom.xml" title="Czasg Atom Feed"><title data-react-helmet="true">redis 分片集群 | Czasg</title><meta data-react-helmet="true" name="twitter:card" content="summary_large_image"><meta data-react-helmet="true" property="og:url" content="https://czasg.github.io/docusaurus/note/redis/redis分片集群"><meta data-react-helmet="true" name="docusaurus_locale" content="en"><meta data-react-helmet="true" name="docusaurus_version" content="current"><meta data-react-helmet="true" name="docusaurus_tag" content="docs-note-current"><meta data-react-helmet="true" property="og:title" content="redis 分片集群 | Czasg"><meta data-react-helmet="true" name="description" content="当 redis 需要存储大量数据，我们往往由两种考虑方案："><meta data-react-helmet="true" property="og:description" content="当 redis 需要存储大量数据，我们往往由两种考虑方案："><link data-react-helmet="true" rel="shortcut icon" href="/docusaurus/img/favicon.ico"><link data-react-helmet="true" rel="canonical" href="https://czasg.github.io/docusaurus/note/redis/redis分片集群"><link data-react-helmet="true" rel="alternate" href="https://czasg.github.io/docusaurus/note/redis/redis分片集群" hreflang="en"><link data-react-helmet="true" rel="alternate" href="https://czasg.github.io/docusaurus/note/redis/redis分片集群" hreflang="x-default"><link rel="stylesheet" href="/docusaurus/assets/css/styles.cfdc25de.css">
-<link rel="preload" href="/docusaurus/assets/js/runtime~main.2def1e96.js" as="script">
-<link rel="preload" href="/docusaurus/assets/js/main.571d4271.js" as="script">
+<link rel="preload" href="/docusaurus/assets/js/runtime~main.6581fe4e.js" as="script">
+<link rel="preload" href="/docusaurus/assets/js/main.2b80ae8a.js" as="script">
 </head>
 <body>
 <script>!function(){function e(e){document.documentElement.setAttribute("data-theme",e)}var t=function(){var e=null;try{e=localStorage.getItem("theme")}catch(e){}return e}();null!==t?e(t):window.matchMedia("(prefers-color-scheme: dark)").matches?e("dark"):(window.matchMedia("(prefers-color-scheme: light)").matches,e("light"))}()</script><div id="__docusaurus">
@@ -19,7 +19,7 @@
 每一个键值对都会被映射到这些哈希槽中。而哈希槽又映射到 redis 实例。<br>
 <!-- -->具体的映射方法为：对 key 进行 crc16 计算，然后对 16384 取模即可。<br>
 <!-- -->而且集群中任何一个实例都可以查询到数据，这归结于重定向机制，即计算出哈希槽不属于自己时，会重定向到目标实例并执行操作。</p></div></article><nav class="pagination-nav docusaurus-mt-lg" aria-label="Docs pages navigation"><div class="pagination-nav__item"><a class="pagination-nav__link" href="/docusaurus/note/redis/redis哨兵机制"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">« <!-- -->redis哨兵机制</div></a></div><div class="pagination-nav__item pagination-nav__item--next"><a class="pagination-nav__link" href="/docusaurus/note/工作通用/excel"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">excel<!-- --> »</div></a></div></nav></div></div><div class="col col--3"><div class="tableOfContents_vrFS thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#纵向拓展" class="table-of-contents__link toc-highlight">纵向拓展</a></li><li><a href="#横向拓展" class="table-of-contents__link toc-highlight">横向拓展</a></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2022 Czasg's Site.</div></div></div></footer></div>
-<script src="/docusaurus/assets/js/runtime~main.2def1e96.js"></script>
-<script src="/docusaurus/assets/js/main.571d4271.js"></script>
+<script src="/docusaurus/assets/js/runtime~main.6581fe4e.js"></script>
+<script src="/docusaurus/assets/js/main.2b80ae8a.js"></script>
 </body>
 </html>
