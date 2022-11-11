@@ -4,9 +4,26 @@
         <title>Czasg Blog</title>
         <link>https://czasg.github.io/docusaurus/blog</link>
         <description>Czasg Blog</description>
-        <lastBuildDate>Tue, 08 Nov 2022 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 11 Nov 2022 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[记一次关于文件IO的争执]]></title>
+            <link>https://czasg.github.io/docusaurus/blog/2022/11/11/记一次文件IO异常</link>
+            <guid>记一次关于文件IO的争执</guid>
+            <pubDate>Fri, 11 Nov 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[背景是有个需求需要下载文件并计算此文件的MD5。]]></description>
+            <content:encoded><![CDATA[<p>背景是有个需求需要下载文件并计算此文件的MD5。</p><p>然后同事开发的（Go）程序是先创建一个文件，然后写入下载数据。再没有关闭文件的前提下，重新又开启了一个新的文件流来计算MD5。</p><p>由此引发了一些争执...</p><p>为此我据理力争：</p><p>文件IO在<code>write</code>的过程，是不保证落盘的，即有一部分数据会暂存在内存中。<br/>
+<!-- -->在这种情况下，重新创建一个只读的文件流，可能读不到在内存中的数据...</p><p>但是同事用实际证明了，这段代码再实际计算过程，并没有任何问题...</p><p>我自己也无法复现...</p><p>之后用<code>Python</code>测试了下，发现确实读不到，但<code>Go</code>就是可以读取到...</p><pre><code class="language-python">with open(&quot;tmpfile&quot;, &quot;w&quot;, encoding=&quot;utf-8) as w:
+    w.write(&quot;hello world&quot;)
+    
+    with open(&quot;tmpfile&quot;, &quot;r&quot;, encoding=&quot;utf-8&quot;) as r:
+        assert r.read() == &quot;hello world&quot;
+</code></pre><p>最后总结：   </p><p>Go 文件句柄调用 Write 时是直接调用的系统接口，故可以读取到未落盘。</p><p>Python 则是自己实现了缓存机制。在 Go 中也有 bufio 库可以实现类似的机制</p><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍
+:::</p>]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[Iaas & Paas & Saas]]></title>
             <link>https://czasg.github.io/docusaurus/blog/2022/11/08/IaasPaasSaas</link>
