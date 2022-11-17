@@ -4,9 +4,25 @@
         <title>Czasg Blog</title>
         <link>https://czasg.github.io/docusaurus/blog</link>
         <description>Czasg Blog</description>
-        <lastBuildDate>Fri, 11 Nov 2022 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 17 Nov 2022 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Go实现非跳转的http请求]]></title>
+            <link>https://czasg.github.io/docusaurus/blog/2022/11/17/Go实现非跳转http请求</link>
+            <guid>Go实现非跳转的http请求</guid>
+            <pubDate>Thu, 17 Nov 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[Go http 发起请求时，一旦存在302等跳转请求的场景，会默认帮你跳转过去。]]></description>
+            <content:encoded><![CDATA[<p>Go http 发起请求时，一旦存在302等跳转请求的场景，会默认帮你跳转过去。</p><p>比如你只是想简单的 Head 请求，但当对方响应 302 时，实际最后获取到的就是 Location 的结果。</p><p>实际我们可以通过自定义 http client 实现非跳转请求：</p><pre><code class="language-go">var client = http.Client{
+    CheckRedirect: func(req *http.Request, via []*http.Request) error {
+        return http.ErrUseLastResponse
+    },
+}
+</code></pre><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍
+:::</p>]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[记一次关于文件IO的争执]]></title>
             <link>https://czasg.github.io/docusaurus/blog/2022/11/11/记一次文件IO异常</link>
