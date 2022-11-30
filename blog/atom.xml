@@ -2,11 +2,37 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://czasg.github.io/docusaurus/blog</id>
     <title>Czasg Blog</title>
-    <updated>2022-11-17T00:00:00.000Z</updated>
+    <updated>2022-11-30T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://czasg.github.io/docusaurus/blog"/>
     <subtitle>Czasg Blog</subtitle>
     <icon>https://czasg.github.io/docusaurus/img/favicon.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[前端元素自动铺满换行]]></title>
+        <id>前端元素自动铺满换行</id>
+        <link href="https://czasg.github.io/docusaurus/blog/2022/11/30/前端元素自动铺满换行"/>
+        <updated>2022-11-30T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[主要有三种方式：]]></summary>
+        <content type="html"><![CDATA[<p>主要有三种方式：</p><ul><li>inline-block</li><li>flex + flex-wrap</li><li>grid</li></ul><h2>inline-block</h2><p>在子元素中增加<code>inline-block</code>属性</p><pre><code class="language-css">.block {
+    display: inline-block;
+}
+</code></pre><h2>flex</h2><p>在父元素中使用，此时不能设置高度。</p><pre><code class="language-css">.block {
+    display: flex;
+    flex-wrap: wrap;
+}
+</code></pre><p>因为<code>flex-wrap</code>属性指定<code>flex</code>元素单行显示还是多行显示，设置了高度将会平铺。</p><h2>grid</h2><p>在父元素中使用，此时不根据大小平铺，而是强制平铺</p><pre><code class="language-css">.block {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; /*横向排布时，宽度均分为三等分*/
+}
+</code></pre><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍
+:::</p>]]></content>
+        <author>
+            <name>Czasg</name>
+            <uri>https://github.com/czasg</uri>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Go实现非跳转的http请求]]></title>
         <id>Go实现非跳转的http请求</id>
