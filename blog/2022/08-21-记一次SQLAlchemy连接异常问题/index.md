@@ -14,7 +14,7 @@ mysql.connector.errors.OperationalError: 2055: Lost connection to MySQL server
 
 从连接信息可以快速看出，是数据库连接丢失了，我们首先做了简单的服务重启，并重试请求，期间同步观察数据库状态，确保数据库服务持续可用。
 
-神奇的是，这是一个必先的错误。
+神奇的是，这是一个必现的错误。
 
 
 ```text title="服务错误日志"
