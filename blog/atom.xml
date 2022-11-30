@@ -156,7 +156,7 @@ FROM
         <updated>2022-08-21T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[排查与定位]]></summary>
         <content type="html"><![CDATA[<pre><code class="language-text" metastring="title=&quot;服务错误日志&quot;" title="&quot;服务错误日志&quot;">mysql.connector.errors.OperationalError: 2055: Lost connection to MySQL server
-</code></pre><h2>排查与定位</h2><p>从连接信息可以快速看出，是数据库连接丢失了，我们首先做了简单的服务重启，并重试请求，期间同步观察数据库状态，确保数据库服务持续可用。</p><p>神奇的是，这是一个必先的错误。</p><pre><code class="language-text" metastring="title=&quot;服务错误日志&quot;" title="&quot;服务错误日志&quot;">File &quot;/usr/local/lib/python3.6/site-packages/mysql/connector/network.py&quot;, line 140, in send_plain 
+</code></pre><h2>排查与定位</h2><p>从连接信息可以快速看出，是数据库连接丢失了，我们首先做了简单的服务重启，并重试请求，期间同步观察数据库状态，确保数据库服务持续可用。</p><p>神奇的是，这是一个必现的错误。</p><pre><code class="language-text" metastring="title=&quot;服务错误日志&quot;" title="&quot;服务错误日志&quot;">File &quot;/usr/local/lib/python3.6/site-packages/mysql/connector/network.py&quot;, line 140, in send_plain 
     self.sock.sendall(packet) 
 BrokenPipeError: [Errno 32] Broken pipe 
 </code></pre><p>继续排查日志，我们看到是在推送数据的过程，连接损坏了。由于是必现，所以网络不稳定基本可以排除。<br/>
