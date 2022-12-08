@@ -4,9 +4,25 @@
         <title>Czasg Blog</title>
         <link>https://czasg.github.io/docusaurus/blog</link>
         <description>Czasg Blog</description>
-        <lastBuildDate>Fri, 02 Dec 2022 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 08 Dec 2022 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[tidb主键自增异常排查]]></title>
+            <link>https://czasg.github.io/docusaurus/blog/2022/12/08/tidb主键自增异常排查</link>
+            <guid>tidb主键自增异常排查</guid>
+            <pubDate>Thu, 08 Dec 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[在一次线上运维过程中，发现最新的数据，排在了前几天之后。]]></description>
+            <content:encoded><![CDATA[<p>在一次线上运维过程中，发现最新的数据，排在了前几天之后。</p><p>因为列表是按主键排序的，所以显示是没有问题的。</p><p>问题就在于，为什么最新的数据，主键会小于前几天的数据。</p><p>之后，我们通过阅读官方文档，发现这似乎并不是一个异常。</p><p>::: info
+TiDB 的自增 ID (AUTO_INCREMENT) 只保证自增且唯一，并不保证连续分配。<br/>
+<!-- -->TiDB 目前采用批量分配的方式，所以如果在多台 TiDB 上同时插入数据，分配的自增 ID 会不连续。<br/>
+<!-- -->当多个线程并发往不同的 tidb-server 插入数据的时候，有可能会出现后插入的数据自增 ID 小的情况。
+此外，TiDB允许给整型类型的字段指定 AUTO_INCREMENT，且一个表只允许一个属性为 AUTO_INCREMENT 的字段。
+:::</p><p>文档参考：</p><ul><li><a href="https://docs.pingcap.com/zh/tidb/v4.0/auto-increment">https://docs.pingcap.com/zh/tidb/v4.0/auto-increment</a>  </li><li><a href="https://docs.pingcap.com/zh/tidb/v4.0/mysql-compatibility">https://docs.pingcap.com/zh/tidb/v4.0/mysql-compatibility</a></li></ul><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍
+:::</p>]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[python打包说明]]></title>
             <link>https://czasg.github.io/docusaurus/blog/2022/12/02/python打包说明</link>
