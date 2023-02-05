@@ -2,11 +2,26 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://czasg.github.io/docusaurus/blog</id>
     <title>Czasg Blog</title>
-    <updated>2022-12-08T00:00:00.000Z</updated>
+    <updated>2023-02-05T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://czasg.github.io/docusaurus/blog"/>
     <subtitle>Czasg Blog</subtitle>
     <icon>https://czasg.github.io/docusaurus/img/favicon.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[结构化思考与沟通]]></title>
+        <id>结构化思考与沟通</id>
+        <link href="https://czasg.github.io/docusaurus/blog/2023/02/05/结构化思考与沟通"/>
+        <updated>2023-02-05T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[语言的本质是对思维的表达，只有把某个事务的脉络理清了，才能想清楚，讲清楚。]]></summary>
+        <content type="html"><![CDATA[<p>语言的本质是对思维的表达，只有把某个事务的脉络理清了，才能想清楚，讲清楚。</p><p>整理下结构化思考中捋清事务脉络的方式。</p><h2>自我介绍</h2><ul><li>给自己绑定少量标签</li><li>我为什么来这里  </li><li>我能带来什么价值  </li></ul><h2>祝辞</h2><ul><li>自我简介</li><li>感谢</li><li>回顾</li><li>愿景</li></ul><h2>谈话</h2><ul><li>表扬</li><li>批评</li><li>表扬</li></ul><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍
+:::</p>]]></content>
+        <author>
+            <name>Czasg</name>
+            <uri>https://github.com/czasg</uri>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[tidb主键自增异常排查]]></title>
         <id>tidb主键自增异常排查</id>
