@@ -2,11 +2,102 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://czasg.github.io/docusaurus/blog</id>
     <title>Czasg Blog</title>
-    <updated>2023-02-27T00:00:00.000Z</updated>
+    <updated>2023-03-02T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://czasg.github.io/docusaurus/blog"/>
     <subtitle>Czasg Blog</subtitle>
     <icon>https://czasg.github.io/docusaurus/img/favicon.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[正则学习总结]]></title>
+        <id>正则学习总结</id>
+        <link href="https://czasg.github.io/docusaurus/blog/2023/03/02/正则学习总结"/>
+        <updated>2023-03-02T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[本文作者: Czasg]]></summary>
+        <content type="html"><![CDATA[<pre><code>()为了提取匹配字符串，(.*)
+[]定义匹配的字符范围，[a-zA-Z0-9]   --- 只能取这里面的一个
+{}定义匹配的长度，{0-9}
+
+(0-9)匹配&#x27;0-9&#x27;本身
+[0-9]*匹配数字，若在里面加入了^表示取非，如([^\d].*)
+[0-9]{0,9}表示长度为0-9的数字字符串
+
+*可以表示为{0,}
++可以表示为{1,}
+?可以表示为{0,1}
+
+在正则中，你要匹配多种，需要使用到[]，比如：([\s\S]*)，你这样才能匹配带任何数据
+而这句话，我们可以加入 flags=re.S 表示 . 可以去到任何数据
+
+而且 [匹配-—] 只能匹配到这里面的某一个字，无法具体匹配其字串
+此时我们可以使用 (?:匹配|-|—)这样就可以了
+
+(?&lt;=(href=)) 表示匹配以(href=)开发的字符串，并且存储到分组中
+(?=(href=)) 表示匹配以(href=)结尾的字符串，并且存储到分组中
+(?&lt;=(?:href=)) 表示匹配以(href=)开发的字符串，但不存储到分组中
+(?=(?:href=)) 表示匹配以(href=)结尾的字符串，但不存储到分组中
+
+(?:)  (czaissg|czaisorz) 就是 (czais(?:sg|orz))  
+可以简化表达式
+
+(?=) (czaissg(?=1|2)) 可以匹配&#x27;czaissg1&#x27; / &#x27;czaissg2&#x27;，但不能匹配&#x27;czaissg3&#x27;
+匹配结尾的意思
+
+(?&lt;=) ((?&lt;=1|2)czaissg) 可以匹配&#x27;1czaissg&#x27; / &#x27;2czaissg&#x27;，但不能匹配&#x27;3czaissg&#x27;
+匹配开头的意思
+
+(?!) (czaissg(?!1|2))，对于众多的&#x27;czaissgx&#x27;，不匹配以1,2结尾的，其他都匹配
+不匹配结尾字段的意思
+
+(?&lt;!) ((?!1|2)czaissg) 对于众多的&#x27;xczaissg&#x27;，不匹配以1,2开头的，其他都匹配
+U币匹配开头字段的意思
+
+其他说法：
+(?:exp) 匹配exp,不捕获匹配的文本
+(?=exp) 匹配exp前面的位置
+(?&lt;=exp) 匹配exp后面的位置
+(?!exp) 匹配后面跟的不是exp的位置
+(?&lt;!exp) 匹配前面不是exp的位置
+
+
+对于()的内容，获取的方法，我们通常使用group来获取
+但实际上我们还可以使用&#x27;\\1&#x27;或者r&#x27;\1&#x27;
+
+(?:)  (czaissg|czaisorz) 就是 (czais(?:sg|orz))  
+可以简化表达式
+
+(?=) (czaissg(?=1|2)) 可以匹配&#x27;czaissg1&#x27; / &#x27;czaissg2&#x27;，但不能匹配&#x27;czaissg3&#x27;
+匹配结尾的意思
+
+(?&lt;=) ((?&lt;=1|2)czaissg) 可以匹配&#x27;1czaissg&#x27; / &#x27;2czaissg&#x27;，但不能匹配&#x27;3czaissg&#x27;
+匹配开头的意思
+
+(?!) (czaissg(?!1|2))，对于众多的&#x27;czaissgx&#x27;，不匹配以1,2结尾的，其他都匹配
+不匹配结尾字段的意思
+
+(?&lt;!) ((?!1|2)czaissg) 对于众多的&#x27;xczaissg&#x27;，不匹配以1,2开头的，其他都匹配
+U币匹配开头字段的意思
+
+其他说法：
+(?:exp) 匹配exp,不捕获匹配的文本
+(?=exp) 匹配exp前面的位置
+(?&lt;=exp) 匹配exp后面的位置
+(?!exp) 匹配后面跟的不是exp的位置
+(?&lt;!exp) 匹配前面不是exp的位置
+
+
+对于()的内容，获取的方法，我们通常使用group来获取
+但实际上我们还可以使用&#x27;\\1&#x27;或者r&#x27;\1&#x27;
+
+a = re.search(&#x27;(?P&lt;test1&gt;.*?)_(?P&lt;test2&gt;.*?-)&#x27;, s).groupdict()  # 能够得到匹配的字典咯
+</code></pre><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍
+:::</p>]]></content>
+        <author>
+            <name>Czasg</name>
+            <uri>https://github.com/czasg</uri>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[爬虫进阶-隐藏selenium特征]]></title>
         <id>爬虫进阶-隐藏selenium特征</id>
@@ -149,7 +240,7 @@ all_options = element.find_elements_by_tag_name(&quot;option&quot;)  # 找到此
 for option in all_options:
     print(&quot;Value is: %s&quot; % option.get_attribute(&quot;value&quot;))  # 获取value属性值
     option.click()
-</code></pre><pre><code class="language-python">from selenium.webdriver import ActionChains  # 专门用于拖放的
+</code></pre><pre><code class="language-python" metastring="title=&quot;拖放工具&quot;" title="&quot;拖放工具&quot;">from selenium.webdriver import ActionChains  # 专门用于拖放的
 
 element = driver.find_element_by_name(&quot;source&quot;)
 target = driver.find_element_by_name(&quot;target&quot;)
@@ -160,7 +251,7 @@ driver.switch_to_window(&quot;windowName&quot;)  # 支持不同窗口之间的�
 driver.forward()
 driver.back()  # 访问历史记录
 driver.get_cookies()  # 获取昂前页面的Cookie
-</code></pre><pre><code class="language-python">from selenium.webdriver.common.by import By  # 用于查找元素
+</code></pre><pre><code class="language-python" metastring="title=&quot;xpath查找元素&quot;" title="&quot;xpath查找元素&quot;">from selenium.webdriver.common.by import By  # 用于查找元素
 
 driver.find_element(By.XPATH, &quot;//button[text()=&quot;something&quot;]&quot;)  # find_element 方法用于查找单个元素
 driver.find_elements(By.XPATH, &#x27;//button&#x27;)  # find_elements 用于查找多个元素
@@ -185,52 +276,7 @@ finally:
 
 # 隐式等待 - 去等待一定的时间后去查找元素。 默认等待时间是0秒，一旦设置该值，隐式等待是设置该WebDriver的实例的生命周期
 driver.implicitly_wait(10) # seconds
-</code></pre><pre><code class="language-python">from selenium.webdriver import ActionChains  # 专门用于拖放的
-
-element = driver.find_element_by_name(&quot;source&quot;)
-target = driver.find_element_by_name(&quot;target&quot;)
-action_chains = ActionChains(driver)
-action_chains.drag_and_drop(element, target).perform()
-
-driver.switch_to_window(&quot;windowName&quot;)  # 支持不同窗口之间的移动
-driver.forward()
-driver.back()  # 访问历史记录
-driver.get_cookies()  # 获取昂前页面的Cookie
-
-------------------------------------------------------------------------------------------------------------------------------------
-
-from selenium.webdriver.common.by import By  # 用于查找元素
-
-driver.find_element(By.XPATH, &quot;//button[text()=&quot;something&quot;]&quot;)  # find_element 方法用于查找单个元素
-driver.find_elements(By.XPATH, &#x27;//button&#x27;)  # find_elements 用于查找多个元素
-
-# 这二者是等价的把
-driver.find_element_by_id(&#x27;loginForm&#x27;)  # 第一个该 匹配 元素 会被匹配并返回
-
-------------------------------------------------------------------------------------------------------------------------------------
-
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait  # 用于创建等待对象
-from selenium.webdriver.support import expected_conditions as EC  # 提供了一组预定义的条件供WebDriverWait使用
-
-driver = webdriver.Chrome()
-driver.get(&quot;http://somedomain/url_that_delays_loading&quot;)
-
-# 显式等待 - 等待满足一定条件之后再进一步执行
-try:
-    element = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.ID, &quot;myDynamicElement&quot;))
-    )
-finally:
-    driver.quit()
-
-# 隐式等待 - 去等待一定的时间后去查找元素。 默认等待时间是0秒，一旦设置该值，隐式等待是设置该WebDriver的实例的生命周期
-driver.implicitly_wait(10) # seconds
-
-------------------------------------------------------------------------------------------------------------------------------------
-
-from selenium import webdriver
+</code></pre><pre><code class="language-python">from selenium import webdriver
 .get()
 .get_cookie()
 .get_cookies()
