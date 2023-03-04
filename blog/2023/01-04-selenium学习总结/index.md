@@ -31,7 +31,7 @@ for option in all_options:
     option.click()
 ```
 
-```python
+```python title="拖放工具"
 from selenium.webdriver import ActionChains  # 专门用于拖放的
 
 element = driver.find_element_by_name("source")
@@ -45,7 +45,7 @@ driver.back()  # 访问历史记录
 driver.get_cookies()  # 获取昂前页面的Cookie
 ```
 
-```python
+```python title="xpath查找元素"
 from selenium.webdriver.common.by import By  # 用于查找元素
 
 driver.find_element(By.XPATH, "//button[text()="something"]")  # find_element 方法用于查找单个元素
@@ -77,51 +77,6 @@ driver.implicitly_wait(10) # seconds
 ```
 
 ```python
-from selenium.webdriver import ActionChains  # 专门用于拖放的
-
-element = driver.find_element_by_name("source")
-target = driver.find_element_by_name("target")
-action_chains = ActionChains(driver)
-action_chains.drag_and_drop(element, target).perform()
-
-driver.switch_to_window("windowName")  # 支持不同窗口之间的移动
-driver.forward()
-driver.back()  # 访问历史记录
-driver.get_cookies()  # 获取昂前页面的Cookie
-
-------------------------------------------------------------------------------------------------------------------------------------
-
-from selenium.webdriver.common.by import By  # 用于查找元素
-
-driver.find_element(By.XPATH, "//button[text()="something"]")  # find_element 方法用于查找单个元素
-driver.find_elements(By.XPATH, '//button')  # find_elements 用于查找多个元素
-
-# 这二者是等价的把
-driver.find_element_by_id('loginForm')  # 第一个该 匹配 元素 会被匹配并返回
-
-------------------------------------------------------------------------------------------------------------------------------------
-
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait  # 用于创建等待对象
-from selenium.webdriver.support import expected_conditions as EC  # 提供了一组预定义的条件供WebDriverWait使用
-
-driver = webdriver.Chrome()
-driver.get("http://somedomain/url_that_delays_loading")
-
-# 显式等待 - 等待满足一定条件之后再进一步执行
-try:
-    element = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.ID, "myDynamicElement"))
-    )
-finally:
-    driver.quit()
-
-# 隐式等待 - 去等待一定的时间后去查找元素。 默认等待时间是0秒，一旦设置该值，隐式等待是设置该WebDriver的实例的生命周期
-driver.implicitly_wait(10) # seconds
-
-------------------------------------------------------------------------------------------------------------------------------------
-
 from selenium import webdriver
 .get()
 .get_cookie()
