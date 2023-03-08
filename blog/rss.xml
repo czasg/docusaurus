@@ -4,9 +4,65 @@
         <title>Czasg Blog</title>
         <link>https://czasg.github.io/docusaurus/blog</link>
         <description>Czasg Blog</description>
-        <lastBuildDate>Thu, 02 Mar 2023 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 08 Mar 2023 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[jwt学习]]></title>
+            <link>https://czasg.github.io/docusaurus/blog/2023/03/08/jwt学习</link>
+            <guid>jwt学习</guid>
+            <pubDate>Wed, 08 Mar 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[JWT 全称 JSON Web Token，是一种允许携带非敏感信息的认证机制。常用于服务之间的认证校验。]]></description>
+            <content:encoded><![CDATA[<p>JWT 全称 JSON Web Token，是一种允许携带非敏感信息的认证机制。常用于服务之间的认证校验。</p><p>JWT 结构组成包括三个部分：</p><ul><li>Header：一般用于指定token类型，包括<code>alg</code>和<code>typ</code>两个字段</li><li>Payload：数据载体，一般需要包含<code>exp</code>表示过期时间</li><li>Signature：摘要，是前面两个部分的摘要运算</li></ul><p>组成形式为 Header计算Base64 . Payload计算Base64 . 前两部分哈希运算</p><pre><code class="language-python" metastring="title=&quot;https://github.com/czasg/pywss/blob/master/pywss/middleware/jwt.py&quot;" title="&quot;https://github.com/czasg/pywss/blob/master/pywss/middleware/jwt.py&quot;">import json
+import time
+import base64
+import hashlib
+
+
+class JWT:
+
+    def __init__(self, secret: str, expire: int = 3600):
+        self.secret = secret.encode()
+        self.expire = expire
+        self.header = base64.b64encode(json.dumps({
+            &quot;alg&quot;: &quot;HS256&quot;,
+            &quot;typ&quot;: &quot;JWT&quot;,
+        }, ensure_ascii=False).encode())
+
+    def encrypt(self, **kwargs):
+        kwargs.update(exp=int(time.time()) + self.expire)
+        payload = base64.b64encode(json.dumps(kwargs, ensure_ascii=False).encode())
+
+        sha256 = hashlib.sha256()
+        sha256.update(self.header)
+        sha256.update(payload)
+        sha256.update(self.secret)
+        signature = sha256.hexdigest()
+
+        return f&quot;{self.header.decode()}.{payload.decode()}.{signature}&quot;
+
+    def decrypt(self, token: str) -&gt; dict:
+        if token.startswith(&quot;Bearer&quot;):
+            token = token.replace(&quot;Bearer&quot;, &quot;&quot;, 1).strip()
+
+        tokens = token.split(&quot;.&quot;)
+        if len(tokens) != 3:
+            raise Exception(&quot;Invalid JWT Token&quot;)
+
+        header, payload, signature = tokens  # type: str
+        sha256 = hashlib.sha256()
+        sha256.update(header.encode())
+        sha256.update(payload.encode())
+        sha256.update(self.secret)
+        if sha256.hexdigest() != signature:
+            raise Exception(&quot;Invalid JWT Token, Signature Except&quot;)
+
+        return json.loads(base64.b64decode(payload))
+</code></pre><br/><p>:::info 👇👇👇
+<strong>本文作者:</strong> Czasg
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍
+:::</p>]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[正则学习总结]]></title>
             <link>https://czasg.github.io/docusaurus/blog/2023/03/02/正则学习总结</link>
