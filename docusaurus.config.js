@@ -76,15 +76,6 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      colorMode: {
-        defaultMode: 'light',
-        disableSwitch: false,
-        respectPrefersColorScheme: true,
-        switchConfig: {
-          darkIcon: '🌙',
-          lightIcon: '\u2600',
-        },
-      },
       navbar: {
         style: 'dark',
         title: 'Czasg',
@@ -97,15 +88,85 @@ const config = {
           {to: '/note/intro', label: '文档', position: 'left'},
           // {to: '/deploy/intro', label: '部署', position: 'left'},
           {to: '/author/intro', label: '关于我', position: 'left'},
-          {
-            href: 'https://github.com/czasg',
-            label: 'GitHub',
-            position: 'right',
-          },
+          // {
+          //   href: 'https://github.com/czasg',
+          //   label: 'GitHub',
+          //   position: 'right',
+          // },
         ],
       },
       footer: {
         style: 'dark',
+        links: [
+          {
+            title: 'Py开源项目',
+            items: [
+              {
+                label: 'Pywss',
+                href: 'https://github.com/czasg/pywss',
+              },
+              {
+                label: 'Loggus',
+                href: 'https://github.com/czasg/loggus',
+              },
+            ],
+          },
+          {
+            title: 'Go开源项目',
+            items: [
+              {
+                label: 'Go Queue',
+                href: 'https://github.com/czasg/go-queue',
+              },
+              {
+                label: 'Go Env',
+                href: 'https://github.com/czasg/go-env',
+              },
+              {
+                label: 'Go Set',
+                href: 'https://github.com/czasg/go-set',
+              },
+              {
+                label: 'Gonal',
+                href: 'https://github.com/czasg/gonal',
+              },
+              {
+                label: 'Snow',
+                href: 'https://github.com/czasg/snow',
+              },
+            ],
+          },
+          {
+            title: '常活跃于',
+            items: [
+              {
+                label: 'GitHub',
+                href: 'https://github.com/czasg',
+              },
+              {
+                label: 'V2EX',
+                href: 'https://www.v2ex.com',
+              },
+              {
+                label: 'Stack Overflow',
+                href: 'https://stackoverflow.com',
+              },
+            ],
+          },
+          {
+            title: 'More',
+            items: [
+              {
+                label: 'ChatGPT',
+                href: 'https://chat.openai.com/chat',
+              },
+              {
+                label: 'LXF',
+                href: 'https://www.liaoxuefeng.com',
+              },
+            ],
+          },
+        ],
         copyright: `Copyright © ${new Date().getFullYear()} Czasg's Site.`,
       },
       prism: {
