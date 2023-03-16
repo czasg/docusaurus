@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkdocusaurus=self.webpackChunkdocusaurus||[]).push([[9655],{3750:function(s){s.exports=JSON.parse('{"allTagsPath":"/docusaurus/blog/tags","slug":"/docusaurus/blog/tags/g-rpc","name":"gRPC","count":1,"permalink":"/docusaurus/blog/tags/g-rpc"}')}}]);
