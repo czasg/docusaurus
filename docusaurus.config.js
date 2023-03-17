@@ -83,7 +83,7 @@ const config = {
         title: 'Czasg',
         logo: {
           alt: 'Czasg',
-          src: 'img/logo.svg',
+          src: 'img/logo.ico',
         },
         items: [
           {to: '/blog', label: '博客', position: 'left'},
