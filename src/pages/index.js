@@ -146,7 +146,7 @@ class HomepageHeader extends React.PureComponent {
                                     <div className={styles.buttons}>
                                         <Link
                                             className="button button--secondary button--lg"
-                                            to="/aboutme">
+                                            to="/about-me">
                                             About Me ~ 5min ⏱️
                                         </Link>
                                     </div>

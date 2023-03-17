@@ -89,7 +89,7 @@ const config = {
           {to: '/blog', label: '博客', position: 'left'},
           {to: '/docs/intro', label: '文档', position: 'left'},
           // {to: '/deploy/intro', label: '部署', position: 'left'},
-          {to: '/aboutme', label: '关于我', position: 'left'},
+          {to: '/about-me', label: '关于我', position: 'left'},
           // {
           //   href: 'https://github.com/czasg',
           //   label: 'GitHub',
