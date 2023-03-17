@@ -21,7 +21,9 @@ const config = {
       '@docusaurus/preset-classic',
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
-        docs: false,
+        docs: {
+          editUrl: 'https://github.com/czasg/docusaurus/edit/main',
+        },
         blog: {
           blogSidebarTitle: '全部博文',
           showReadingTime: true,
@@ -37,24 +39,24 @@ const config = {
   ],
 
   plugins: [
-    [
-      '@docusaurus/plugin-content-docs',
-      {
-        id: 'author',
-        path: 'docs-author',
-        routeBasePath: '/author',
-        sidebarPath: require.resolve('./sidebars.js'),
-      }
-    ],
-    [
-      '@docusaurus/plugin-content-docs',
-      {
-        id: 'note',
-        path: 'docs-note',
-        routeBasePath: '/note',
-        sidebarPath: require.resolve('./sidebars.js'),
-      }
-    ],
+    // [
+    //   '@docusaurus/plugin-content-docs',
+    //   {
+    //     id: 'author',
+    //     path: 'docs-author',
+    //     routeBasePath: '/author',
+    //     sidebarPath: require.resolve('./sidebars.js'),
+    //   }
+    // ],
+    // [
+    //   '@docusaurus/plugin-content-docs',
+    //   {
+    //     id: 'note',
+    //     path: 'docs-note',
+    //     routeBasePath: '/note',
+    //     sidebarPath: require.resolve('./sidebars.js'),
+    //   }
+    // ],
     // [
     //   '@docusaurus/plugin-content-docs',
     //   {
@@ -85,9 +87,9 @@ const config = {
         },
         items: [
           {to: '/blog', label: '博客', position: 'left'},
-          {to: '/note/intro', label: '文档', position: 'left'},
+          {to: '/docs/intro', label: '文档', position: 'left'},
           // {to: '/deploy/intro', label: '部署', position: 'left'},
-          {to: '/author/intro', label: '关于我', position: 'left'},
+          {to: '/aboutme', label: '关于我', position: 'left'},
           // {
           //   href: 'https://github.com/czasg',
           //   label: 'GitHub',
