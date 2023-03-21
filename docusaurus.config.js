@@ -23,6 +23,7 @@ const config = {
       ({
         docs: {
           editUrl: 'https://github.com/czasg/docusaurus/edit/main',
+          breadcrumbs: true, // 面包屑导航
         },
         blog: {
           blogSidebarTitle: '全部博文',
@@ -85,17 +86,24 @@ const config = {
           alt: 'Czasg',
           src: 'img/logo.ico',
         },
+        hideOnScroll: false, // 滚动页面时自动隐藏导航栏
         items: [
           {to: '/blog', label: '博客', position: 'left'},
           {to: '/docs/intro', label: '文档', position: 'left'},
-          // {to: '/deploy/intro', label: '部署', position: 'left'},
           {to: '/about-me', label: '关于我', position: 'left'},
+          // {to: '/deploy/intro', label: '部署', position: 'left'},
           // {
           //   href: 'https://github.com/czasg',
           //   label: 'GitHub',
           //   position: 'right',
           // },
         ],
+      },
+      docs: {
+        sidebar: {
+          hideable: true, // 侧边栏是否支持隐藏
+          autoCollapseCategories: true, // 扩展一个类别时折叠所有的同级类别
+        },
       },
       footer: {
         style: 'dark',
