@@ -22,6 +22,7 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
+          routeBasePath: '/docs',
           editUrl: 'https://github.com/czasg/docusaurus/edit/main',
           breadcrumbs: true, // 面包屑导航
         },
@@ -89,7 +90,7 @@ const config = {
         hideOnScroll: false, // 滚动页面时自动隐藏导航栏
         items: [
           {to: '/blog', label: '博客', position: 'left'},
-          {to: '/docs/intro', label: '文档', position: 'left'},
+          {to: '/docs', label: '文档', position: 'left'},
           {to: '/about-me', label: '关于我', position: 'left'},
           // {to: '/deploy/intro', label: '部署', position: 'left'},
           // {

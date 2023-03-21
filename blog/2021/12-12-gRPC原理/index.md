@@ -9,200 +9,203 @@ https://doc.oschina.net/grpc?t=58008
 https://developers.google.com/protocol-buffers/docs/proto3
 -->
 
-RPC 是 `Remote Procedure Call` 的缩写，即**远程过程调用**。    
-一般 RPC 框架会屏蔽底层的序列化方式和传输方式，让服务调用者可以像调用本地接口一样调用远程的服务。
+gRPC 是一个高性能、跨平台的开源 RPC 框架。
 
-业界主流的 RPC 框架主要有：   
-1、Google 的 gRPC，基于 HTTP2 实现，是支持多语言的 RPC 框架。     
-2、阿里的 Dubbo，底层由 RPC 实现，是可以用于实现微服务治理的分布式服务框架。   
-
-本文主要学习 gRPC 的相关原理及其使用。  
+由 Google 开源，支持多种编程语言。它使用 Protocol Buffers 作为接口定义语言，可以生成客户端和服务端的代码，
+使得跨语言、跨平台的服务调用变得更加简单和高效。
 
 <!--truncate-->
 
-## gRPC 揭秘
-说到 gRPC，我们脑海中第一反应可能就是：Google 出品，必属精品~😃   
-除此之外，可能还有一些例如 HTTP2、`protocol buffers` 等类似的关键词。
+gRPC 是一个**基于HTTP2、支持`protocol buffers`序列化机制、支持多语言的、高性能的、面向服务端和移动端**的高级RPC框架。
 
-虽然说脑海中有很多关于 gRPC 的描述与特点，但总**感觉说不清 gRPC 到底是什么**。
+## 在 Go 中使用 gRPC
 
-其实，和其他 RPC 框架一样，gRPC 也有一个理念：       
-定义一个服务，指定其能够被远程调用的方法、参数、响应等。
-在服务端实现这个接口，并运行一个 gRPC 服务器来处理客户端的调用。
-使得客户端能够像本地一样调用远程服务端的方法。
-
-整体来看，gRPC 就是一个 RPC 框架，而且是一个**基于HTTP2、支持`protocol buffers`序列化机制、支持多语言的、高性能的、面向服务端和移动端**的高级RPC框架。
-
-所以我们可以看到 gRPC 的标签非常多。那它区别于常规 RPC 框架的亮点是什么?
-
-如果你用过 gRPC，那你一定接触过 `.proto` 文件，这是 gRPC 的亮点之一，即 `protocol buffers` 机制。    
-
-![](./landing-2.svg)
-
-## protocol buffers
-`protocol buffers` 是一种序列化机制，类似 JSON，只是它更小更快，并且与生成的本地代码绑定。
-
-在学习 `protocol buffers` 之前，必须要先学习并了解 proto 的相关规范。
-
-### 定义 message
-所谓消息类型，即 message 类型。
-```proto
-syntax = "proto3";
-
-message ConstantRequest {
-  string one = 1;
-  int32 two = 2;
-  float three = 3;
-}
-```
-在上面代码中可以看到：
-* 文件第一行指定 `proto3` 语法，没有则默认使用 `proto2`语法。
-* 文件后面定义了一个 `ConstantRequest` 的消息，该消息指定了三个字段，每个字段包括：类型、名称、值，这三个字段都是**标量字段**（int、float、bool等）。
-
-在定义字段模块，我们可以看到一些很特殊的地方，就是这些数字编号（1、2、3）。      
-在 proto 的一个消息中，每一个字段都应该被**分配一个唯一的编号**，这些编号，用于在二进制消息中标识并区分对应字段，可以理解为编码关键字。
-者对于那些有着很长字段的消息来说，是减小体积的一种方式。
-
-所以字段编号在proto中很重要，1-15 编码占据一个字节，这15个字段应该尽可能的分配给出现较频繁的消息元素。    
-除此之外，一旦涉及到字段编码的变更，需要尤其小心，不然会引起意想不到的坑，包括数据损坏、隐私错误等。   
-
-一般尽可能的避免变更字段编码，如果真的需要变更，可以采用 `reserved` 关键字来处理。
-```go
-message Foo {
-  reserved 2, 15, 9 to 11;
-  reserved "foo", "bar";
-}
+### 1、安装 gRPC 库
+```shell script
+go get -u google.golang.org/grpc
 ```
 
-### 定义 service
-```go
+### 2、定义 protobuf 文件
+gRPC 使用 protobuf 来定义服务和消息的格式，因此需要先定义protobuf文件。
+可以使用 protobuf3 语法，定义服务的方法和请求/响应消息的结构。
+```shell script
 syntax = "proto3";
 
-service HelloService {
-  rpc SayHello (HelloRequest) returns (HelloResponse);
+package greeter;
+
+service Greeter {
+  rpc SayHello (HelloRequest) returns (HelloReply) {}
 }
 
 message HelloRequest {
-  required string greeting = 1;
+  string name = 1;
 }
 
-message HelloResponse {
-  required string reply = 1;
-}
-```
-
-服务类型即 `service` 类型。同时，gRPC 允许你定义四类服务方法：
-
-```go title="单次响应"
-rpc SayHello(HelloRequest) returns (HelloResponse){
-}
-```
-
-```go title="服务端流式 RPC"
-rpc LotsOfReplies(HelloRequest) returns (stream HelloResponse){
-}
-```
-
-```go title="客户端流式 RPC"
-rpc LotsOfGreetings(stream HelloRequest) returns (HelloResponse) {
-}
-```
-
-```go title="双向流式 RPC"
-rpc BidiHello(stream HelloRequest) returns (stream HelloResponse){
-}
-```
-
-### 定义 enum
-在定义消息时，有时希望某字段，是属于预定义值之一。这时枚举字段可以起到很好的作用。
-```go {2,6}
-message SearchRequest {
-  enum Corpus {
-    UNIVERSAL = 0;
-    WEB = 1;
-    LOCAL = 2;
-  }
-  Corpus corpus = 1;
-}
-```
-
-### 定义嵌套类型
-字段类型可以是其他消息类型。
-```go {2}
-message SearchResponse {
-  repeated Result results = 1;
-}
-
-message Result {
-  string url = 1;
-  string title = 2;
-  repeated string snippets = 3;
-}
-```
-
-### 定义 repeated
-在此处 `repeated` 字段表示此处接收一个数组类型。
-```go {2}
-message SearchResponse {
-  repeated Result results = 1;
-}
-
-message Result {
-  string url = 1;
-  string title = 2;
-  repeated string snippets = 3;
-}
-```
-
-### 定义 any
-任意类型比较特殊，需要导入其他包：`google/protobuf/any.proto`。
-```go {1，5}
-import "google/protobuf/any.proto";
-
-message ErrorStatus {
-  string message = 1;
-  repeated google.protobuf.Any details = 2;
-}
-```
-
-### 定义 oneof
-当存在包含多个字段的消息，并且最多同时设置其中某一个字段时，可以使用 oneof 节省内存。
-```go {2}
-message SampleMessage {
-  oneof test_oneof {
-    string name = 4;
-    string sub_message = 9;
-  }
-}
-```
-
-### 定义 map
-```go {2}
-message SampleMessage {
-  map<string, Project> projects = 3;
-}
-
-message Project {
+message HelloReply {
   string message = 1;
 }
 ```
 
-### 定义 package
-```go
-option go_package = "pb";
-```
+### 3、生成代码
+基于上述 protobuf 文件生成Go代码，可以使用 protoc 和 protoc-gen-go 插件来生成。
 
-## 生成代码
+安装protoc和protoc-gen-go：
 ```shell script
-protoc --proto_path=IMPORT_PATH --python_out=DST_DIR --go_out=DST_DIR file.proto
+# 安装protoc
+brew install protobuf
+
+# 安装protoc-gen-go
+go get -u github.com/golang/protobuf/protoc-gen-go
 ```
-* IMPORT_PATH指定.proto解析import指令时在其中查找文件的目录。如果省略，则使用当前目录。
-* --proto_path：多次传递该选项可以指定多个导入目录。他们将被按顺序搜索。
-    * `-I=IMPORT_PATH` 是 `--proto_path` 的简写形式。
-    * IMPORT_PATH 是指定.proto解析import指令时在其中查找文件的目录。
-* --go_out：生成 Go 代码DST_DIR。
-* --python_out：生成 Python 代码DST_DIR。
-* file.proto：必须提供一个或多个.proto文件作为输入。.proto可以一次指定多个文件。尽管文件是相对于当前目录命名的，但每个文件必须位于其中一个IMPORT_PATHs 中，以便编译器可以确定其规范名称。
+
+生成Go代码：
+```shell script
+protoc --go_out=plugins=grpc:. *.proto
+```
+
+### 4、启动服务
+实现定义的服务接口，实现具体的服务逻辑。
+
+例如，实现SayHello方法：
+```go
+type server struct{}
+
+func (s *server) SayHello(ctx context.Context, req *greeter.HelloRequest) (*greeter.HelloReply, error) {
+    message := fmt.Sprintf("Hello, %s!", req.Name)
+    return &greeter.HelloReply{Message: message}, nil
+}
+```
+
+接着使用gRPC库提供的方法，启动服务并监听端口。
+```go
+s := grpc.NewServer()
+greeter.RegisterGreeterServer(s, &server{})
+if err := s.Serve(lis); err != nil {
+    log.Fatalf("failed to serve: %v", err)
+}
+```
+
+### 5、客户端调用
+使用gRPC提供的客户端代码，调用定义的服务。
+
+例如，调用SayHello方法：
+```go
+conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure())
+if err != nil {
+    log.Fatalf("did not connect: %v", err)
+}
+defer conn.Close()
+
+c := greeter.NewGreeterClient(conn)
+resp, err := c.SayHello(context.Background(), &greeter.HelloRequest{Name: "world"})
+if err != nil {
+    log.Fatalf("could not greet: %v", err)
+}
+log.Printf("Greeting: %s", resp.Message)
+```
+
+## Protocol Buffers
+Protocol Buffers (protobuf) 是一种高效、灵活、跨平台的序列化机制。   
+它能够将结构化数据序列化成紧凑的二进制格式，以便在不同应用程序之间进行数据交换和存储。
+
+其设计原理主要有：
+- 二进制编码：protobuf 使用二进制编码，而不是文本编码，可以大大减小序列化后数据的大小。相比于 JSON 或 XML 等文本格式，protobuf 可以将数据压缩至原来的 1/3 到 1/10。
+- 代码生成：protobuf 可以根据定义在 .proto 文件中的消息结构，自动生成对应的编解码代码，从而提高编解码的效率。生成的代码通常是直接使用底层的二进制序列化和反序列化函数，而不需要额外的解析或转换。
+- 紧凑的消息格式：protobuf 的消息格式非常紧凑，消息中的每个字段都有一个固定的编码方式，编码后的数据长度非常短。同时，protobuf 中的消息格式是二进制的，每个字段的类型和长度都是固定的，所以在解码时，可以直接从二进制数据中读取每个字段的值，而不需要进行类型检查和解析。
+- 可扩展的消息格式：protobuf 支持向后和向前兼容的消息格式，并支持在不破坏现有消息的前提下，向现有消息添加新的字段或删除旧的字段。这使得应用程序可以逐步升级其消息格式，而无需重写和重新编译现有的代码。
+
+这些设计原则使得 protobuf 具有非常快的编解码速度和高效的数据压缩率，因为它们充分利用了底层的二进制编码和紧凑的消息格式。
+相比于 JSON 或 XML 等文本格式，protobuf 在序列化和反序列化时的效率通常要高出数倍甚至数十倍，
+
+## proto file
+
+接下来主要介绍下一个完整 proto 文件的组成：
+
+### 1、语法指令
+使用 syntax 关键字指定 protobuf 使用的语法版本，目前最新版本为 proto3。
+```shell script
+syntax = "proto3";
+```
+
+### 2、package
+使用 package 关键字指定 protobuf 文件所属的包名。
+```shell script
+package example;
+```
+
+### 3、message
+使用 message 关键字定义一个消息类型，包含一组字段定义，每个字段由类型和字段名称组成。
+1字段名称和字段类型之间用等号 = 分隔，字段编号和字段名称之间用空格分隔，每个字段定义结束后需要以分号 ; 结尾。
+```shell script
+message Person {
+  string name = 1;
+  int32 age = 2;
+  repeated string email = 3;
+}
+```
+其中，string、int32 等为 protobuf 内置类型，还可以自定义类型。
+
+### 4、字段规则
+
+#### optional 规则
+使用可选规则的字段可以有零个或一个值。如果不设置该字段，它将不会在序列化后的数据中出现。
+如果你的应用程序接收到一个缺少可选字段的消息，它可以使用默认值来代替缺失的数据。
+```shell script
+message OptionalExample {
+  optional int32 id = 1;
+}
+```
+
+#### required 规则
+使用必选规则的字段必须设置一个值，否则序列化时将报错。
+```shell script
+message RequiredExample {
+  required string name = 1;
+}
+```
+
+#### repeated 规则
+使用重复规则的字段可以有零个或多个值，序列化后会生成一个列表。
+```shell script
+message RepeatedExample {
+  repeated string tags = 1;
+}
+```
+
+### 5、字段类型
+protobuf 内置类型包括：double、float、int32、int64、uint32、uint64、sint32、sint64、fixed32、fixed64、sfixed32、sfixed64、bool、string、bytes。
+```shell script
+message Example {
+  double price = 1;
+  int32 quantity = 2;
+  string name = 3;
+  bytes image = 4;
+}
+```
+
+### 6、字段编号  
+每个字段必须有一个唯一的编号，编号用于在消息中标识每个字段。编号必须是一个正整数。
+
+```shell script
+message Person {
+  string name = 1;
+  int32 age = 2;
+  repeated string email = 3;
+}
+```
+在上面的例子中，name 字段的编号是1，age 字段的编号是2，email 字段的编号是3。
+
+字段编号的作用是在消息编码和解码时，用于标识每个字段的位置和类型。  
+在消息编码时，每个字段都被分配一个唯一的标识号，用于在序列化后的二进制数据中标识该字段。  
+在消息解码时，根据这些编号可以将二进制数据转换为消息对象，以及从消息对象中提取相应的字段数据。
+
+在.proto文件中，字段编号的分配必须遵循以下规则：
+
+同一个消息类型中，每个字段的编号必须唯一，不能重复。  
+字段编号必须是一个正整数，且必须按照从小到大的顺序分配。  
+字段编号不能超过2^29-1，因为其它位已经被用于类型和标记。  
+需要注意的是，一旦定义了字段编号，就应该避免在.proto文件中对它进行修改，否则可能会导致已经编码的消息与代码不匹配，从而出现严重的错误。
+
 
 <br/>
 
@@ -210,3 +213,13 @@ protoc --proto_path=IMPORT_PATH --python_out=DST_DIR --go_out=DST_DIR file.proto
 **本文作者:** Czasg
 **版权声明:** 转载请注明出处哦~👮‍
 :::
+
+
+
+
+
+
+
+
+
+
