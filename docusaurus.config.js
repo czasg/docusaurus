@@ -44,27 +44,9 @@ const config = {
     // [
     //   '@docusaurus/plugin-content-docs',
     //   {
-    //     id: 'author',
-    //     path: 'docs-author',
-    //     routeBasePath: '/author',
-    //     sidebarPath: require.resolve('./sidebars.js'),
-    //   }
-    // ],
-    // [
-    //   '@docusaurus/plugin-content-docs',
-    //   {
-    //     id: 'note',
-    //     path: 'docs-note',
-    //     routeBasePath: '/note',
-    //     sidebarPath: require.resolve('./sidebars.js'),
-    //   }
-    // ],
-    // [
-    //   '@docusaurus/plugin-content-docs',
-    //   {
-    //     id: 'deploy',
-    //     path: 'docs-deploy',
-    //     routeBasePath: '/deploy',
+    //     id: 'books',
+    //     path: 'books',
+    //     routeBasePath: '/books',
     //     sidebarPath: require.resolve('./sidebars.js'),
     //   }
     // ],
@@ -87,22 +69,35 @@ const config = {
           alt: 'Czasg',
           src: 'img/logo.ico',
         },
-        hideOnScroll: false, // 滚动页面时自动隐藏导航栏
+        hideOnScroll: true, // 滚动页面时自动隐藏导航栏
         items: [
           {to: '/blog', label: '博客', position: 'left'},
           {to: '/docs', label: '文档', position: 'left'},
+          {
+            type: 'dropdown',
+            label: '工具',
+            position: 'left',
+            items: [
+              {
+                label: "ChatGPT",
+                href: "https://chat.openai.com/chat",
+              },
+              {
+                label: "Json2Go",
+                href: "https://mholt.github.io/json-to-go",
+              },
+              {
+                label: "圆图剪切",
+                href: "https://crop-circle.imageonline.co/cn/",
+              },
+            ],
+          },
           {to: '/about-me', label: '关于我', position: 'left'},
-          // {to: '/deploy/intro', label: '部署', position: 'left'},
-          // {
-          //   href: 'https://github.com/czasg',
-          //   label: 'GitHub',
-          //   position: 'right',
-          // },
         ],
       },
       docs: {
         sidebar: {
-          hideable: true, // 侧边栏是否支持隐藏
+          hideable: false, // 侧边栏是否支持隐藏
           autoCollapseCategories: true, // 扩展一个类别时折叠所有的同级类别
         },
       },
@@ -148,7 +143,7 @@ const config = {
             ],
           },
           {
-            title: '常活跃于',
+            title: '活跃社区',
             items: [
               {
                 label: 'GitHub',
@@ -165,15 +160,11 @@ const config = {
             ],
           },
           {
-            title: 'More',
+            title: '官方文档',
             items: [
               {
-                label: 'ChatGPT',
-                href: 'https://chat.openai.com/chat',
-              },
-              {
-                label: 'LXF',
-                href: 'https://www.liaoxuefeng.com',
+                label: 'Py标准库',
+                href: 'https://docs.python.org/zh-cn/3/library/index.html',
               },
             ],
           },
