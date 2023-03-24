@@ -19,7 +19,7 @@
             <name>Czasg</name>
             <uri>https://github.com/czasg</uri>
         </author>
-        <category label="未定义" term="未定义"/>
+        <category label="golang" term="golang"/>
     </entry>
     <entry>
         <title type="html"><![CDATA[管理者如何评价待转正员工]]></title>
@@ -36,6 +36,7 @@
             <name>Czasg</name>
             <uri>https://github.com/czasg</uri>
         </author>
+        <category label="职场" term="职场"/>
     </entry>
     <entry>
         <title type="html"><![CDATA[python写入csv乱码问题]]></title>
@@ -110,7 +111,7 @@
             <name>Czasg</name>
             <uri>https://github.com/czasg</uri>
         </author>
-        <category label="未定义" term="未定义"/>
+        <category label="职场" term="职场"/>
     </entry>
     <entry>
         <title type="html"><![CDATA[selenium学习总结]]></title>

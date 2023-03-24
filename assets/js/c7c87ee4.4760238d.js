@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocusaurus=self.webpackChunkdocusaurus||[]).push([[658],{2833:s=>{s.exports=JSON.parse('{"permalink":"/docusaurus/blog/tags/golang/page/2","page":2,"postsPerPage":10,"totalPages":2,"totalCount":11,"previousPage":"/docusaurus/blog/tags/golang","blogDescription":"Blog","blogTitle":"Blog"}')}}]);
