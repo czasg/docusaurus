@@ -1,7 +1,7 @@
 ---
 title: defer坑点收录
 authors: [czasg]
-tags: [未定义]
+tags: [golang]
 ---
 
 Go defer 史诗级坑点整理！
