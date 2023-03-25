@@ -5,7 +5,7 @@ import styles from './HomepageFeatures.module.css';
 const FeatureList = [
   {
     title: '站点选型',
-    Svg: require('../../static/img/undraw_docusaurus_mountain.svg').default,
+    src: "img/homepage/feature/1.png",
     description: (
       <>
           博客注重于记录问题、生活等方面的知识点。文档则注重于某个领域的知识整理。
@@ -15,7 +15,7 @@ const FeatureList = [
   },
   {
     title: '站点技术', // 朵朵
-    Svg: require('../../static/img/undraw_docusaurus_react.svg').default,
+    src: "img/homepage/feature/2.png",
     description: (
         <>
             本站是基于 <strong>Docusaurus</strong> 搭建的静态站点，目前借助 <strong>Github Actions</strong> 自动构建、部署在 <strong>Github Pages</strong>.
@@ -24,7 +24,7 @@ const FeatureList = [
   },
   {
     title: 'Czasg 含义',
-    Svg: require('../../static/img/undraw_docusaurus_tree.svg').default,
+    src: "img/homepage/feature/3.png",
     description: (
       <>
         这事，还得从 1995 年的那一晚说起😏算了，我摊牌了，
@@ -34,11 +34,11 @@ const FeatureList = [
   },
 ];
 
-function Feature({Svg, title, description}) {
+function Feature({src, title, description}) {
   return (
     <div className={clsx('col col--4')}>
       <div className="text--center">
-        <Svg className={styles.featureSvg} alt={title} />
+        <img className={styles.featureImg} src = {src} />
       </div>
       <div className="text--center padding-horiz--md">
         <h3>{title}</h3>

@@ -16,8 +16,7 @@ class HomepageHeader extends React.PureComponent {
     componentDidMount(){
         const self = this;
         const initScript = () => {
-            var
-                words = ['理财', '涨薪', '健康', '快乐', '大厂', '长胖', '锻炼', '猫咪', '奔驰', '自信', '存钱', '勇敢'],
+            var words = ['理财', '涨薪', '健康', '快乐', '大厂', '长胖', '锻炼', '猫咪', '家庭', '自信', '存钱', '勇敢'],
                 bg = document.querySelector('#bg'),
                 ani = document.querySelector('#ani'),
                 ctx_bg = bg.getContext('2d'),
@@ -126,8 +125,6 @@ class HomepageHeader extends React.PureComponent {
         this.islive = false;
     }
     render() {
-        // const {siteConfig} = useDocusaurusContext();
-        // useEffect(() => {initScript()}, []);
         return (
             <header className={clsx('hero hero--dark', styles.heroBanner)}>
                 <div className="container">

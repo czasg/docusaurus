@@ -1,7 +1,7 @@
 ---
 title: Go实现非跳转的http请求
 authors: [czasg]
-tags: [goalng]
+tags: [golang]
 ---
 
 <!--truncate-->

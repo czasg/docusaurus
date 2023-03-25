@@ -12,7 +12,7 @@ const config = {
   baseUrl: '/docusaurus/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/dd.ico',
   organizationName: 'czasg', // Usually your GitHub org/user name.
   projectName: 'docusaurus', // Usually your repo name.
 
@@ -21,11 +21,7 @@ const config = {
       '@docusaurus/preset-classic',
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
-        docs: {
-          routeBasePath: '/docs',
-          editUrl: 'https://github.com/czasg/docusaurus/edit/main',
-          breadcrumbs: true, // 面包屑导航
-        },
+        docs: false,
         blog: {
           blogSidebarTitle: '全部博文',
           showReadingTime: true,
@@ -41,15 +37,39 @@ const config = {
   ],
 
   plugins: [
-    // [
-    //   '@docusaurus/plugin-content-docs',
-    //   {
-    //     id: 'books',
-    //     path: 'books',
-    //     routeBasePath: '/books',
-    //     sidebarPath: require.resolve('./sidebars.js'),
-    //   }
-    // ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'books',
+        path: 'docs/book',
+        routeBasePath: '/docs/book',
+        sidebarPath: require.resolve('./sidebars.js'),
+        editUrl: 'https://github.com/czasg/docusaurus/edit/main',
+        breadcrumbs: true, // 面包屑导航
+      }
+    ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'work',
+        path: 'docs/office',
+        routeBasePath: '/docs/office',
+        sidebarPath: require.resolve('./sidebars.js'),
+        editUrl: 'https://github.com/czasg/docusaurus/edit/main',
+        breadcrumbs: true, // 面包屑导航
+      }
+    ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'dev',
+        path: 'docs/develop',
+        routeBasePath: '/docs/develop',
+        sidebarPath: require.resolve('./sidebars.js'),
+        editUrl: 'https://github.com/czasg/docusaurus/edit/main',
+        breadcrumbs: true, // 面包屑导航
+      }
+    ],
     [
       require.resolve("@easyops-cn/docusaurus-search-local"),
       {
@@ -67,12 +87,30 @@ const config = {
         title: 'Czasg',
         logo: {
           alt: 'Czasg',
-          src: 'img/logo.ico',
+          src: 'img/dd.ico',
         },
         hideOnScroll: true, // 滚动页面时自动隐藏导航栏
         items: [
           {to: '/blog', label: '博客', position: 'left'},
-          {to: '/docs', label: '文档', position: 'left'},
+          {
+            type: 'dropdown',
+            label: '文档',
+            position: 'left',
+            items: [
+              {
+                label: "技术类",
+                to: '/docs/develop',
+              },
+              {
+                label: "工作类",
+                to: '/docs/office',
+              },
+              {
+                label: "书籍类",
+                to: '/docs/book',
+              },
+            ],
+          },
           {
             type: 'dropdown',
             label: '工具',
