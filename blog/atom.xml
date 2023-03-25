@@ -6,7 +6,7 @@
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://czasg.github.io/docusaurus/blog"/>
     <subtitle>Czasg Blog</subtitle>
-    <icon>https://czasg.github.io/docusaurus/img/favicon.ico</icon>
+    <icon>https://czasg.github.io/docusaurus/img/dd.ico</icon>
     <entry>
         <title type="html"><![CDATA[defer坑点收录]]></title>
         <id>https://czasg.github.io/docusaurus/blog/2023/03/21/defer三规三返</id>
@@ -172,7 +172,7 @@ TiDB 的自增 ID (AUTO_INCREMENT) 只保证自增且唯一，并不保证连续
             <name>Czasg</name>
             <uri>https://github.com/czasg</uri>
         </author>
-        <category label="未定义" term="未定义"/>
+        <category label="前端" term="前端"/>
     </entry>
     <entry>
         <title type="html"><![CDATA[Go实现非跳转的http请求]]></title>
@@ -186,7 +186,7 @@ TiDB 的自增 ID (AUTO_INCREMENT) 只保证自增且唯一，并不保证连续
             <name>Czasg</name>
             <uri>https://github.com/czasg</uri>
         </author>
-        <category label="goalng" term="goalng"/>
+        <category label="golang" term="golang"/>
     </entry>
     <entry>
         <title type="html"><![CDATA[记一次关于文件IO的争执]]></title>
@@ -201,7 +201,7 @@ TiDB 的自增 ID (AUTO_INCREMENT) 只保证自增且唯一，并不保证连续
             <name>Czasg</name>
             <uri>https://github.com/czasg</uri>
         </author>
-        <category label="未定义" term="未定义"/>
+        <category label="职场" term="职场"/>
     </entry>
     <entry>
         <title type="html"><![CDATA[Iaas & Paas & Saas]]></title>
