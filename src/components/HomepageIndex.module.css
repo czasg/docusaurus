@@ -1,0 +1,73 @@
+.indexBackground {
+    /*background: linear-gradient(45deg, #561616, #666ca5);*/
+    /*color: #f1f1f1;*/
+}
+
+.heroBanner {
+    padding: 4rem 0 6rem 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    /*margin-bottom: 10rem;*/
+}
+
+@media screen and (max-width: 966px) {
+    .heroBanner {
+        padding: 2rem;
+    }
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.canvasBox {
+    position: relative;
+    height: 400px;
+    overflow: hidden;
+    animation: leftInfoBoxFadeIn 1.5s;
+    animation-delay: .5s;
+    animation-fill-mode: backwards;
+}
+
+.positionAbsolute {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.middleDiv {
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: rightInfoBoxFadeIn 1.5s;
+    animation-delay: .5s;
+    animation-fill-mode: backwards;
+}
+
+@keyframes leftInfoBoxFadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes rightInfoBoxFadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(10%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
