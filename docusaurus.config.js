@@ -51,7 +51,7 @@ const config = {
     [
       '@docusaurus/plugin-content-docs',
       {
-        id: 'work',
+        id: 'office',
         path: 'docs/office',
         routeBasePath: '/docs/office',
         sidebarPath: require.resolve('./sidebars.js'),
@@ -62,9 +62,20 @@ const config = {
     [
       '@docusaurus/plugin-content-docs',
       {
-        id: 'dev',
+        id: 'develop',
         path: 'docs/develop',
         routeBasePath: '/docs/develop',
+        sidebarPath: require.resolve('./sidebars.js'),
+        editUrl: 'https://github.com/czasg/docusaurus/edit/main',
+        breadcrumbs: true, // 面包屑导航
+      }
+    ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'daily-life',
+        path: 'docs/daily-life',
+        routeBasePath: '/docs/daily-life',
         sidebarPath: require.resolve('./sidebars.js'),
         editUrl: 'https://github.com/czasg/docusaurus/edit/main',
         breadcrumbs: true, // 面包屑导航
@@ -109,6 +120,10 @@ const config = {
               {
                 label: "工作类",
                 to: '/docs/office',
+              },
+              {
+                label: "生活类",
+                to: '/docs/daily-life',
               },
               {
                 label: "书籍类",

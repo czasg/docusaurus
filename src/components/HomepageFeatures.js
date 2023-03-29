@@ -41,7 +41,7 @@ function Feature({src, title, description}) {
     return (
         <div
             className={clsx('col col--4')}
-            style={{padding:'30px'}}
+            style={{padding:'30px', userSelect: 'none'}}
             onMouseOver={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
         >
