@@ -118,7 +118,7 @@ const config = {
                 to: '/docs/develop',
               },
               {
-                label: "工作类",
+                label: "职场类",
                 to: '/docs/office',
               },
               {
