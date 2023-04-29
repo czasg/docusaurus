@@ -6,6 +6,8 @@ tags: [docusaurus]
 
 本文章记录基于 Docusaurus 搭建静态站点，并通过 Github-Actions 实现自动部署。
 
+再整个自动化部署的过程中，最核心的步骤就是初始化并配置公钥、密钥、workflow.yml。
+
 <!--truncate-->
 
 ## 1、新建 Github 仓库
@@ -62,7 +64,8 @@ Happy building awesome websites!
 
 接入 `Github Actions` 需要创建一对新的 **SSH Key**，并将公钥和密钥均配置到 Github，我们来具体看下操作。
 
-首先创建密钥，我们可以指定一个新的目录，然后得到公钥（id_rsa.pub）和私钥（id_rsa）
+### 创建公钥密钥对
+首先通过`ssh-keygen`指令创建公钥密钥对，通过改指令，我们可以获取到公钥（id_rsa.pub）和私钥（id_rsa）
 ```shell script
 >>> ssh-keygen -t rsa -C "email"
 ...
@@ -81,18 +84,77 @@ The key's randomart image is:
 +----[SHA256]-----+
 ```
 
-我们打开仓库的 `deploy keys`，选择新增，将 `id_rsa.pub` 中的内容复制进去，并选中 `Allow write access` 框，表示赋予部署写权限。
+### 配置公钥密钥
+
+我们打开仓库的 `deploy keys`，选择新增，其中，title 命名为 `GH_PAGES_DEPLOY`，
+内容则是公钥 `id_rsa.pub` 中的内容，记住选中 `Allow write access` 框，表示赋予部署写权限。
 ![](deploykey.png)
 
-此时部署公钥已经完成，我们再将私钥也配置上。打开同级配置下的 Secret，选择新增密钥，
-我们将私钥内容复制到 `Value` 中，而 `Name` 填写 `GH_PAGES_DEPLOY` 即可。
+此时部署公钥已经完成，接着我们再将私钥也配置上。打开同级配置下的 Secret，选择新增仓库密钥，
+同样，Name 命名为 `GH_PAGES_DEPLOY`，内容则是密钥 `id_rsa` 中的内容。
+![](deploykey1.png)
 
-最后，我们创建 `Github Actions`，将模板复制进去，则整个流水线就已经配置好了。复制时，将对应的基础配置改下即可，如下：
-```shell script
-git config --global user.email "email"
-git config --global user.name "name"
+### workflow配置
+最后，我们创建 `Github Actions`，将模板复制进去，则整个流水线就已经配置好了。模板参考如下：
+```yaml
+name: Node.js CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '18.x'
+      - name: Test Build
+        run: |
+          if [ -e yarn.lock ]; then
+            yarn install --frozen-lockfile
+          elif [ -e package-lock.json ]; then
+            npm ci
+          else
+            npm i
+          fi
+          npm run build
+  gh-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '18.x'
+      - uses: webfactory/ssh-agent@v0.5.0
+        with:
+          ssh-private-key: ${{ secrets.GH_PAGES_DEPLOY }}
+      - name: Release to GitHub Pages
+        env:
+          USE_SSH: true
+          GIT_USER: czasg
+        run: |
+          git config --global user.email "your email"
+          git config --global user.name "you name"
+          if [ -e yarn.lock ]; then
+            yarn install --frozen-lockfile
+          elif [ -e package-lock.json ]; then
+            npm ci
+          else
+            npm i
+          fi
+          npm run deploy
 ```
-这里的 `email` 需要是 github 配置的 email，而 `name` 则是 github 用户名。
+
+复制模板时，对应的 git 配置记得修改下，如下：
+```shell script
+git config --global user.email "注册公钥使用到的邮箱"
+git config --global user.name "github用户名"
+```
 
 ## 4、更新仓库，尝试自动部署
 
