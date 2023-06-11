@@ -148,6 +148,10 @@ const config = {
                 label: "圆图剪切",
                 href: "https://crop-circle.imageonline.co/cn/",
               },
+              {
+                label: "在线工具",
+                href: "https://www.dute.org/",
+              },
             ],
           },
           {to: '/about-me', label: '关于我', position: 'left'},
