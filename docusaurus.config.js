@@ -99,7 +99,7 @@ const config = {
         respectPrefersColorScheme: false,
       },
       navbar: {
-        style: 'dark',
+        style: 'primary',
         title: 'Czasg',
         logo: {
           alt: 'Czasg',
