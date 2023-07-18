@@ -3,6 +3,7 @@ import Layout from '@theme/Layout';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import HomepageFeatures from '../components/HomepageFeatures';
 import HomepageIndex from '../components/HomepageIndex';
+import Home2 from "../components/Home2";
 
 
 export default function Home() {
@@ -14,6 +15,7 @@ export default function Home() {
         >
             <main>
                 <HomepageIndex/>
+                <Home2/>
                 <HomepageFeatures/>
                 {/*<HomepageLanguages />*/}
             </main>

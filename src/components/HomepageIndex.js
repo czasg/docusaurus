@@ -127,7 +127,7 @@ class Index extends React.PureComponent {
     render() {
         return (
             <div className={clsx('hero hero--dark', styles.heroBanner, styles.indexBackground)}>
-                <div className="container">
+                <div className="container" style={{paddingBottom: "30px"}}>
                     <div className="row">
                         <div className={clsx('col col--6')}>
                             <div className={styles.canvasBox}>
