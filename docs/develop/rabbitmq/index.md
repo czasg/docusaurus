@@ -3,6 +3,12 @@ title: RabbitMQ简介
 sidebar_label: RabbitMQ
 ---
 
+## 知识全景图
+
+<div align="center">
+<img src={require('./RabbitMQ.png').default} alt="RabbitMQ" />
+</div>
+
 ## 什么是RabbitMQ？
 
 RabbitMQ 是一个开源的消息中间件，它实现了高效、可靠的消息传递机制。它基于AMQP（Advanced Message Queuing Protocol，高级消息队列协议）标准，
@@ -59,10 +65,3 @@ RabbitMQ 作为一款成熟的消息中间件，为分布式系统和微服务�
 - **解耦系统组件**：通过消息中间件，不同的组件可以独立开发和扩展，降低了组件之间的耦合度。
 - **负载均衡**：通过多个工作进程消费队列中的消息，实现负载均衡，提高整体处理能力。
 - **发布/订阅**：通过主题交换机，实现一条消息同时被多个订阅者接收，用于日志记录、广播等场景。
-
-## 知识全景图
-
-<div align="center">
-<img src={require('./RabbitMQ.png').default} alt="RabbitMQ" />
-</div>
-
