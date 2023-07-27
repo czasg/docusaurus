@@ -51,6 +51,18 @@
             <category>分享</category>
         </item>
         <item>
+            <title><![CDATA[OSI七层模式]]></title>
+            <link>https://czasg.github.io/docusaurus/blog/2023/04/12/OSI七层模式</link>
+            <guid>https://czasg.github.io/docusaurus/blog/2023/04/12/OSI七层模式</guid>
+            <pubDate>Wed, 12 Apr 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[OSI（Open Systems Interconnection）是一个用于理解和描述计算机网络通信协议的参考模型。]]></description>
+            <content:encoded><![CDATA[<p>OSI（Open Systems Interconnection）是一个用于理解和描述计算机网络通信协议的参考模型。
+它将计算机网络通信过程划分为七个不同的层次，每个层次负责特定的功能，各层之间通过接口进行交互。</p><ol><li><p><strong>应用层（Application Layer）</strong>：</p><ul><li><p>应用层是用户与网络通信的接口，负责为应用程序提供网络服务。
+它包括各种应用协议，例如HTTP、FTP、SMTP等。在这一层上，数据被封装成应用层数据包。</p></li><li><p>举例：当您使用Web浏览器访问一个网站时，浏览器会使用HTTP协议发送请求，该请求是在应用层上创建的数据包。</p></li></ul></li><li><p><strong>表示层（Presentation Layer）</strong>：</p><ul><li>表示层负责数据的格式转换和加密解密等操作，确保不同系统之间能够正确地解释数据。在TCP/IP协议族中，表示层的功能很少被使用，因为大多数应用程序在应用层处理了数据格式的问题。</li></ul></li><li><p><strong>会话层（Session Layer）</strong>：</p><ul><li>会话层负责建立、管理和终止会话连接，确保通信双方之间的通信顺序和数据完整性。在TCP/IP协议族中，会话层的功能也很少被使用，因为这些任务通常由应用层处理。</li></ul></li><li><p><strong>传输层（Transport Layer）</strong>：</p><ul><li><p>传输层提供端到端的数据传输服务。最常用的协议是TCP（Transmission Control Protocol）和UDP（User Datagram Protocol）。</p></li><li><p>举例：当您在Web浏览器中访问一个网站时，浏览器会使用TCP协议建立一个与服务器的连接，确保数据的可靠传输。而在视频会议或实时游戏等场景中，可能会使用UDP协议，因为它具有较低的延迟，但可靠性较差。</p></li></ul></li><li><p><strong>网络层（Network Layer）</strong>：</p><ul><li><p>网络层负责数据包的路由和转发，以及IP地址的分配。最常用的协议是IP（Internet Protocol）。</p></li><li><p>举例：在互联网上，当您的计算机发送一个数据包到目标服务器时，数据包会在网络层被路由器转发，根据目标IP地址找到正确的路径。</p></li></ul></li><li><p><strong>数据链路层（Data Link Layer）</strong>：</p><ul><li><p>数据链路层负责将数据包封装成数据帧，处理物理地址（MAC地址）和错误检测等。最常用的协议是以太网（Ethernet）。</p></li><li><p>举例：在局域网中，当您的计算机发送一个数据帧到另一台计算机时，数据帧会在数据链路层添加源MAC地址和目标MAC地址，然后通过交换机或直接连接到目标计算机的设备传输。</p></li></ul></li><li><p><strong>物理层（Physical Layer）</strong>：</p><ul><li><p>物理层负责数据的物理传输，包括电缆、网卡、光纤等物理设备和接口。</p></li><li><p>举例：当数据帧在计算机之间通过网线传输时，物理层将数据转换为电信号，并通过网卡的物理接口发送到传输媒介上。</p></li></ul></li></ol><br><div class="theme-admonition theme-admonition-info alert alert--info admonition_LlT9"><div class="admonitionHeading_tbUL"><span class="admonitionIcon_kALy"><svg viewBox="0 0 14 16"><path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path></svg></span>👇👇👇</div><div class="admonitionContent_S0QG"><p><strong>本文作者:</strong> Czasg
+<strong>版权声明:</strong> 转载请注明出处哦~👮‍</p></div></div>]]></content:encoded>
+            <category>计算机</category>
+        </item>
+        <item>
             <title><![CDATA[defer坑点收录]]></title>
             <link>https://czasg.github.io/docusaurus/blog/2023/03/21/defer三规三返</link>
             <guid>https://czasg.github.io/docusaurus/blog/2023/03/21/defer三规三返</guid>
