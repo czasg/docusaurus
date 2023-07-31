@@ -116,8 +116,10 @@ class Index extends React.PureComponent {
                 requestAnimationFrame(clockDrawing);
             })();
         };
-        initScript();
-        console.log("draw start");
+        setTimeout(() => {
+            initScript();
+            console.log("draw start");
+        }, 500);
     }
 
     componentWillUnmount() {
