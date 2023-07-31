@@ -3,4 +3,62 @@ title: Dockerfile简介
 sidebar_label: Dockerfile
 ---
 
-本文仅介绍常见 Dockerfile 指令，具体可参考[官方文档](https://docs.docker.com/engine/reference/builder)
+
+Dockerfile是Docker容器的构建文件，它是一个文本文件，其中包含一系列命令和指令，用于自动化地构建Docker镜像。
+Docker镜像是用于创建Docker容器的模板，它包含了运行一个应用程序所需的所有文件、依赖和配置。
+通过Dockerfile，我们可以定义镜像中的文件结构、操作系统环境、应用程序依赖以及其他配置选项。
+
+Dockerfile基于一种称为"Dockerfile语法"的DSL（领域特定语言）进行编写。
+下面是一个简单的Dockerfile示例，用于构建一个基于Ubuntu操作系统的简单Web应用容器：
+
+```bash
+# 使用基础镜像，这里选择了一个基于Ubuntu的官方镜像
+FROM ubuntu:latest
+
+# 设置工作目录
+WORKDIR /app
+
+# 复制应用程序文件到容器中
+COPY . /app
+
+# 安装所需依赖，这里是一个假设的安装命令
+RUN apt-get update && apt-get install -y some-package
+
+# 暴露容器对外的端口
+EXPOSE 80
+
+# 定义容器启动时执行的命令
+CMD ["python", "app.py"]
+```
+
+上述Dockerfile的解释如下：
+
+- `FROM`: 用于指定基础镜像，即构建新镜像所依赖的现有镜像。在此例中，我们选择了最新版本的Ubuntu镜像作为基础镜像。
+
+- `WORKDIR`: 设置容器中的当前工作目录，这是容器内部执行后续命令的位置。在这个例子中，我们将工作目录设置为`/app`。
+
+- `COPY`: 将主机（宿主机）中的文件复制到容器内的指定位置。这个命令将主机中的所有文件复制到容器中的`/app`目录。
+
+- `RUN`: 在镜像构建过程中执行指定的命令。在这个例子中，我们使用`apt-get`命令安装了一个假设的软件包。
+
+- `EXPOSE`: 声明容器将监听的端口号。这里我们声明容器将监听80端口，但是要注意，这并不会自动映射到主机上的80端口。
+
+- `CMD`: 定义容器启动时执行的默认命令。在这个例子中，容器启动后将执行`python app.py`命令启动应用程序。
+
+使用Dockerfile可以实现容器构建的自动化，并确保所有需要的依赖和配置都被准确地包含在Docker镜像中。要构建镜像，只需在Dockerfile所在的目录运行以下命令：
+
+```
+docker build -t my-web-app .
+```
+
+其中，`-t`用于指定镜像的名称（这里为`my-web-app`），`.`表示Dockerfile所在的当前目录。
+
+构建完成后，可以通过以下命令来运行容器：
+
+```
+docker run -p 8080:80 my-web-app
+```
+
+这里使用`-p`选项将容器内的80端口映射到主机上的8080端口，使得我们可以通过访问`http://localhost:8080`来访问Web应用程序。
+
+因此，我们可以总结出Dockerfile是一个用于自动构建Docker镜像的文件，其中包含了构建镜像所需的命令和指令，使得容器化应用程序的构建和部署过程更加简便和可靠。
