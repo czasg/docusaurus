@@ -140,7 +140,19 @@ class Index extends React.PureComponent {
                         <div className={clsx('col col--6')}>
                             <div className={clsx(styles.middleDiv)}>
                                 <div>
-                                    <h1 className="hero__title">Czasg</h1>
+                                    <h1 className="hero__title">
+                                        CZA
+                                        <a style={{
+                                            background: "#f3ae05",
+                                            color: "#000000",
+                                            padding: "0.3rem",
+                                            borderRadius: "0.5rem",
+                                            marginLeft: "0.3rem",
+                                        }}>
+                                            SG
+                                        </a>
+                                    </h1>
+
                                     <p className="hero__subtitle">👋👋👋</p>
                                     <div className={styles.buttons}>
                                         <Link
