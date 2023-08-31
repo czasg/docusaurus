@@ -11,9 +11,7 @@ slug: kafka
 
 ### Docker 部署
 ```bash
-docker run -d --name kafka --hostname kafka \
-    --network app-tier \
-    -p 9092:9092 \
+docker run --rm -it --name kafka --hostname kafka -p 9092:9092 \
     -e KAFKA_CFG_NODE_ID=0 \
     -e KAFKA_CFG_PROCESS_ROLES=controller,broker \
     -e KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093 \
@@ -22,7 +20,6 @@ docker run -d --name kafka --hostname kafka \
     -e KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER \
     bitnami/kafka:latest
 ```
-
 
 ### K8S 部署
 
