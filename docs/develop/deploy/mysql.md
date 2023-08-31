@@ -94,6 +94,22 @@ spec:
             - configMapRef:
                 name: mysql
           name: mysql
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 300
+            periodSeconds: 20
+            successThreshold: 1
+            tcpSocket:
+              port: 3306
+            timeoutSeconds: 5
+          readinessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 5
+            periodSeconds: 40
+            successThreshold: 1
+            tcpSocket:
+              port: 3306
+            timeoutSeconds: 2
           ports:
             - containerPort: 3306
               name: mysql

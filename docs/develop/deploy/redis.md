@@ -9,10 +9,51 @@ slug: redis
 #### 参考文档：
 - https://hub.docker.com/r/bitnami/redis
 
+```text title="redis 配置"
+# 在后台运行
+daemonize yes
+# 绑定的IP地址，如果要允许外部访问，设置为0.0.0.0
+bind 127.0.0.1
+# 监听的端口号
+port 6379
+# 数据持久化选项
+save 900 1
+save 300 10
+save 60 10000
+# 持久化文件名
+dbfilename dump.rdb
+# 持久化文件保存的目录
+dir /var/lib/redis/
+# 设置密码进行连接认证
+requirepass yourpassword
+# 是否开启AOF（Append-Only File）持久化
+appendonly yes
+# AOF持久化文件名
+appendfilename "appendonly.aof"
+# AOF持久化策略
+appendfsync everysec
+# 是否开启RDB压缩
+rdbcompression yes
+# 最大连接数
+maxclients 10000
+# 内存使用警告阈值
+maxmemory-policy allkeys-lru
+# 启用键空间通知
+notify-keyspace-events Ex
+# 是否开启集群模式
+cluster-enabled yes
+# 其他
+no-appendfsync-on-rewrite yes
+databases 16
+maxmemory 2g
+loglevel warning
+```
+
 ### Docker 部署
 ```bash
 docker run --rm -it --name redis --hostname redis -p 6379:6379 \
     -v /path/to/redis-persistence:/bitnami/redis/data \
+    -v /path/to/your_redis.conf:/opt/bitnami/redis/mounted-etc/redis.conf \
     -e ALLOW_EMPTY_PASSWORD=yes \
     bitnami/redis:latest
 ```
@@ -86,6 +127,22 @@ spec:
             - configMapRef:
                 name: redis
           name: redis
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 300
+            periodSeconds: 20
+            successThreshold: 1
+            tcpSocket:
+              port: 6379
+            timeoutSeconds: 5
+          readinessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 5
+            periodSeconds: 40
+            successThreshold: 1
+            tcpSocket:
+              port: 6379
+            timeoutSeconds: 2
           ports:
             - containerPort: 9092
               name: redis

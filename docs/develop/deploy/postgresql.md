@@ -95,6 +95,22 @@ spec:
             - configMapRef:
                 name: postgres
           name: postgres
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 300
+            periodSeconds: 20
+            successThreshold: 1
+            tcpSocket:
+              port: 5432
+            timeoutSeconds: 5
+          readinessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 5
+            periodSeconds: 40
+            successThreshold: 1
+            tcpSocket:
+              port: 5432
+            timeoutSeconds: 2
           ports:
             - containerPort: 5432
               name: postgres
@@ -159,4 +175,65 @@ data:
   POSTGRESQL_USERNAME: "my_user"
   POSTGRESQL_PASSWORD: "my_password"
   POSTGRESQL_DATABASE: "my_database"
+```
+
+### KV-DB3 部署
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: kvdb3
+  name: kvdb3
+spec:
+  replicas: 1
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      app: kvdb3
+  template:
+    metadata:
+      labels:
+        app: kvdb3
+    spec:
+      initContainers:
+        - image: busybox:latest
+          name: fill-pgdata
+          command: ["sh", "-c", "cp -r /data/* /pgdata/"]
+          volumeMounts:
+            - mountPath: /pgdata
+              name: pgdata
+            - mountPath: /data
+              name: data
+      containers:
+        - image: postgres:latest
+          imagePullPolicy: Always
+          name: postgres
+          lifecycle:
+            postStart:
+              exec:
+                command: ["/bin/sh", "-c", "while ! pg_isready ; do sleep 3; done; echo success;"]
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 2000Mi
+            requests:
+              cpu: 1000m
+              memory: 2000Mi
+          volumeMounts:
+            - mountPath: /etc/localtime
+              name: host-time
+              readOnly: true
+            - mountPath: /var/lib/postgresql/data
+              name: pgdata
+      restartPolicy: Always
+      volumes:
+        - hostPath:
+            path: /etc/localtime
+            type: ""
+          name: host-time
+        - name: pgdata
+          emptyDir: {}
+        - name: data
+          emptyDir: {}
 ```

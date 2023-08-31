@@ -101,6 +101,22 @@ spec:
             - configMapRef:
                 name: rabbitmq
           name: rabbitmq
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 300
+            periodSeconds: 20
+            successThreshold: 1
+            tcpSocket:
+              port: 5672
+            timeoutSeconds: 5
+          readinessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 5
+            periodSeconds: 40
+            successThreshold: 1
+            tcpSocket:
+              port: 5672
+            timeoutSeconds: 2
           ports:
             - containerPort: 5672
               name: tcp5672
