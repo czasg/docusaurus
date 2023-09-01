@@ -267,6 +267,6 @@ DROP TABLE IF EXISTS temp_diff_%[2]d;
 <br/>
 
 :::info 👇👇👇
-**本文作者:** Czasg    
+**本文作者:** Czasg        
 **版权声明:** 转载请注明出处哦~👮‍
 :::
