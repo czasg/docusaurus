@@ -119,17 +119,14 @@ class Index extends React.PureComponent {
                 if (bus.runTimes === 0) {
                     setTimeout(() => {
                         requestAnimationFrame(clockDrawing);
-                    }, 1000);
+                    }, 1500);
                 } else {
                     requestAnimationFrame(clockDrawing);
                 }
                 bus.runTimes++
             })();
         };
-        setTimeout(() => {
-            initScript();
-            console.log("draw start");
-        }, 500);
+        initScript();
     }
 
     componentWillUnmount() {
