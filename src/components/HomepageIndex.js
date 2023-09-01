@@ -12,6 +12,9 @@ class Index extends React.PureComponent {
 
     componentDidMount() {
         const self = this;
+        var bus = {
+            runTimes: 0,
+        };
         const initScript = () => {
             const words = ['理财', '涨薪', '健康', '快乐', '大厂', '长胖', '锻炼', '猫咪', '家庭', '自信', '存钱', '勇敢'],
                 bg = document.querySelector('#bg'),
@@ -113,7 +116,14 @@ class Index extends React.PureComponent {
                 ctx_ani.restore();
 
                 ctx_ani.restore();
-                requestAnimationFrame(clockDrawing);
+                if (bus.runTimes === 0) {
+                    setTimeout(() => {
+                        requestAnimationFrame(clockDrawing);
+                    }, 1000);
+                } else {
+                    requestAnimationFrame(clockDrawing);
+                }
+                bus.runTimes++
             })();
         };
         setTimeout(() => {
@@ -132,6 +142,9 @@ class Index extends React.PureComponent {
                 <div className="container" style={{
                     minHeight: "100vh",
                 }}>
+                    <div className={clsx(styles.leftTopBar)}>
+                        佑佑又饿了
+                    </div>
                     <div className="row">
                         <div className={clsx('col col--6')}>
                             <div className={styles.canvasBox}>

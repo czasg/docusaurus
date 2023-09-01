@@ -2,6 +2,47 @@
     background: linear-gradient(#5c759b, #ffffff);
 }
 
+.leftTopBar {
+    position: absolute;
+    left: 0;
+    top: 10%;
+    width: 19rem;
+    height: 5rem;
+    background-color: #f3ae05;
+    transform-origin: 0 100%; /* 旋转的原点，左下角 */
+    transform: rotate(-45deg);
+    line-height: 5rem;
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-shadow: 1px 0 #000;
+    color: #000000;
+}
+
+.leftTopBar::before,
+.leftTopBar::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 2px solid #f6a612; /* 花边的颜色 */
+}
+
+.leftTopBar::before {
+    top: -4px; /* 上边花边的位置 */
+    left: -4px; /* 左边花边的位置 */
+}
+
+.leftTopBar::after {
+    bottom: -4px; /* 下边花边的位置 */
+    right: -4px; /* 右边花边的位置 */
+}
+
+@media screen and (max-width: 1000px) {
+    .leftTopBar{
+        display: none;
+    }
+}
+
 .heroBanner {
     padding: 8rem 0 4rem 0;
     text-align: center;
