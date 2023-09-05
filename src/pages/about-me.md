@@ -217,6 +217,10 @@ sidebar_label: 关于我
 - Agent 部署在存储节点上，用于管理样本
 - Scheduler 用于优化多节点下的样本调度
 
+<div align="center">
+<img src={require('./misreport.png').default} alt="misreport" />
+</div>
+
 ---
 <br/>
 
