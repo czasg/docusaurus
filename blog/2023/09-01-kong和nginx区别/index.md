@@ -4,9 +4,9 @@ authors: [czasg]
 tags: []
 ---
 
-<!--truncate-->
-
 Kong 和 Nginx 是两种用于构建和管理 Web 服务和 API 网关的不同软件，它们在设计和用途上有一些区别：
+
+<!--truncate-->
 
 1. **用途**：
 

@@ -152,6 +152,10 @@ const config = {
                 label: "在线工具",
                 href: "https://www.dute.org/",
               },
+              {
+                label: "emoji",
+                to: '/emoji',
+              },
             ],
           },
           {to: '/about-me', label: '关于我', position: 'left'},
