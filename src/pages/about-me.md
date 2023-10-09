@@ -141,7 +141,7 @@ sidebar_label: 关于我
 </div>
 
 * 基于**业务分流、云查本地缓存、gRPC负载均衡、KV-DB缓存**等多重方案，抗住高峰期百万并发压力
-* 基于 GOMAXPROCS 调优 Go 性能
+* 基于 GOMAXPROCS 调优 Go 性能，减少内存消耗，避免性能尖刺
 
 ---
 <br/>
@@ -153,8 +153,17 @@ sidebar_label: 关于我
 基于公司战略和从对url治理能力扩展的角度出发，构建对url海量的检测能力，探索对开发者新的治理点。
 
 #### **关键技术：**
+- Go & Gin
+- Redis
+- Kafka
+- Postgres
+- Spider
+  - Pywss
+  - Selenium
 
 #### **职责描述：**
+- 负责 URLSAAS-API 架构设计与研发
+- 负责 URLSAAS 爬虫模块支撑
 
 #### **项目难点：**
 
