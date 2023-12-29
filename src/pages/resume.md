@@ -230,8 +230,15 @@ Pywss（发音 /piːwaɪz/，类似 **p~whys**）是一个轻量级的 Python We
 [![GitHub Forks](https://img.shields.io/github/forks/czasg/pywss.svg?style=flat-square&label=Forks&logo=github)](https://github.com/czasg/pywss/network/members)
 [![GitHub Issue](https://img.shields.io/github/issues/czasg/pywss.svg?style=flat-square&label=Issues&logo=github)](https://github.com/czasg/pywss/issues)
 
----
+<!--
 
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/czasg/pywss.svg)](https://starchart.cc/czasg/pywss)
+
+-->
+
+---
 
 ### Loggus（日志框架）
 
