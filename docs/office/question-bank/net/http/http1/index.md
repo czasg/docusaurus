@@ -5,7 +5,6 @@ title: HTTP1
 ### 什么是HTTP
 HTTP是超文本传输协议，这是一种应用层的一些，同时也是互联网应用最广泛的协议之一。 通常我们web服务，都是基于HTTP协议实现的。
 
-
 ### GET和POST区别
 
 GET和POST是HTTP协议中的两种请求方式，它们从规范上来讲有一定区别：
@@ -17,6 +16,7 @@ GET和POST是HTTP协议中的两种请求方式，它们从规范上来讲有一
 
 ### HTTP状态码
 
+- 101 Switching Protocols
 - 200 OK
 - 201 Created: 表示资源已创建，常用于POST响应中
 - 204 No Content
@@ -31,6 +31,7 @@ GET和POST是HTTP协议中的两种请求方式，它们从规范上来讲有一
 - 500 Internal Server Error
 - 501 Not Implemented
 - 502 Bad Gateway
+- 503 Service Temporarily Unavailable
 - 504 Gateway Timeout
 
 ### 获取IP
