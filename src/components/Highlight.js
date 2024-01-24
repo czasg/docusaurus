@@ -18,5 +18,6 @@ const Highlight = ({children, bgColor = '#f1f0d8', color = '#000000'}) => {
 export default Highlight;
 export const PASS = () => (<Highlight color="#fff" bgColor="green">PASS</Highlight>);
 export const FAIL = () => (<Highlight color="#fff" bgColor="red">FAIL</Highlight>);
-export const WAIT = () => (<Highlight color="#fff" bgColor="gray">WAIT</Highlight>);
+export const ORDER = () => (<Highlight color="#fff" bgColor="gray">ORDER</Highlight>);
 export const OFFER = () => (<Highlight color="#000" bgColor="yellow">OFFER</Highlight>);
+export const WAIT = () => (<Highlight color="#fff" bgColor="#4FC3F7">WAIT</Highlight>);
