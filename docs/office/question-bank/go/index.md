@@ -7,9 +7,13 @@ title: Go
 - map没有初始化，导致panic
 
 ### 什么是sysmon
-sysmon是go中特殊的监控线程，它不和任何P绑定，监控：
-- 超过一定时间没有触发垃圾回收，则强制启动垃圾回收
-- 对于长时间执行的G发起抢占调度
+`sysmon`（System Monitor）是运行时系统（runtime system）的一部分，用于监控系统的全局状态并触发一些操作，以维持整个程序的正常运行。`sysmon` 主要关注的是**全局的调度**和**内存管理**。
+
+具体来说，`sysmon` 负责以下一些主要任务：
+
+1. **全局调度：** `sysmon` 周期性地检查全局运行时状态，包括所有的M（机器）、P（处理器）和G（Goroutine）。它负责做出调度决策，例如在某个P上运行的Goroutine执行时间过长，或者某个P上没有足够的Goroutine可运行时，`sysmon` 可能会触发 Handoff 机制，将 Goroutine 从一个 P 转移到另一个 P，以保持负载均衡。
+
+2. **GC标记：** `sysmon` 在全局扫描时触发垃圾回收（Garbage Collection）标记阶段。它会通过定期检查所有的Goroutines来查找全局的指针，并确保堆上的对象被正确标记。
 
 ### 什么是MN模型
 
